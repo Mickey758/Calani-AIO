@@ -1,8 +1,7 @@
 from os import system,name
 from datetime import datetime
-from re import A
 from colorama import Fore,Style,init
-from threading import Lock
+from threading import Lock,Thread
 from __main__ import checker
 from random import choice
 from tkinter import Tk,filedialog
@@ -10,11 +9,20 @@ from base64 import b64decode
 from zlib import decompress
 from tempfile import mkstemp
 from time import sleep
-from console.utils import measure, set_title
+from console.utils import set_title
 from os import makedirs
 
 lock = Lock()
 init(autoreset=True)
+
+yellow = Fore.YELLOW
+green = Fore.GREEN
+reset = Fore.RESET
+cyan = Fore.CYAN
+red = Fore.RED
+dark_yellow = Fore.YELLOW+Style.DIM
+dark_cyan = Fore.CYAN+Style.DIM
+bright = Style.BRIGHT
 
 ICON = decompress(b64decode('eJxjYGAEQgEBBiDJwZDBy''sAgxsDAoAHEQCEGBQaIOAg4sDIgACMUj4JRMApGwQgF/ykEAFXxQRc='))
 _, ICON_PATH = mkstemp()
@@ -27,20 +35,20 @@ def clear():
 
 def ascii():
     """Prints the ascii logo"""
-    print(Fore.CYAN+r"               ______   ________   __       ________   ___   __     ________      ________    ________  ______      ")
-    print(Fore.CYAN+r"              /_____/\ /_______/\ /_/\     /_______/\ /__/\ /__/\  /_______/\    /_______/\  /_______/\/_____/\     ")
-    print(Fore.CYAN+r"              \:::__\/ \::: _  \ \\:\ \    \::: _  \ \\::\_\\  \ \ \__.::._\/    \::: _  \ \ \__.::._\/\:::_ \ \    ")
-    print(Fore.CYAN+r"               \:\ \  __\::(_)  \ \\:\ \    \::(_)  \ \\:. `-\  \ \   \::\ \      \::(_)  \ \   \::\ \  \:\ \ \ \   ")
-    print(Fore.CYAN+r"                \:\ \/_/\\:: __  \ \\:\ \____\:: __  \ \\:. _    \ \  _\::\ \__    \:: __  \ \  _\::\ \__\:\ \ \ \  ")
-    print(Fore.CYAN+r"                 \:\_\ \ \\:.\ \  \ \\:\/___/\\:.\ \  \ \\. \`-\  \ \/__\::\__/\    \:.\ \  \ \/__\::\__/\\:\_\ \ \ ")
-    print(Fore.CYAN+r"                  \_____\/ \__\/\__\/ \_____\/ \__\/\__\/ \__\/ \__\/\________\/     \__\/\__\/\________\/ \_____\/ ")
+    print(cyan+r"               ______   ________   __       ________   ___   __     ________      ________    ________  ______      ")
+    print(cyan+r"              /_____/\ /_______/\ /_/\     /_______/\ /__/\ /__/\  /_______/\    /_______/\  /_______/\/_____/\     ")
+    print(cyan+r"              \:::__\/ \::: _  \ \\:\ \    \::: _  \ \\::\_\\  \ \ \__.::._\/    \::: _  \ \ \__.::._\/\:::_ \ \    ")
+    print(cyan+r"               \:\ \  __\::(_)  \ \\:\ \    \::(_)  \ \\:. `-\  \ \   \::\ \      \::(_)  \ \   \::\ \  \:\ \ \ \   ")
+    print(cyan+r"                \:\ \/_/\\:: __  \ \\:\ \____\:: __  \ \\:. _    \ \  _\::\ \__    \:: __  \ \  _\::\ \__\:\ \ \ \  ")
+    print(cyan+r"                 \:\_\ \ \\:.\ \  \ \\:\/___/\\:.\ \  \ \\. \`-\  \ \/__\::\__/\    \:.\ \  \ \/__\::\__/\\:\_\ \ \ ")
+    print(cyan+r"                  \_____\/ \__\/\__\/ \_____\/ \__\/\__\/ \__\/ \__\/\________\/     \__\/\__\/\________\/ \_____\/ ")
 
 def get_time():
     """
     Gets the time and date in the format:
     Year-Month-Day Hour-Minute-Second
     """
-    return datetime.now().strftime("%Y-%m-%d %H-%M:%S")
+    return datetime.now().strftime("%Y-%m-%d %H-%M-%S")
 
 def save(name:str,type:str,time:str,content:str):
     """
@@ -68,9 +76,6 @@ def log(type:str,account:str,service:str):
         service="NordVPN"
     )
     """
-    yellow = Fore.YELLOW
-    green = Fore.GREEN
-    reset = Fore.RESET
     with lock:
         if type == "custom":
             print(f"    [{yellow}Custom{reset}] {account} | {service}")
@@ -102,21 +107,14 @@ def get_file(title:str,type:str):
     """
     root = Tk()
     root.withdraw()
-    if name not in ("nt","posix"): root.iconbitmap(default=ICON_PATH)
+    try: root.iconbitmap(default=ICON_PATH)
+    except: pass
     root.withdraw
     response = filedialog.askopenfilename(title=title,filetypes=((type, '.txt'),))
     return response if response not in ("",()) else False
 
 def cui(modules:int):
     """Prints the cui"""
-    cyan = Fore.CYAN
-    reset = Fore.RESET
-    green = Fore.GREEN
-    yellow = Fore.YELLOW
-    red = Fore.RED
-    dark_yellow = Fore.YELLOW+Style.DIM
-    dark_cyan = Fore.CYAN+Style.DIM
-    bright = Style.BRIGHT
 
     while checker.checking:
         clear()
@@ -134,25 +132,14 @@ def cui(modules:int):
     [{cyan}{bright}Progress{dark_cyan}{reset}] {checker.good+checker.bad+checker.custom}/{len(checker.accounts)}
 
         """)
-        """if not checker.saving:
-            print(f"[{cyan}S{reset}] Save Remaining Lines")
-        else:
-            print(f"[{cyan}S{reset}] Saving Remaining Lines")"""
         sleep(1)
+
 def title(modules:int):
     """Sets the title while checking"""
     while checker.checking:
         checker.title = f"Calani AIO | Good: {checker.good}  ~  Custom: {checker.custom}  ~  Bad: {checker.bad}  ~  Errors: {checker.errors}  ~  CPM: {checker.cpm}  |  Progress: {round(((checker.good+checker.bad+checker.custom)/(len(checker.accounts)*modules))*100,2)}%"
         set_title(checker.title)
         sleep(0.1)
-
-"""def save_lines():
-    if not checker.saving:
-        checker.saving = True
-        for account in checker.accounts_down:
-            with open(f"Results/{checker.time}/save_lines.txt","a",errors="ignore") as file:
-                file.write(account+"\n")
-        checker.saving = False"""
 
 def level_cpm():
     """This levels the cpm every 60 seconds"""
