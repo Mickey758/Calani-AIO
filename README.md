@@ -19,7 +19,7 @@ This project was started and is being developed by:
 - Github: Mickey758
 
 # Other Info
-Development of this this project will continue. I will be updating the binary and source regularly. Bug reports will be nice to have. If you find any post them. Thanks for checking this out.
+Development of this this project will continue. I will be updating the binary and source regularly. Bug reports will be nice to have. If you find any post them [here](https://github.com/Mickey758/Calani-AIO/issues/new). Thanks for checking this out.
 
 # Donate
 If you would like to show some appreciation for this free project, consider donating some crypto <3
