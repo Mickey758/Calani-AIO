@@ -8,6 +8,7 @@ An all in account checker made in python. Made with multichecking and more. This
 - [ ] Config File
 - [ ] Save Remaining Lines
 - [x] Multichecking
+- [ ] In-app Settings
 
 # Credits
 Give credits if you are going to use the code

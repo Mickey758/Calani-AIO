@@ -50,7 +50,7 @@ def home():
     [{cyan}X{reset}] Exit""")
         option = input(f"    [{cyan}>{reset}] ").lower()
         if option == "1": modules()
-        elif option == "2": settings()
+        elif option == "2": print("Not added");sleep(1)
         elif option == "x":
             return
 
