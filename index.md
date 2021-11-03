@@ -1,37 +1,28 @@
-## Welcome to GitHub Pages
+# Calani AIO
+An all in account checker made in python. Made with multichecking and more. This was made to demonstrate the flaws in certain website API's.
 
-You can use the [editor on GitHub](https://github.com/Mickey758/Calani-AIO/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+# Progress
+- [x] Log Checking Mode
+- [x] Cui Checking Mode
+- [ ] Auto Updater
+- [ ] Config File
+- [ ] Save Remaining Lines
+- [x] Multichecking
+- [ ] In-app Settings
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+# Credits
+Give credits if you are going to use the code
 
-### Markdown
+This project was started and is being developed by:
+- Discord: MickeyYe#0003
+- Youtube: Micx
+- Github: Mickey758
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+# Other Info
+Development of this this project will continue. I will be updating the binary and source regularly. Bug reports will be nice to have. If you find any post them [here](https://github.com/Mickey758/Calani-AIO/issues/new). Thanks for checking this out.
 
-```markdown
-Syntax highlighted code block
+# Donate
+If you would like to show some appreciation for this free project, consider donating some crypto <3
 
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/Mickey758/Calani-AIO/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+- BTC: bc1qt6gcll4hp7wwqaap7x3lwunf9srw4enuxxddzn
+- ETC: 0xd7F5C1AB4765Be15F738367905bF4E7Ea83eC9F7
