@@ -128,7 +128,7 @@ def starter(modules_lst:list):
         print(f"    [{cyan}No File Detected{reset}]")
         sleep(1)
         return
-    with open(file_path) as file: 
+    with open(file_path,errors="ignore") as file: 
         before_accounts = file.read().splitlines()
         accounts = list(set(before_accounts))
         checker.accounts = accounts
@@ -147,7 +147,7 @@ def starter(modules_lst:list):
         print(f"    [{cyan}No File Detected{reset}]")
         sleep(1)
         return
-    with open(file_path) as file: 
+    with open(file_path,errors="ignore") as file: 
         contents = file.read()
         before_proxies = contents.splitlines()
         after_proxies = list(set(before_proxies))
