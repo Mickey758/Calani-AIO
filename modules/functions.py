@@ -121,7 +121,7 @@ def cui(modules:int):
         ascii()
         print("\n\n")
         print(f"""
-    [{dark_cyan}Selected Modules{reset}] {modules}
+    [{dark_cyan}Loaded Modules{reset}] {modules}
 
     [{green}Hits{reset}] {checker.good}
     [{yellow}Custom{reset}] {checker.custom}
@@ -129,7 +129,7 @@ def cui(modules:int):
     
     [{dark_yellow}Errors{bright}{reset}] {checker.errors}
     [{dark_cyan}CPM{bright}{reset}] {checker.cpm}
-    [{cyan}{bright}Progress{dark_cyan}{reset}] {checker.good+checker.bad+checker.custom}/{len(checker.accounts)}
+    [{cyan}{bright}Progress{dark_cyan}{reset}] {checker.good+checker.bad+checker.custom}/{len(checker.accounts)*modules}
 
         """)
         sleep(1)
@@ -137,9 +137,12 @@ def cui(modules:int):
 def title(modules:int):
     """Sets the title while checking"""
     while checker.checking:
-        checker.title = f"Calani AIO | Good: {checker.good}  ~  Custom: {checker.custom}  ~  Bad: {checker.bad}  ~  Errors: {checker.errors}  ~  CPM: {checker.cpm}  |  Progress: {round(((checker.good+checker.bad+checker.custom)/(len(checker.accounts)*modules))*100,2)}%"
-        set_title(checker.title)
-        sleep(0.1)
+        try:
+            checker.title = f"Calani AIO | Good: {checker.good}  ~  Custom: {checker.custom}  ~  Bad: {checker.bad}  ~  Errors: {checker.errors}  ~  CPM: {checker.cpm}  |  Progress: {round(((checker.good+checker.bad+checker.custom)/(len(checker.accounts)*modules))*100,2)}%"
+            set_title(checker.title)
+            sleep(0.1)
+        except:
+            pass
 
 def level_cpm():
     """This levels the cpm every 60 seconds"""

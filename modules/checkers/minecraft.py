@@ -6,10 +6,10 @@ def check(email:str,password:str):
     retries = 0
     while retries != checker.retries:
         proxy = set_proxy()
+        body = {'agent': {'name': 'Minecraft','version': 1},'username': email,'password': password,'clientToken': "fff"}
+        header_1 = {"Content-Type": "application/json", 'Pragma': 'no-cache'}
+        header_2 = {'Pragma': 'no-cache', "Authorization": f""}
         try:
-            body = {'agent': {'name': 'Minecraft','version': 1},'username': email,'password': password,'clientToken': "fff"}
-            header_1 = {"Content-Type": "application/json", 'Pragma': 'no-cache'}
-            header_2 = {'Pragma': 'no-cache', "Authorization": f""}
             r = post(url="https://authserver.mojang.com/authenticate",headers=header_1,json=body,timeout=checker.timeout,proxies=set_proxy(proxy))
             if 'Invalid credentials' in r.text:
                 retries += 1

