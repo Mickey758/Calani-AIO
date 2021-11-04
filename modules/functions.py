@@ -90,6 +90,11 @@ def set_proxy(proxy:str=False):
     set_proxy(proxy="0.0.0.0")
     """
     if proxy:
+        try:
+            spl = proxy.split(":")
+            proxy = spl[2]+":"+spl[3]+"@"+spl[0]+":"+spl[1]
+        except: pass
+        
         if checker.proxy_type == "http":
             return {"http":f"http://{proxy}","https":f"http://{proxy}"}
         elif checker.proxy_type == "socks4":
