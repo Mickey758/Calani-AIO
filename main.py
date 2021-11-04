@@ -32,11 +32,13 @@ from modules.functions import *
 from modules.checkers import nordvpn
 from modules.checkers import minecraft
 from modules.checkers import bonk_io
+from modules.checkers import disney
 
 modules_list = {
     "nordvpn":nordvpn,
     "minecraft":minecraft,
-    "bonk.io":bonk_io
+    "bonk.io":bonk_io,
+    "disney+":disney
 }
 
 def home():
@@ -68,6 +70,7 @@ def modules():
     [{cyan}1{reset}] Minecraft
     [{cyan}2{reset}] NordVPN
     [{cyan}3{reset}] Bonk.io
+    [{cyan}4{reset}] Disney+
 
     [{cyan}>{reset}] Selected Modules: {str([x.title() for x in selected_modules]).replace("'","").replace("', '",", ")}
     [{cyan}A{reset}] Add All Modules
@@ -78,6 +81,7 @@ def modules():
         if option == "1": selected_modules.append("minecraft")
         elif option == "2": selected_modules.append("nordvpn")
         elif option == "3": selected_modules.append("bonk.io")
+        elif option == "4": selected_modules.append("disney+")
         elif option == "s": 
             starter(selected_modules)
             return
