@@ -1,8 +1,7 @@
-# IN ALPHA STAGES
-The aio is in alpha stages therfore binary versions will not be released as yet.
-
 # Calani AIO
 An all in account checker made in python. Made with multichecking and more. This was made to demonstrate the flaws in certain website API's.
+
+Download the exe version [here](https://github.com/Mickey758/Calani-AIO/releases)
 
 # Progress
 - [x] Log Checking Mode
