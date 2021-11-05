@@ -1,13 +1,16 @@
+#!/usr/bin/python3
 from colorama import Fore,init
 from multiprocessing.dummy import Pool
 from time import sleep
-from threading import Thread
+from threading import Thread,Lock
 from console.utils import set_title
+from modules.updater import check as check_updates
 
 red = Fore.RED
 green = Fore.GREEN
 cyan = Fore.CYAN
 reset = Fore.RESET
+lock = Lock()
 
 class checker:
     bad = 0
@@ -33,12 +36,17 @@ from modules.checkers import nordvpn
 from modules.checkers import minecraft
 from modules.checkers import bonk_io
 from modules.checkers import disney
+from modules.checkers import duolingo
+from modules.checkers import gfuel
+
 
 modules_list = {
     "nordvpn":nordvpn,
     "minecraft":minecraft,
     "bonk.io":bonk_io,
-    "disney+":disney
+    "disney+":disney,
+    "duolingo":duolingo,
+    "gfuel":gfuel
 }
 
 def home():
@@ -71,6 +79,8 @@ def modules():
     [{cyan}2{reset}] NordVPN
     [{cyan}3{reset}] Bonk.io
     [{cyan}4{reset}] Disney+
+    [{cyan}5{reset}] Duolingo
+    [{cyan}6{reset}] Gfuel
 
     [{cyan}>{reset}] Selected Modules: {str([x.title() for x in selected_modules]).replace("'","").replace("', '",", ")}
     [{cyan}A{reset}] Add All Modules
@@ -82,9 +92,15 @@ def modules():
         elif option == "2": selected_modules.append("nordvpn")
         elif option == "3": selected_modules.append("bonk.io")
         elif option == "4": selected_modules.append("disney+")
+        elif option == "5": selected_modules.append("duolingo")
+        elif option == "6": selected_modules.append("gfuel")
         elif option == "s": 
-            starter(selected_modules)
-            return
+            if selected_modules != []:
+                starter(selected_modules)
+                return
+            else:
+                print(f"    [{cyan}>{reset}] Must select at least 1 module!")
+                sleep(1)
         elif option == "a":
             for module in modules_list:
                 selected_modules.append(module)
@@ -177,6 +193,8 @@ def starter(modules_lst:list):
     mainpool = Pool(processes=checker.threads)
     clear()
     ascii()
+    if not checker.cui:
+        print("\n\n")
     mainpool.imap_unordered(func=foo,iterable=checker.accounts_down)
     mainpool.close()
     mainpool.join()
@@ -187,4 +205,14 @@ def starter(modules_lst:list):
 
 if __name__ == "__main__":
     init(autoreset=True)
-    home()
+    clear()
+    ascii()
+    print("\n\n")
+    update = check_updates()
+    if not update:
+        home()
+    else:
+        print(f"    [{red}>{reset}] Your version is outdated!")
+        print(f"    [{cyan}>{reset}] Find the latest version of Calani AIO here: https://github.com/Mickey758/Calani-AIO/releases")
+        input(f"    [{cyan}>{reset}] Press enter to ignore")
+        home()

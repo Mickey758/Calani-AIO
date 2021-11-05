@@ -1,8 +1,7 @@
 from os import system,name
 from datetime import datetime
 from colorama import Fore,Style,init
-from threading import Lock,Thread
-from __main__ import checker
+from __main__ import checker,lock
 from random import choice
 from tkinter import Tk,filedialog
 from base64 import b64decode
@@ -12,7 +11,6 @@ from time import sleep
 from console.utils import set_title
 from os import makedirs
 
-lock = Lock()
 init(autoreset=True)
 
 yellow = Fore.YELLOW
@@ -81,6 +79,8 @@ def log(type:str,account:str,service:str):
             print(f"    [{yellow}Custom{reset}] {account} | {service}")
         if type == "good":
             print(f"    [{green}Good{reset}] {account} | {service}")
+        if type == "bad":
+            print(f"    [{red}Bad{reset}] {account} | {service}")
 
 def set_proxy(proxy:str=False):
     """

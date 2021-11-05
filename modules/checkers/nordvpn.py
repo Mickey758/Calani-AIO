@@ -1,5 +1,5 @@
 from __main__ import checker
-from requests import get,post,exceptions
+from requests import get,post
 from modules.functions import set_proxy, log, save
 from base64 import b64encode
 from datetime import datetime
@@ -61,6 +61,8 @@ def check(email:str,password:str):
                 raise
         except:
             checker.errors += 1
+    if not checker.cui:
+        log("bad",email+":"+"password","NordVPN")
     checker.bad += 1 
     checker.cpm += 1
     return

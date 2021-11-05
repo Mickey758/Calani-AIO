@@ -21,7 +21,8 @@ def check(email:str,password:str):
                 if a.get("e"):
                     if a["e"] == "ratelimited":
                         raise
-                retries += 1
+                else:
+                    retries += 1
             elif "xp" in a:
                 xp = a["xp"]
                 friends = len(a["friends"])
@@ -44,6 +45,8 @@ def check(email:str,password:str):
                 return
         except:
             checker.errors += 1
+    if not checker.cui:
+        log("bad",email+":"+"password","Bonk.io")
     checker.bad += 1
     checker.cpm += 1
     return
