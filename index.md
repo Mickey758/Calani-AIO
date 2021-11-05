@@ -6,7 +6,7 @@ Download the exe version [here](https://github.com/Mickey758/Calani-AIO/releases
 # Progress
 - [x] Log Checking Mode
 - [x] Cui Checking Mode
-- [ ] Auto Updater
+- [x] Auto Updater
 - [ ] Config File
 - [ ] Save Remaining Lines
 - [x] Multichecking
