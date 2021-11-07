@@ -38,7 +38,8 @@ from modules.checkers import bonk_io
 from modules.checkers import disney
 from modules.checkers import duolingo
 from modules.checkers import gfuel
-
+from modules.checkers import crunchyroll
+from modules.checkers import spotifyvm
 
 modules_list = {
     "nordvpn":nordvpn,
@@ -46,7 +47,9 @@ modules_list = {
     "bonk.io":bonk_io,
     "disney+":disney,
     "duolingo":duolingo,
-    "gfuel":gfuel
+    "gfuel":gfuel,
+    "crunchyroll":crunchyroll,
+    "spotifyvm":spotifyvm
 }
 
 def home():
@@ -81,6 +84,8 @@ def modules():
     [{cyan}4{reset}] Disney+
     [{cyan}5{reset}] Duolingo
     [{cyan}6{reset}] Gfuel
+    [{cyan}7{reset}] Crunchyroll
+    [{cyan}8{reset}] SpotifyVM
 
     [{cyan}>{reset}] Selected Modules: {str([x.title() for x in selected_modules]).replace("'","").replace("', '",", ")}
     [{cyan}A{reset}] Add All Modules
@@ -94,6 +99,8 @@ def modules():
         elif option == "4": selected_modules.append("disney+")
         elif option == "5": selected_modules.append("duolingo")
         elif option == "6": selected_modules.append("gfuel")
+        elif option == "7": selected_modules.append("crunchyroll")
+        elif option == "8": selected_modules.append("spotifyvm")
         elif option == "s": 
             if selected_modules != []:
                 starter(selected_modules)
