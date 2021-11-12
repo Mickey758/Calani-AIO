@@ -62,7 +62,7 @@ def check(email:str,password:str):
         except:
             checker.errors += 1
     if not checker.cui:
-        log("bad",email+":"+"password","NordVPN")
+        log("bad",email+":"+password,"NordVPN")
     checker.bad += 1 
     checker.cpm += 1
     return

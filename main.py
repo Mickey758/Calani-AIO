@@ -6,6 +6,8 @@ from threading import Thread,Lock
 from console.utils import set_title
 from modules.updater import check as check_updates
 
+default = {"proxy_type":"http","proxy_timeout":5,"thread":200,"retries":1,"print_mode":"cui"}
+
 red = Fore.RED
 green = Fore.GREEN
 cyan = Fore.CYAN
@@ -17,18 +19,20 @@ class checker:
     good = 0
     custom = 0
     cpm = 0
-    retries = 1
     errors = 0
-    timeout = 15
-    threads = 200
+    
     saving = False
-    cui = True
     checking = False
     proxies = []
     accounts = []
     accounts_down = []
-    proxy_type = "socks4"
     time = ""
+    
+    cui = True
+    retries = 1
+    timeout = 5
+    threads = 200
+    proxy_type = "socks4"
 
 from modules.config import *
 from modules.functions import *
@@ -40,6 +44,8 @@ from modules.checkers import duolingo
 from modules.checkers import gfuel
 from modules.checkers import crunchyroll
 from modules.checkers import spotifyvm
+from modules.checkers import bww
+from modules.checkers import pornhub
 
 modules_list = {
     "nordvpn":nordvpn,
@@ -49,8 +55,12 @@ modules_list = {
     "duolingo":duolingo,
     "gfuel":gfuel,
     "crunchyroll":crunchyroll,
-    "spotifyvm":spotifyvm
+    "spotifyvm":spotifyvm,
+    "bww":bww,
+    "pornhub":pornhub
 }
+
+load_config()
 
 def home():
     while 1:
@@ -68,7 +78,6 @@ def home():
         elif option == "2": settings()
         elif option == "x":
             return
-
 def modules():
     selected_modules = []
     while 1:
@@ -86,6 +95,8 @@ def modules():
     [{cyan}6{reset}] Gfuel
     [{cyan}7{reset}] Crunchyroll
     [{cyan}8{reset}] SpotifyVM
+    [{cyan}9{reset}] Buffalo Wild Wings
+   [{cyan}10{reset}] Pornhub
 
     [{cyan}>{reset}] Selected Modules: {str([x.title() for x in selected_modules]).replace("'","").replace("', '",", ")}
     [{cyan}A{reset}] Add All Modules
@@ -101,6 +112,8 @@ def modules():
         elif option == "6": selected_modules.append("gfuel")
         elif option == "7": selected_modules.append("crunchyroll")
         elif option == "8": selected_modules.append("spotifyvm")
+        elif option == "9": selected_modules.append("bww")
+        elif option == "10": selected_modules.append("pornhub")
         elif option == "s": 
             if selected_modules != []:
                 starter(selected_modules)
@@ -115,6 +128,7 @@ def modules():
             return
 def settings():
     while 1:
+        load_config()
         set_title("Calani AIO | Settings | MickeyYe#0003")
         clear()
         ascii()
@@ -205,6 +219,7 @@ def starter(modules_lst:list):
     mainpool.imap_unordered(func=foo,iterable=checker.accounts_down)
     mainpool.close()
     mainpool.join()
+    sleep(5)
     checker.checking = False
     print("\n\n")
     print(f"    [{cyan}Finished Checking{reset}]")

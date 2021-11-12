@@ -9,7 +9,7 @@ Download the exe version [here](https://github.com/Mickey758/Calani-AIO/releases
 - [x] Log Checking Mode
 - [x] Cui Checking Mode
 - [x] Auto Updater
-- [ ] Config File
+- [x] Config File
 - [ ] Save Remaining Lines
 - [x] Multichecking
 - [x] In-app Settings
@@ -23,6 +23,8 @@ Download the exe version [here](https://github.com/Mickey758/Calani-AIO/releases
 6. Gfuel
 7. Crunchyroll
 8. SpotifyVM
+9. Buffalo Wild Wings
+10. Pornhub
 
 # Other Info
 Development of this this project will continue. I will be updating the binary and source regularly. Bug reports will be nice to have. If you find any post them [here](https://github.com/Mickey758/Calani-AIO/issues/new). Thanks for checking this out.
