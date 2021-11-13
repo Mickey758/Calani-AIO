@@ -4,24 +4,38 @@ An all in account checker made in python. Made with multichecking and more. This
 Download the exe version [here](https://github.com/Mickey758/Calani-AIO/releases)
 
 # Progress
+
+## Checklist
 - [x] Log Checking Mode
 - [x] Cui Checking Mode
 - [x] Auto Updater
-- [ ] Config File
+- [x] Config File
 - [ ] Save Remaining Lines
 - [x] Multichecking
 - [x] In-app Settings
 
+## Modules
+1. Minecraft
+2. NordVPN
+3. Bonkio
+4. Disney+
+5. Duolingo
+6. Gfuel
+7. Crunchyroll
+8. SpotifyVM
+9. Buffalo Wild Wings
+10. Pornhub
+
 # Other Info
 Development of this this project will continue. I will be updating the binary and source regularly. Bug reports will be nice to have. If you find any post them [here](https://github.com/Mickey758/Calani-AIO/issues/new). Thanks for checking this out.
 
-# Donate
+## Donations
 If you would like to show some appreciation for this free project, consider donating some crypto <3
 
 - BTC: bc1qt6gcll4hp7wwqaap7x3lwunf9srw4enuxxddzn
 - ETC: 0xd7F5C1AB4765Be15F738367905bF4E7Ea83eC9F7
 
-# Credits
+## Credits
 Give credits if you are going to use the code
 
 This project was started and is being developed by:
