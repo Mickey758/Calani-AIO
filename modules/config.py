@@ -4,7 +4,9 @@ from colorama import Fore,init
 from os import makedirs, listdir
 from json import load, dump
 init(autoreset=True)
+
 default = {"proxy_type":"http","proxy_timeout":5,"threads":200,"retries":1,"print_mode":"cui"}
+
 cyan = Fore.CYAN
 reset = Fore.RESET
 

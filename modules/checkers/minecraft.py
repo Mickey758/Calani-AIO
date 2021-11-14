@@ -1,5 +1,5 @@
 from __main__ import checker
-from modules.functions import set_proxy,log,save
+from modules.functions import set_proxy,log,save, bad_proxy
 from requests import get,post
 from json import dumps
 
@@ -42,9 +42,10 @@ def check(email:str,password:str):
             else:
                 raise
         except:
+            bad_proxy(proxy)
             checker.errors += 1
     if not checker.cui:
-        log("bad",email+":"+"password","Minecraft")
+        log("bad",email+":"+password,"Minecraft")
     checker.bad += 1 
     checker.cpm += 1
     return

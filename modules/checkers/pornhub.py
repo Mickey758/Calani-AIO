@@ -1,5 +1,5 @@
 from __main__ import checker
-from modules.functions import set_proxy, log, save
+from modules.functions import set_proxy, log, save, bad_proxy
 from requests import Session
 
 def check(email:str,password:str):
@@ -46,6 +46,7 @@ def check(email:str,password:str):
                 else:
                     raise
         except:
+            bad_proxy(proxy)
             checker.errors += 1
     if not checker.cui:
         log("bad",email+":"+password,"Pornhub")

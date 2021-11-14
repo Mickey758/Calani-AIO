@@ -76,11 +76,11 @@ def log(type:str,account:str,service:str):
     """
     with lock:
         if type == "custom":
-            print(f"    [{yellow}Custom{reset}] {account} | {service}")
+            print(f"    [{yellow}Custom{reset}] {account} ~ {service}")
         if type == "good":
-            print(f"    [{green}Good{reset}] {account} | {service}")
+            print(f"    [{green}Good{reset}] {account} ~ {service}")
         if type == "bad":
-            print(f"    [{red}Bad{reset}] {account} | {service}")
+            print(f"    [{red}Bad{reset}] {account} ~ {service}")
 
 def set_proxy(proxy:str=False):
     """
@@ -95,14 +95,21 @@ def set_proxy(proxy:str=False):
             proxy = spl[2]+":"+spl[3]+"@"+spl[0]+":"+spl[1]
         except: pass
         
-        if checker.proxy_type == "http":
-            return {"http":f"http://{proxy}","https":f"http://{proxy}"}
-        elif checker.proxy_type == "socks4":
-            return {"http":f"socks4://{proxy}","https":f"socks4://{proxy}"}
-        elif checker.proxy_type == "socks5":
-            return {"htt":f"socks5://{proxy}","https":f"socks5://{proxy}"}
-    else:
-        return choice(checker.proxies)
+        if checker.proxy_type == "http": return {"http":f"http://{proxy}","https":f"https://{proxy}"}
+        elif checker.proxy_type == "socks4": return {"http":f"socks4://{proxy}","https":f"socks4://{proxy}"}
+        elif checker.proxy_type == "socks5": return {"htt":f"socks5://{proxy}","https":f"socks5://{proxy}"}
+    
+    else: 
+        while 1:
+            if len(checker.bad_proxies) == len(checker.proxies):
+                checker.bad_proxies.clear()
+            proxy = choice(checker.proxies)
+            if proxy not in checker.bad_proxies:
+                return proxy
+
+def bad_proxy(proxy):
+    if proxy not in checker.bad_proxies:
+        checker.bad_proxies.append(proxy)
 
 def get_file(title:str,type:str):
     """
@@ -125,6 +132,7 @@ def cui(modules:int):
         clear()
         ascii()
         print("\n\n")
+        percent = round(((checker.good+checker.bad+checker.custom)/(len(checker.accounts)*modules))*100,2) if checker.good+checker.bad+checker.custom > 0 else 0.0
         print(f"""
     [{dark_cyan}Loaded Modules{reset}] {modules}
 
@@ -134,16 +142,14 @@ def cui(modules:int):
     
     [{dark_yellow}Errors{bright}{reset}] {checker.errors}
     [{dark_cyan}CPM{bright}{reset}] {checker.cpm}
-    [{cyan}{bright}Progress{dark_cyan}{reset}] {checker.good+checker.bad+checker.custom}/{len(checker.accounts)*modules}
-
-        """)
+    [{cyan}{bright}Progress{dark_cyan}{reset}] {checker.good+checker.bad+checker.custom}/{len(checker.accounts)*modules} = {percent}%""")
         sleep(1)
 
 def title(modules:int):
     """Sets the title while checking"""
     while checker.checking:
         try:
-            checker.title = f"Calani AIO | Good: {checker.good}  ~  Custom: {checker.custom}  ~  Bad: {checker.bad}  ~  Errors: {checker.errors}  ~  CPM: {checker.cpm}  |  Progress: {round(((checker.good+checker.bad+checker.custom)/(len(checker.accounts)*modules))*100,2)}%"
+            checker.title = f"Calani AIO | Good: {checker.good}  ~  Custom: {checker.custom}  ~  Bad: {checker.bad}  ~  Errors: {checker.errors}  ~  CPM: {checker.cpm}  ~  Progress: {checker.good+checker.bad+checker.custom}/{len(checker.accounts)*modules} = {round(((checker.good+checker.bad+checker.custom)/(len(checker.accounts)*modules))*100,2)}%"
             set_title(checker.title)
             sleep(0.1)
         except:

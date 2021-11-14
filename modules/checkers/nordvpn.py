@@ -1,6 +1,6 @@
 from __main__ import checker
 from requests import get,post
-from modules.functions import set_proxy, log, save
+from modules.functions import set_proxy, log, save, bad_proxy
 from base64 import b64encode
 from datetime import datetime
 
@@ -60,6 +60,7 @@ def check(email:str,password:str):
             else:
                 raise
         except:
+            bad_proxy(proxy)
             checker.errors += 1
     if not checker.cui:
         log("bad",email+":"+password,"NordVPN")

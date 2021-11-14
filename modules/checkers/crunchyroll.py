@@ -1,6 +1,6 @@
 from __main__ import checker
 from requests import post
-from modules.functions import log,save,set_proxy
+from modules.functions import log,save,set_proxy,bad_proxy
 
 def check(email:str,password:str):
     retries = 0
@@ -38,6 +38,7 @@ def check(email:str,password:str):
             else:
                 raise
         except:
+            bad_proxy(proxy)
             checker.errors += 1
     if not checker.cui:
         log("bad",email+":"+password,"Crunchyroll")

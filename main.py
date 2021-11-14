@@ -6,8 +6,6 @@ from threading import Thread,Lock
 from console.utils import set_title
 from modules.updater import check as check_updates
 
-default = {"proxy_type":"http","proxy_timeout":5,"thread":200,"retries":1,"print_mode":"cui"}
-
 red = Fore.RED
 green = Fore.GREEN
 cyan = Fore.CYAN
@@ -24,6 +22,7 @@ class checker:
     saving = False
     checking = False
     proxies = []
+    bad_proxies = []
     accounts = []
     accounts_down = []
     time = ""
@@ -46,6 +45,9 @@ from modules.checkers import crunchyroll
 from modules.checkers import spotifyvm
 from modules.checkers import bww
 from modules.checkers import pornhub
+from modules.checkers import valorant
+from modules.checkers import honeygain
+from modules.checkers import discordvm
 
 modules_list = {
     "nordvpn":nordvpn,
@@ -57,7 +59,10 @@ modules_list = {
     "crunchyroll":crunchyroll,
     "spotifyvm":spotifyvm,
     "bww":bww,
-    "pornhub":pornhub
+    "pornhub":pornhub,
+    "valorant":valorant,
+    "honeygain":honeygain,
+    "discordvm":discordvm
 }
 
 load_config()
@@ -97,6 +102,9 @@ def modules():
     [{cyan}8{reset}] SpotifyVM
     [{cyan}9{reset}] Buffalo Wild Wings
    [{cyan}10{reset}] Pornhub
+   [{cyan}11{reset}] Valorant
+   [{cyan}12{reset}] Honeygain
+   [{cyan}13{reset}] DiscordVM
 
     [{cyan}>{reset}] Selected Modules: {str([x.title() for x in selected_modules]).replace("'","").replace("', '",", ")}
     [{cyan}A{reset}] Add All Modules
@@ -114,6 +122,9 @@ def modules():
         elif option == "8": selected_modules.append("spotifyvm")
         elif option == "9": selected_modules.append("bww")
         elif option == "10": selected_modules.append("pornhub")
+        elif option == "11": selected_modules.append("valorant")
+        elif option == "12": selected_modules.append("honeygain")
+        elif option == "13": selected_modules.append("discordvm")
         elif option == "s": 
             if selected_modules != []:
                 starter(selected_modules)
@@ -151,6 +162,15 @@ def settings():
 
 
 def starter(modules_lst:list):
+    checker.bad = 0
+    checker.cpm = 0 
+    checker.good = 0
+    checker.custom = 0
+    checker.errors = 0
+    checker.proxies.clear()
+    checker.accounts.clear()
+    checker.accounts_down.clear()
+    checker.bad_proxies.clear()
     set_title("Calani AIO | Getting Ready | MickeyYe#0003")
     def foo(account:str):
         try:
@@ -179,9 +199,10 @@ def starter(modules_lst:list):
         checker.accounts = accounts
         checker.accounts_down = accounts
         duplicates = len(before_accounts)-len(accounts)
+    print(f"    [{cyan}Imported {len(before_accounts)} Accounts{reset}]")
     if duplicates != 0:
         print(f"    [{cyan}Removed {duplicates} Duplicates{reset}]")
-        sleep(1)
+    sleep(1)
     
     print("\n")
     
@@ -198,9 +219,10 @@ def starter(modules_lst:list):
         after_proxies = list(set(before_proxies))
         checker.proxies = after_proxies
         duplicates = len(before_proxies)-len(after_proxies)
+    print(f"    [{cyan}Imported {len(before_proxies)} Proxies{reset}]")
     if duplicates != 0:
         print(f"    [{cyan}Removed {duplicates} Duplicates{reset}]")
-        sleep(1)
+    sleep(1)
     
     checker.checking = True
     checker.time = get_time()

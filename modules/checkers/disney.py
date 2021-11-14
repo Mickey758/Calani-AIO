@@ -1,5 +1,5 @@
 from __main__ import checker
-from modules.functions import set_proxy,log,save
+from modules.functions import set_proxy,log,save,bad_proxy
 from requests import get,post
 from random import choices
 from string import ascii_letters,digits
@@ -114,9 +114,10 @@ def check(email:str,password:str):
             else:
                 raise
         except:
+            bad_proxy(proxy)
             checker.errors += 1
     if not checker.cui:
-        log("bad",email+":"+"password","Disney")
+        log("bad",email+":"+password,"Disney")
     checker.bad += 1
     checker.cpm += 1
     return

