@@ -13,6 +13,7 @@ Download the exe version [here](https://github.com/Mickey758/Calani-AIO/releases
 - [ ] Save Remaining Lines
 - [x] Multichecking
 - [x] In-app Settings
+- [x] Proxy Management 
 
 ## Modules
 1. Minecraft
@@ -25,6 +26,10 @@ Download the exe version [here](https://github.com/Mickey758/Calani-AIO/releases
 8. SpotifyVM
 9. Buffalo Wild Wings
 10. Pornhub
+11. Valorant
+12. HoneyGain
+13. DiscordVM
+14. Netflix
 
 # Other Info
 Development of this this project will continue. I will be updating the binary and source regularly. Bug reports will be nice to have. If you find any post them [here](https://github.com/Mickey758/Calani-AIO/issues/new). Thanks for checking this out.
