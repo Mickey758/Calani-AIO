@@ -11,6 +11,7 @@ cyan = Fore.CYAN
 reset = Fore.RESET
 
 def load_config():
+    """Load the config values"""
     while 1:
         try:
             makedirs("Data",exist_ok=True)
@@ -37,11 +38,13 @@ def load_config():
             else:
                 raise
         except:
+            makedirs("Data",exist_ok=True)
             with open("Data/config.json","w") as file:
                 dump(default,file,indent=4)
             pass
 
 def update_config(values:dict):
+    """Update the config values"""
     makedirs("Data",exist_ok=True)
     with open("Data/config.json","w") as file:
         dump(values,file,indent=4)

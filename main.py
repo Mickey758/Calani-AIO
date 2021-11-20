@@ -1,10 +1,8 @@
-#!/usr/bin/python3
 from colorama import Fore,init
-from multiprocessing.dummy import Pool
 from time import sleep
-from threading import Thread,Lock
 from console.utils import set_title
 from modules.updater import check as check_updates
+from threading import Lock
 
 red = Fore.RED
 green = Fore.GREEN
@@ -18,7 +16,7 @@ class checker:
     custom = 0
     cpm = 0
     errors = 0
-    
+
     saving = False
     checking = False
     proxies = []
@@ -26,7 +24,7 @@ class checker:
     accounts = []
     accounts_down = []
     time = ""
-    
+
     cui = True
     retries = 1
     timeout = 5
@@ -35,35 +33,8 @@ class checker:
 
 from modules.config import *
 from modules.functions import *
-from modules.checkers import nordvpn
-from modules.checkers import minecraft
-from modules.checkers import bonk_io
-from modules.checkers import disney
-from modules.checkers import duolingo
-from modules.checkers import gfuel
-from modules.checkers import crunchyroll
-from modules.checkers import spotifyvm
-from modules.checkers import bww
-from modules.checkers import pornhub
-from modules.checkers import valorant
-from modules.checkers import honeygain
-from modules.checkers import discordvm
-
-modules_list = {
-    "nordvpn":nordvpn,
-    "minecraft":minecraft,
-    "bonk.io":bonk_io,
-    "disney+":disney,
-    "duolingo":duolingo,
-    "gfuel":gfuel,
-    "crunchyroll":crunchyroll,
-    "spotifyvm":spotifyvm,
-    "bww":bww,
-    "pornhub":pornhub,
-    "valorant":valorant,
-    "honeygain":honeygain,
-    "discordvm":discordvm
-}
+from modules.start import starter,modules_list
+import modules.tools.proxychecker as proxychecker
 
 load_config()
 
@@ -75,12 +46,14 @@ def home():
         print("\n\n")
         print(f"""
     [{cyan}1{reset}] Modules
-    [{cyan}2{reset}] Settings
-    
+    [{cyan}2{reset}] Tools
+    [{cyan}3{reset}] Settings
+
     [{cyan}X{reset}] Exit""")
         option = input(f"    [{cyan}>{reset}] ").lower()
         if option == "1": modules()
-        elif option == "2": settings()
+        if option == "2": tools()
+        elif option == "3": settings()
         elif option == "x":
             return
 def modules():
@@ -105,6 +78,7 @@ def modules():
    [{cyan}11{reset}] Valorant
    [{cyan}12{reset}] Honeygain
    [{cyan}13{reset}] DiscordVM
+   [{cyan}14{reset}] Netflix
 
     [{cyan}>{reset}] Selected Modules: {str([x.title() for x in selected_modules]).replace("'","").replace("', '",", ")}
     [{cyan}A{reset}] Add All Modules
@@ -112,20 +86,21 @@ def modules():
 
     [{cyan}X{reset}] Back""")
         option = input(f"    [{cyan}>{reset}] ").lower()
-        if option == "1": selected_modules.append("minecraft")
-        elif option == "2": selected_modules.append("nordvpn")
-        elif option == "3": selected_modules.append("bonk.io")
-        elif option == "4": selected_modules.append("disney+")
-        elif option == "5": selected_modules.append("duolingo")
-        elif option == "6": selected_modules.append("gfuel")
-        elif option == "7": selected_modules.append("crunchyroll")
-        elif option == "8": selected_modules.append("spotifyvm")
-        elif option == "9": selected_modules.append("bww")
-        elif option == "10": selected_modules.append("pornhub")
-        elif option == "11": selected_modules.append("valorant")
-        elif option == "12": selected_modules.append("honeygain")
-        elif option == "13": selected_modules.append("discordvm")
-        elif option == "s": 
+        if option == "1": selected_modules.append("minecraft") if "minecraft" not in selected_modules else selected_modules.remove("minecraft")
+        elif option == "2": selected_modules.append("nordvpn") if "nordvpn" not in selected_modules else selected_modules.remove("nordvpn")
+        elif option == "3": selected_modules.append("bonk.io") if "bonk.io" not in selected_modules else selected_modules.remove("bonk.io")
+        elif option == "4": selected_modules.append("disney+") if "disney+" not in selected_modules else selected_modules.remove("disney+")
+        elif option == "5": selected_modules.append("duolingo") if "duolingo" not in selected_modules else selected_modules.remove("duolingo")
+        elif option == "6": selected_modules.append("gfuel") if "gfuel" not in selected_modules else selected_modules.remove("gfuel")
+        elif option == "7": selected_modules.append("crunchyroll") if "crunchyroll" not in selected_modules else selected_modules.remove("crunchyroll")
+        elif option == "8": selected_modules.append("spotifyvm") if "spotifyvm" not in selected_modules else selected_modules.remove("spotifyvm")
+        elif option == "9": selected_modules.append("bww") if "bww" not in selected_modules else selected_modules.remove("bww")
+        elif option == "10": selected_modules.append("pornhub") if "pornhub" not in selected_modules else selected_modules.remove("pornhub")
+        elif option == "11": selected_modules.append("valorant") if "valorant" not in selected_modules else selected_modules.remove("valorant")
+        elif option == "12": selected_modules.append("honeygain") if "honeygain" not in selected_modules else selected_modules.remove("honeygain") 
+        elif option == "13": selected_modules.append("discordvm") if "discordvm" not in selected_modules else selected_modules.remove("discordvm")
+        elif option == "14": selected_modules.append("netflix") if "netflix" not in selected_modules else selected_modules.remove("netflix")
+        elif option == "s":
             if selected_modules != []:
                 starter(selected_modules)
                 return
@@ -159,93 +134,20 @@ def settings():
         elif option == "4": change("retries")
         elif option == "5": change("threads")
         elif option == "x": return
-
-
-def starter(modules_lst:list):
-    checker.bad = 0
-    checker.cpm = 0 
-    checker.good = 0
-    checker.custom = 0
-    checker.errors = 0
-    checker.proxies.clear()
-    checker.accounts.clear()
-    checker.accounts_down.clear()
-    checker.bad_proxies.clear()
-    set_title("Calani AIO | Getting Ready | MickeyYe#0003")
-    def foo(account:str):
-        try:
-            email = account.split(":")[0]
-            password = account.split(":")[1]
-        except:
-            checker.bad += 1
-            checker.cpm += 1
-        else:
-            for module in modules_lst:
-                modules_list[module].check(email,password)
-
-    clear()
-    ascii()
-    print("\n\n")
-    print(f"    [{cyan}Pick Combo File{reset}]")
-    sleep(1)
-    file_path = get_file("Combo File",type="Combo File")
-    if file_path == False:
-        print(f"    [{cyan}No File Detected{reset}]")
-        sleep(1)
-        return
-    with open(file_path,errors="ignore") as file: 
-        before_accounts = file.read().splitlines()
-        accounts = list(set(before_accounts))
-        checker.accounts = accounts
-        checker.accounts_down = accounts
-        duplicates = len(before_accounts)-len(accounts)
-    print(f"    [{cyan}Imported {len(before_accounts)} Accounts{reset}]")
-    if duplicates != 0:
-        print(f"    [{cyan}Removed {duplicates} Duplicates{reset}]")
-    sleep(1)
-    
-    print("\n")
-    
-    print(f"    [{cyan}Pick Proxy File{reset}]")
-    sleep(1)
-    file_path = get_file("Proxy File File",type="Proxy File")
-    if file_path == False:
-        print(f"    [{cyan}No File Detected{reset}]")
-        sleep(1)
-        return
-    with open(file_path,errors="ignore") as file: 
-        contents = file.read()
-        before_proxies = contents.splitlines()
-        after_proxies = list(set(before_proxies))
-        checker.proxies = after_proxies
-        duplicates = len(before_proxies)-len(after_proxies)
-    print(f"    [{cyan}Imported {len(before_proxies)} Proxies{reset}]")
-    if duplicates != 0:
-        print(f"    [{cyan}Removed {duplicates} Duplicates{reset}]")
-    sleep(1)
-    
-    checker.checking = True
-    checker.time = get_time()
-    
-    if checker.cui: Thread(target=cui,args=(len(modules_lst),),daemon=True).start()
-    Thread(target=title,args=(len(modules_lst),),daemon=True).start()
-    Thread(target=level_cpm,daemon=True).start()
-
-    clear()
-    print(f"    [{cyan}Starting Threads{reset}]")
-    mainpool = Pool(processes=checker.threads)
-    clear()
-    ascii()
-    if not checker.cui:
+def tools():
+    while 1:
+        load_config()
+        set_title("Calani AIO | Tools | MickeyYe#0003")
+        clear()
+        ascii()
         print("\n\n")
-    mainpool.imap_unordered(func=foo,iterable=checker.accounts_down)
-    mainpool.close()
-    mainpool.join()
-    sleep(5)
-    checker.checking = False
-    print("\n\n")
-    print(f"    [{cyan}Finished Checking{reset}]")
-    input(f"    [{cyan}Press Enter To Go Back{reset}]")
+        print(f"""
+    [{cyan}1{reset}] Proxy Checker
+
+    [{cyan}X{reset}] Back""")
+        option = input(f"    [{cyan}>{reset}] ").lower()
+        if option == "1": proxychecker.start()
+        elif option == "x": return
 
 if __name__ == "__main__":
     init(autoreset=True)

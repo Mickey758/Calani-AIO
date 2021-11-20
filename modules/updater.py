@@ -8,11 +8,12 @@ cyan = Fore.CYAN
 reset = Fore.RESET
 
 def check():
+    """Checks for updates"""
     set_title("Calani AIO | Checking For Updates | MickeyYe#0003")
     print(f"    [{cyan}>{reset}] Checking for updates")
     try:
         v = get("https://raw.githubusercontent.com/Mickey758/Calani-AIO/master/version").text.rstrip()
-        if v != "0.1.8-alpha":
+        if v != "0.1.9-alpha":
             return True
         else:
             return False

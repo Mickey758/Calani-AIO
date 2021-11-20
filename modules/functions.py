@@ -27,6 +27,17 @@ _, ICON_PATH = mkstemp()
 with open(ICON_PATH, 'wb') as icon_file:
     icon_file.write(ICON)
 
+def reset_stats():
+    checker.bad = 0
+    checker.cpm = 0
+    checker.good = 0
+    checker.custom = 0
+    checker.errors = 0
+    checker.proxies.clear()
+    checker.accounts.clear()
+    checker.accounts_down.clear()
+    checker.bad_proxies.clear()
+
 def clear():
     """Clears the console"""
     system('cls' if name=='nt' else 'clear')
@@ -53,7 +64,7 @@ def save(name:str,type:str,time:str,content:str):
     Saves the given account to a file
     save(
         name="NordVPN",
-        type="good", 
+        type="good",
         time="2021-11-02 22-01-02",
         content="example@example.com:example123@"
     )
@@ -94,12 +105,12 @@ def set_proxy(proxy:str=False):
             spl = proxy.split(":")
             proxy = spl[2]+":"+spl[3]+"@"+spl[0]+":"+spl[1]
         except: pass
-        
+
         if checker.proxy_type == "http": return {"http":f"http://{proxy}","https":f"https://{proxy}"}
         elif checker.proxy_type == "socks4": return {"http":f"socks4://{proxy}","https":f"socks4://{proxy}"}
         elif checker.proxy_type == "socks5": return {"htt":f"socks5://{proxy}","https":f"socks5://{proxy}"}
-    
-    else: 
+
+    else:
         while 1:
             if len(checker.bad_proxies) == len(checker.proxies):
                 checker.bad_proxies.clear()
@@ -139,10 +150,27 @@ def cui(modules:int):
     [{green}Hits{reset}] {checker.good}
     [{yellow}Custom{reset}] {checker.custom}
     [{red}Bad{reset}] {checker.bad}
-    
+
     [{dark_yellow}Errors{bright}{reset}] {checker.errors}
     [{dark_cyan}CPM{bright}{reset}] {checker.cpm}
     [{cyan}{bright}Progress{dark_cyan}{reset}] {checker.good+checker.bad+checker.custom}/{len(checker.accounts)*modules} = {percent}%""")
+        sleep(1)
+
+def cui_2():
+    """Prints the proxy checker cui"""
+    while checker.checking:
+        clear()
+        ascii()
+        print("\n\n")
+        percent = round( ( (checker.good+checker.bad)/(len(checker.accounts)) )*100,2) if checker.good + checker.bad > 0 else 0.0
+        print(f"""
+    [{dark_cyan}Proxy Type{reset}] {checker.proxy_type.title()}
+
+    [{green}Good{reset}] {checker.good}
+    [{red}Bad{reset}] {checker.bad}
+
+    [{dark_cyan}CPM{bright}{reset}] {checker.cpm}
+    [{cyan}{bright}Progress{dark_cyan}{reset}] {checker.good+checker.bad}/{len(checker.accounts)} = {percent}%""")
         sleep(1)
 
 def title(modules:int):
@@ -154,10 +182,20 @@ def title(modules:int):
             sleep(0.1)
         except:
             pass
+def title_2():
+    """Sets the title while checking for the proxy checker"""
+    while checker.checking:
+        try:
+            checker.title = f"Calani AIO | Good: {checker.good} ~ Bad: {checker.bad} ~ CPM: {checker.cpm} ~ Progress: {checker.good+checker.bad}/{len(checker.accounts)} = { round( ( ( checker.good+checker.bad) / len(checker.accounts ) ) * 100 , 2 ) } %"
+            set_title(checker.title)
+            sleep(0.1)
+        except:
+            pass
+
 
 def level_cpm():
-    """This levels the cpm every 60 seconds"""
+    """This levels the cpm every 15 seconds"""
     while checker.checking:
         now = checker.cpm
-        sleep(60)
-        checker.cpm -= now
+        sleep(15)
+        checker.cpm = (checker.cpm - now)*4
