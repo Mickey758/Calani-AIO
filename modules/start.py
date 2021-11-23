@@ -3,7 +3,7 @@ from modules.functions import *
 from time import sleep
 from multiprocessing.dummy import Pool
 from threading import Thread
-from colorama import Fore,init
+from colorama import Fore
 
 red = Fore.RED
 green = Fore.GREEN
@@ -24,6 +24,7 @@ from modules.checkers import valorant
 from modules.checkers import honeygain
 from modules.checkers import discordvm
 from modules.checkers import netflix
+from modules.checkers import steam
 
 modules_list = {
     "nordvpn":nordvpn,
@@ -39,7 +40,8 @@ modules_list = {
     "valorant":valorant,
     "honeygain":honeygain,
     "discordvm":discordvm,
-    "netflix":netflix
+    "netflix":netflix,
+    "steam":steam
 }
 
 def starter(modules_lst:list):

@@ -1,4 +1,4 @@
-from __main__ import checker,lock
+from __main__ import checker
 from requests import Session
 from modules.functions import bad_proxy, log,save,set_proxy
 

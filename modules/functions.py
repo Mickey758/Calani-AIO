@@ -11,8 +11,6 @@ from time import sleep
 from console.utils import set_title
 from os import makedirs
 
-init(autoreset=True)
-
 yellow = Fore.YELLOW
 green = Fore.GREEN
 reset = Fore.RESET

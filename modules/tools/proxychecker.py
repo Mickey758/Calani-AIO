@@ -10,7 +10,6 @@ red = Fore.RED
 green = Fore.GREEN
 cyan = Fore.CYAN
 reset = Fore.RESET
-init(autoreset=True)
 
 def start():
     clear()

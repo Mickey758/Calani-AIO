@@ -35,6 +35,7 @@ from modules.config import *
 from modules.functions import *
 from modules.start import starter,modules_list
 import modules.tools.proxychecker as proxychecker
+import modules.tools.proxyscraper as proxyscraper
 
 load_config()
 
@@ -79,6 +80,7 @@ def modules():
    [{cyan}12{reset}] Honeygain
    [{cyan}13{reset}] DiscordVM
    [{cyan}14{reset}] Netflix
+   [{cyan}15{reset}] Steam
 
     [{cyan}>{reset}] Selected Modules: {str([x.title() for x in selected_modules]).replace("'","").replace("', '",", ")}
     [{cyan}A{reset}] Add All Modules
@@ -100,6 +102,7 @@ def modules():
         elif option == "12": selected_modules.append("honeygain") if "honeygain" not in selected_modules else selected_modules.remove("honeygain") 
         elif option == "13": selected_modules.append("discordvm") if "discordvm" not in selected_modules else selected_modules.remove("discordvm")
         elif option == "14": selected_modules.append("netflix") if "netflix" not in selected_modules else selected_modules.remove("netflix")
+        elif option == "15": selected_modules.append("steam") if "steam" not in selected_modules else selected_modules.remove("steam")
         elif option == "s":
             if selected_modules != []:
                 starter(selected_modules)
@@ -109,7 +112,8 @@ def modules():
                 sleep(1)
         elif option == "a":
             for module in modules_list:
-                selected_modules.append(module)
+                if module not in selected_modules:
+                    selected_modules.append(module)
         elif option == "x":
             return
 def settings():
@@ -143,10 +147,12 @@ def tools():
         print("\n\n")
         print(f"""
     [{cyan}1{reset}] Proxy Checker
+    [{cyan}2{reset}] Proxy Scraper
 
     [{cyan}X{reset}] Back""")
         option = input(f"    [{cyan}>{reset}] ").lower()
         if option == "1": proxychecker.start()
+        elif option == "2": set_title("Calani AIO | Proxy Scraper | MickeyYe#0003");proxyscraper.start()
         elif option == "x": return
 
 if __name__ == "__main__":

@@ -1,8 +1,8 @@
 from console.utils import set_title
-from colorama import Fore,init
+from colorama import Fore
 from requests import get
 from time import sleep
-init(autoreset=True)
+
 red = Fore.RED
 cyan = Fore.CYAN
 reset = Fore.RESET
@@ -13,7 +13,7 @@ def check():
     print(f"    [{cyan}>{reset}] Checking for updates")
     try:
         v = get("https://raw.githubusercontent.com/Mickey758/Calani-AIO/master/version").text.rstrip()
-        if v != "0.1.9-alpha":
+        if v != "0.2.0":
             return True
         else:
             return False
