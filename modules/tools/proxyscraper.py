@@ -1,9 +1,10 @@
-from __main__ import checker
+from __main__ import checker,lock
 from modules.functions import *
 from colorama import Fore,init
 from time import sleep
 from requests import get
 from string import digits
+from multiprocessing.dummy import Pool
 
 red = Fore.RED
 green = Fore.GREEN
@@ -143,10 +144,9 @@ def start():
 def scrape(links:str=None):
     checker.time = get_time()
     proxies = []
-    prog = 0
     if not links:
         links = default
-    for link in list(set(links)):
+    def foo(link):
         try: a = get(link,timeout=checker.timeout).text.splitlines()
         except: pass
         else:
@@ -167,7 +167,7 @@ def scrape(links:str=None):
                                 if "." in ip:
                                     if len(ip.split(".")) == 4:
                                         proxies.append(ip+":"+port)
-                        
+
                         elif len(line.split(":")) > 2:
                             for _ in range(len(line.split(":"))):
                                 proxy = line.split(":")
@@ -186,16 +186,17 @@ def scrape(links:str=None):
                                                 proxies.append(ip+":"+port)
                 except:
                     pass
-        finally:
-            clear()
-            ascii()
-            prog += 1
-            print("\n\n")
-            print(f"""
-    [{cyan}Proxies{reset}] {len(proxies)}
-    [{cyan}Duplicates{reset}] {len(proxies) - len(list(set(proxies)))}
-    [{cyan}Links{reset}] {prog}/{len(list(set(links)))}""")
-
+    clear()
+    ascii()
+    print("\n\n")
+    print(f"    [{cyan}Please Wait{reset}]")
+    mainpool = Pool(checker.threads)
+    mainpool.imap_unordered(func=foo,iterable=list(set(links)))
+    mainpool.close()
+    mainpool.join()
+    clear()
+    ascii()
+    print("\n\n")
     print(f"    [{cyan}Saving {len(list(set(proxies)))} Proxies{reset}]")
     makedirs(f"Results/{checker.time}",exist_ok=True)
     for proxy in list(set(proxies)):

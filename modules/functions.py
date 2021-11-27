@@ -73,8 +73,10 @@ def save(name:str,type:str,time:str,content:str):
             with open(f"Results/{time}/{name}_custom.txt","a",errors="ignore") as file: file.write(content+"\n")
         elif type == "good":
             with open(f"Results/{time}/{name}_good.txt","a",errors="ignore") as file: file.write(content+"\n")
+        else:
+            with open(f"Results/{time}/{name}.txt","a",errors="ignore") as file: file.write(content+"\n")
 
-def log(type:str,account:str,service:str):
+def log(type:str,account:str,service:str=None):
     """
     Prints to the console
     log(
@@ -90,6 +92,8 @@ def log(type:str,account:str,service:str):
             print(f"    [{green}Good{reset}] {account} ~ {service}")
         if type == "bad":
             print(f"    [{red}Bad{reset}] {account} ~ {service}")
+        else:
+            print(f"    {cyan}{account}")
 
 def set_proxy(proxy:str=False):
     """
@@ -106,7 +110,7 @@ def set_proxy(proxy:str=False):
 
         if checker.proxy_type == "http": return {"http":f"http://{proxy}","https":f"https://{proxy}"}
         elif checker.proxy_type == "socks4": return {"http":f"socks4://{proxy}","https":f"socks4://{proxy}"}
-        elif checker.proxy_type == "socks5": return {"htt":f"socks5://{proxy}","https":f"socks5://{proxy}"}
+        elif checker.proxy_type == "socks5": return {"http":f"socks5://{proxy}","https":f"socks5://{proxy}"}
 
     else:
         while 1:
@@ -177,7 +181,7 @@ def title(modules:int):
         try:
             checker.title = f"Calani AIO | Good: {checker.good}  ~  Custom: {checker.custom}  ~  Bad: {checker.bad}  ~  Errors: {checker.errors}  ~  CPM: {checker.cpm}  ~  Progress: {checker.good+checker.bad+checker.custom}/{len(checker.accounts)*modules} = {round(((checker.good+checker.bad+checker.custom)/(len(checker.accounts)*modules))*100,2)}%"
             set_title(checker.title)
-            sleep(0.1)
+            sleep(1)
         except:
             pass
 def title_2():
@@ -186,7 +190,7 @@ def title_2():
         try:
             checker.title = f"Calani AIO | Good: {checker.good} ~ Bad: {checker.bad} ~ CPM: {checker.cpm} ~ Progress: {checker.good+checker.bad}/{len(checker.accounts)} = { round( ( ( checker.good+checker.bad) / len(checker.accounts ) ) * 100 , 2 ) } %"
             set_title(checker.title)
-            sleep(0.1)
+            sleep(1)
         except:
             pass
 

@@ -1,5 +1,10 @@
-launch.json
-config.json
+*.json
 *.pyc
 *.txt
+*.bat
+*.ico
+*.spec
+results
+build
+binary
 !requirements.txt

@@ -36,6 +36,7 @@ from modules.functions import *
 from modules.start import starter,modules_list
 import modules.tools.proxychecker as proxychecker
 import modules.tools.proxyscraper as proxyscraper
+import modules.tools.capture_remove as captureremover
 
 load_config()
 
@@ -99,7 +100,7 @@ def modules():
         elif option == "9": selected_modules.append("bww") if "bww" not in selected_modules else selected_modules.remove("bww")
         elif option == "10": selected_modules.append("pornhub") if "pornhub" not in selected_modules else selected_modules.remove("pornhub")
         elif option == "11": selected_modules.append("valorant") if "valorant" not in selected_modules else selected_modules.remove("valorant")
-        elif option == "12": selected_modules.append("honeygain") if "honeygain" not in selected_modules else selected_modules.remove("honeygain") 
+        elif option == "12": selected_modules.append("honeygain") if "honeygain" not in selected_modules else selected_modules.remove("honeygain")
         elif option == "13": selected_modules.append("discordvm") if "discordvm" not in selected_modules else selected_modules.remove("discordvm")
         elif option == "14": selected_modules.append("netflix") if "netflix" not in selected_modules else selected_modules.remove("netflix")
         elif option == "15": selected_modules.append("steam") if "steam" not in selected_modules else selected_modules.remove("steam")
@@ -148,11 +149,13 @@ def tools():
         print(f"""
     [{cyan}1{reset}] Proxy Checker
     [{cyan}2{reset}] Proxy Scraper
+    [{cyan}3{reset}] Capture Remover
 
     [{cyan}X{reset}] Back""")
         option = input(f"    [{cyan}>{reset}] ").lower()
         if option == "1": proxychecker.start()
         elif option == "2": set_title("Calani AIO | Proxy Scraper | MickeyYe#0003");proxyscraper.start()
+        elif option == "3": set_title("Calani AIO | Capture Remover | MickeyYe#0003");captureremover.start()
         elif option == "x": return
 
 if __name__ == "__main__":
