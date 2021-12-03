@@ -10,27 +10,15 @@ Download the exe version [here](https://github.com/Mickey758/Calani-AIO/releases
 - [x] Cui Checking Mode
 - [x] Auto Updater
 - [x] Config File
-- [ ] Save Remaining Lines
+- [x] Save Remaining Lines
 - [x] Multichecking
 - [x] In-app Settings
 - [x] Proxy Management
+- [x] Auth Proxy Support
+- [ ] Make Checker Faster
 
 ## Modules
-1. Minecraft
-2. NordVPN
-3. Bonkio
-4. Disney+
-5. Duolingo
-6. Gfuel
-7. Crunchyroll
-8. SpotifyVM
-9. Buffalo Wild Wings
-10. Pornhub
-11. Valorant
-12. HoneyGain
-13. DiscordVM
-14. Netflix
-15. Steam
+Check the modules list [here](https://github.com/Mickey758/Calani-AIO/blob/master/MODULES.md)
 
 # Other Info
 Development of this this project will continue. I will be updating the binary and source regularly. Bug reports will be nice to have. If you find any post them [here](https://github.com/Mickey758/Calani-AIO/issues/new). Thanks for checking this out.

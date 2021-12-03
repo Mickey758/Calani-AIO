@@ -6,8 +6,7 @@ from math import sqrt
 def check(email:str,password:str):
     retries = 0
     
-    if "@" in email:
-        username = email.split("@")[0]
+    username = email.split("@")[0] if "@" in email else email
     
     while retries != checker.retries:
         proxy = set_proxy()

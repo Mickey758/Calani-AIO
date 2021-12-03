@@ -13,7 +13,7 @@ def check():
     print(f"    [{cyan}>{reset}] Checking for updates")
     try:
         v = get("https://raw.githubusercontent.com/Mickey758/Calani-AIO/master/version").text.rstrip()
-        if v != "0.2.1":
+        if v != "0.2.2":
             return True
         else:
             return False

@@ -1,6 +1,6 @@
 from os import system,name
 from datetime import datetime
-from colorama import Fore,Style,init
+from colorama import Fore,Style
 from __main__ import checker,lock
 from random import choice
 from tkinter import Tk,filedialog
@@ -10,6 +10,7 @@ from tempfile import mkstemp
 from time import sleep
 from console.utils import set_title
 from os import makedirs
+from win32gui import GetWindowText, GetForegroundWindow
 
 yellow = Fore.YELLOW
 green = Fore.GREEN
@@ -67,7 +68,7 @@ def save(name:str,type:str,time:str,content:str):
         content="example@example.com:example123@"
     )
     """
-    makedirs(f"Results/{checker.time}",exist_ok=True)
+    makedirs(f"Results/{time}",exist_ok=True)
     with lock:
         if type == "custom":
             with open(f"Results/{time}/{name}_custom.txt","a",errors="ignore") as file: file.write(content+"\n")
@@ -103,10 +104,10 @@ def set_proxy(proxy:str=False):
     set_proxy(proxy="0.0.0.0")
     """
     if proxy:
-        try:
+        if ":" in proxy:
             spl = proxy.split(":")
-            proxy = spl[2]+":"+spl[3]+"@"+spl[0]+":"+spl[1]
-        except: pass
+            if len(spl) == 4:
+                proxy = spl[2]+":"+spl[3]+"@"+spl[0]+":"+spl[1]
 
         if checker.proxy_type == "http": return {"http":f"http://{proxy}","https":f"https://{proxy}"}
         elif checker.proxy_type == "socks4": return {"http":f"socks4://{proxy}","https":f"socks4://{proxy}"}
@@ -155,7 +156,9 @@ def cui(modules:int):
 
     [{dark_yellow}Errors{bright}{reset}] {checker.errors}
     [{dark_cyan}CPM{bright}{reset}] {checker.cpm}
-    [{cyan}{bright}Progress{dark_cyan}{reset}] {checker.good+checker.bad+checker.custom}/{len(checker.accounts)*modules} = {percent}%""")
+    [{cyan}{bright}Progress{dark_cyan}{reset}] {checker.good+checker.bad+checker.custom}/{len(checker.accounts)*modules} = {percent}%
+    
+    [{cyan}S{reset}] Save Remaining Lines""")
         sleep(1)
 
 def cui_2():
@@ -194,6 +197,13 @@ def title_2():
         except:
             pass
 
+def save_lines():
+    if checker.checking:
+        if "Calani AIO | Good: " in GetWindowText(GetForegroundWindow()):
+            if not checker.saving:
+                checker.saving = True
+                with open(f"Results/{checker.time}/save_lines.txt","w") as file: file.write("\n".join(checker.accounts_down))
+                checker.saving = False
 
 def level_cpm():
     """This levels the cpm every 15 seconds"""

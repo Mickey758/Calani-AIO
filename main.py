@@ -3,6 +3,7 @@ from time import sleep
 from console.utils import set_title
 from modules.updater import check as check_updates
 from threading import Lock
+import keyboard
 
 red = Fore.RED
 green = Fore.GREEN
@@ -39,6 +40,7 @@ import modules.tools.proxyscraper as proxyscraper
 import modules.tools.capture_remove as captureremover
 
 load_config()
+keyboard.add_hotkey("s",save_lines)
 
 def home():
     while 1:
@@ -82,6 +84,7 @@ def modules():
    [{cyan}13{reset}] DiscordVM
    [{cyan}14{reset}] Netflix
    [{cyan}15{reset}] Steam
+   [{cyan}16{reset}] Windscribe
 
     [{cyan}>{reset}] Selected Modules: {str([x.title() for x in selected_modules]).replace("'","").replace("', '",", ")}
     [{cyan}A{reset}] Add All Modules
@@ -104,6 +107,7 @@ def modules():
         elif option == "13": selected_modules.append("discordvm") if "discordvm" not in selected_modules else selected_modules.remove("discordvm")
         elif option == "14": selected_modules.append("netflix") if "netflix" not in selected_modules else selected_modules.remove("netflix")
         elif option == "15": selected_modules.append("steam") if "steam" not in selected_modules else selected_modules.remove("steam")
+        elif option == "16": selected_modules.append("windscribe") if "windscribe" not in selected_modules else selected_modules.remove("windscribe")
         elif option == "s":
             if selected_modules != []:
                 starter(selected_modules)

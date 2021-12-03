@@ -1,4 +1,4 @@
-from __main__ import checker,lock
+from __main__ import checker
 from modules.functions import *
 from colorama import Fore,init
 from time import sleep
@@ -147,6 +147,7 @@ def scrape(links:str=None):
     if not links:
         links = default
     def foo(link):
+        count = 0
         try: a = get(link,timeout=checker.timeout).text.splitlines()
         except: pass
         else:
@@ -166,6 +167,7 @@ def scrape(links:str=None):
                             if ip and port:
                                 if "." in ip:
                                     if len(ip.split(".")) == 4:
+                                        count += 1
                                         proxies.append(ip+":"+port)
 
                         elif len(line.split(":")) > 2:
@@ -183,24 +185,22 @@ def scrape(links:str=None):
                                     if ip and port:
                                         if "." in ip:
                                             if len(ip.split(".")) == 4:
+                                                count += 1
                                                 proxies.append(ip+":"+port)
                 except:
                     pass
+            log(None,f"{count} Proxies ~ {link}")
     clear()
     ascii()
     print("\n\n")
-    print(f"    [{cyan}Please Wait{reset}]")
     mainpool = Pool(checker.threads)
     mainpool.imap_unordered(func=foo,iterable=list(set(links)))
     mainpool.close()
     mainpool.join()
-    clear()
-    ascii()
     print("\n\n")
     print(f"    [{cyan}Saving {len(list(set(proxies)))} Proxies{reset}]")
     makedirs(f"Results/{checker.time}",exist_ok=True)
-    for proxy in list(set(proxies)):
-        with open(f"Results/{checker.time}/Scraped_Proxies.txt","a",errors="ignore") as file: file.write(proxy+"\n")
+    with open(f"Results/{checker.time}/Scraped_Proxies.txt","w",errors="ignore") as file: file.write("\n".join(list(set(proxies))))
     print("\n\n")
     print(f"    [{cyan}Finished Scraping{reset}]")
     input(f"    [{cyan}Press Enter To Go Back{reset}]")

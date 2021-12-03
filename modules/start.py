@@ -25,6 +25,7 @@ from modules.checkers import honeygain
 from modules.checkers import discordvm
 from modules.checkers import netflix
 from modules.checkers import steam
+from modules.checkers import windscribe
 
 modules_list = {
     "nordvpn":nordvpn,
@@ -41,7 +42,8 @@ modules_list = {
     "honeygain":honeygain,
     "discordvm":discordvm,
     "netflix":netflix,
-    "steam":steam
+    "steam":steam,
+    "windscribe":windscribe
 }
 
 def starter(modules_lst:list):
@@ -102,6 +104,7 @@ def starter(modules_lst:list):
 
     checker.checking = True
     checker.time = get_time()
+    makedirs(f"Results/{checker.time}",exist_ok=True)
 
     if checker.cui: Thread(target=cui,args=(len(modules_lst),),daemon=True).start()
     Thread(target=title,args=(len(modules_lst),),daemon=True).start()

@@ -9,11 +9,8 @@ from urllib.parse import quote
 
 def check(email:str,password:str):
     retries = 0
-    if "@" in email:
-        username = email.split("@")[0]
-    else:
-        username = email
-        email = "-"
+    username = email.split("@")[0] if "@" in email else email
+    email = email if "@" in email else "-"
     while retries != checker.retries:
         proxy = set_proxy()
         t_1 = int(time())

