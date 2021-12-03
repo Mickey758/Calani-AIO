@@ -27,7 +27,7 @@ Development of this this project will continue. I will be updating the binary an
 If you would like to show some appreciation for this free project, consider donating some crypto <3
 
 - BTC: bc1qt6gcll4hp7wwqaap7x3lwunf9srw4enuxxddzn
-- ETC: 0xd7F5C1AB4765Be15F738367905bF4E7Ea83eC9F7
+- ETH: 0xd7F5C1AB4765Be15F738367905bF4E7Ea83eC9F7
 
 ## Credits
 Give credits if you are going to use the code
