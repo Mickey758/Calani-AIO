@@ -15,7 +15,6 @@ Download the exe version [here](https://github.com/Mickey758/Calani-AIO/releases
 - [x] In-app Settings
 - [x] Proxy Management
 - [x] Auth Proxy Support
-- [ ] Make Checker Faster
 
 ## Modules
 Check the modules list [here](https://github.com/Mickey758/Calani-AIO/blob/master/MODULES.md)
@@ -28,6 +27,7 @@ If you would like to show some appreciation for this free project, consider dona
 
 - BTC: bc1qt6gcll4hp7wwqaap7x3lwunf9srw4enuxxddzn
 - ETH: 0xd7F5C1AB4765Be15F738367905bF4E7Ea83eC9F7
+- LTC: LdsjBD8ACvqUinrgbJJvCcELs2AxN5NSpc
 
 ## Credits
 Give credits if you are going to use the code
