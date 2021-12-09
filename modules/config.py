@@ -1,4 +1,4 @@
-from __main__ import checker
+from modules.variables import Checker
 from modules.functions import ascii,clear
 from colorama import Fore,init
 from os import makedirs, listdir
@@ -19,20 +19,20 @@ def load_config():
                     dump(default,file,indent=4)
             with open("Data/config.json","r") as file:
                 data = load(file)
-            checker.proxy_type = str(data["proxy_type"]).lower()
-            if checker.proxy_type not in ("http","socks4","socks5"):
+            Checker.proxy_type = str(data["proxy_type"]).lower()
+            if Checker.proxy_type not in ("http","socks4","socks5"):
                 raise
-            checker.retries = int(data["retries"])
-            checker.timeout = int(data["proxy_timeout"])
-            checker.threads = int(data["threads"])
-            if checker.threads <= 0:
-                checker.threads = 1
+            Checker.retries = int(data["retries"])
+            Checker.timeout = int(data["proxy_timeout"])
+            Checker.threads = int(data["threads"])
+            if Checker.threads <= 0:
+                Checker.threads = 1
             cui = data["print_mode"].lower()
             if cui in ("log","cui"):
                 if cui == "log":
-                    checker.cui = False
+                    Checker.cui = False
                 else:
-                    checker.cui = True
+                    Checker.cui = True
                 break
             else:
                 raise
@@ -53,25 +53,25 @@ def change(option:str):
     Change a value in the config file
     change("threads")
     """
-    values = {"proxy_type":checker.proxy_type,"proxy_timeout":checker.timeout,"threads":checker.threads,"retries":checker.retries,"print_mode":"cui" if checker.cui else "log"}
+    values = {"proxy_type":Checker.proxy_type,"proxy_timeout":Checker.timeout,"threads":Checker.threads,"retries":Checker.retries,"print_mode":"cui" if Checker.cui else "log"}
     clear()
     ascii()
     print("\n\n")
     if option == "proxy_type":
-        if checker.proxy_type == "http":
-            checker.proxy_type = "socks4"
-        elif checker.proxy_type == "socks4":
-            checker.proxy_type = "socks5"
-        elif checker.proxy_type == "socks5":
-            checker.proxy_type = "http"
-        values["proxy_type"] = checker.proxy_type
+        if Checker.proxy_type == "http":
+            Checker.proxy_type = "socks4"
+        elif Checker.proxy_type == "socks4":
+            Checker.proxy_type = "socks5"
+        elif Checker.proxy_type == "socks5":
+            Checker.proxy_type = "http"
+        values["proxy_type"] = Checker.proxy_type
         update_config(values)
     elif option == "proxy_timeout":
         print(f"    [{cyan}Pick proxy timeout{reset}]")
         print("\n")
         try:
             timeout = int(input(f"    [{cyan}>{reset}] "))
-            checker.timeout = timeout
+            Checker.timeout = timeout
             values["proxy_timeout"] = timeout
             update_config(values)
         except:
@@ -83,24 +83,24 @@ def change(option:str):
             retries = int(input(f"    [{cyan}>{reset}] "))
             if retries <= 0:
                 retries = 1
-            checker.retries = retries
+            Checker.retries = retries
             values["retries"] = retries
             update_config(values)
         except:
             pass
     elif option == "print":
-        if checker.cui == False:
-            checker.cui = True
+        if Checker.cui == False:
+            Checker.cui = True
         else:
-            checker.cui = False
-        values["print_mode"] = "cui" if checker.cui else "log"
+            Checker.cui = False
+        values["print_mode"] = "cui" if Checker.cui else "log"
         update_config(values)
     elif option == "threads":
         print(f"    [{cyan}Pick ammount of threads{reset}]")
         print("\n")
         try:
             threads = int(input(f"    [{cyan}>{reset}] "))
-            checker.threads = threads
+            Checker.threads = threads
             values["threads"] = threads
             update_config(values)
         except:

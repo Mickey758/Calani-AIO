@@ -15,3 +15,6 @@
 14. Netflix
 15. Steam
 16. Windscribe
+17. Instagram
+18. Funimation
+19. Canva

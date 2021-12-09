@@ -1,9 +1,6 @@
-from __main__ import checker
+from modules.variables import Checker
 from modules.functions import *
 from colorama import Fore
-
-cyan = Fore.CYAN
-reset = Fore.RESET
 
 def start():
     reset_stats()
@@ -16,6 +13,7 @@ def start():
         print("\n\n")
         print(f"    [{cyan}Pick Combo File{reset}]")
         file_path = get_file("Combo File","Combo File")
+        get_focus()
         if not file_path:
             print(f"    [{cyan}No File Detected{reset}]")
             sleep(1)
@@ -28,7 +26,7 @@ def start():
         if duplicates != 0:
             print(f"    [{cyan}Removed {duplicates} Duplicates{reset}]")
         sleep(1)
-        checker.time = get_time()
+        Checker.time = get_time()
         edit(after_combos)
         print("\n\n")
         print(f"    [{cyan}Finished Removing Capture{reset}]")
@@ -42,4 +40,4 @@ def edit(combos):
             if " " in password:
                 password = password.split(" ")[0]
             log(None,email+":"+password)
-            save("Capture_Remove",None,checker.time,email+":"+password)
+            save("Capture_Remove",None,Checker.time,email+":"+password)

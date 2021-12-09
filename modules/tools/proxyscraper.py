@@ -1,15 +1,10 @@
-from __main__ import checker
+from modules.variables import Checker
 from modules.functions import *
 from colorama import Fore,init
 from time import sleep
 from requests import get
 from string import digits
 from multiprocessing.dummy import Pool
-
-red = Fore.RED
-green = Fore.GREEN
-cyan = Fore.CYAN
-reset = Fore.RESET
 
 default = """https://api.proxyscrape.com/?request=getproxies&proxytype=http&timeout=10000&country=all&ssl=all&anonymity=all
 https://api.proxyscrape.com/?request=getproxies&proxytype=socks4&timeout=10000&country=all
@@ -125,6 +120,7 @@ def start():
             print("\n\n")
             print(f"    [{cyan}Pick Link File{reset}]")
             file_path = get_file("Proxy Site Links File","Proxy Site Links File")
+            get_focus()
             if not file_path:
                 print(f"    [{cyan}No File Detected{reset}]")
                 sleep(1)
@@ -142,13 +138,13 @@ def start():
         elif option == "x": return
 
 def scrape(links:str=None):
-    checker.time = get_time()
+    Checker.time = get_time()
     proxies = []
     if not links:
         links = default
     def foo(link):
         count = 0
-        try: a = get(link,timeout=checker.timeout).text.splitlines()
+        try: a = get(link,timeout=Checker.timeout).text.splitlines()
         except: pass
         else:
             for line in a:
@@ -193,14 +189,14 @@ def scrape(links:str=None):
     clear()
     ascii()
     print("\n\n")
-    mainpool = Pool(checker.threads)
+    mainpool = Pool(Checker.threads)
     mainpool.imap_unordered(func=foo,iterable=list(set(links)))
     mainpool.close()
     mainpool.join()
     print("\n\n")
     print(f"    [{cyan}Saving {len(list(set(proxies)))} Proxies{reset}]")
-    makedirs(f"Results/{checker.time}",exist_ok=True)
-    with open(f"Results/{checker.time}/Scraped_Proxies.txt","w",errors="ignore") as file: file.write("\n".join(list(set(proxies))))
+    makedirs(f"Results/{Checker.time}",exist_ok=True)
+    with open(f"Results/{Checker.time}/Scraped_Proxies.txt","w",errors="ignore") as file: file.write("\n".join(list(set(proxies))))
     print("\n\n")
     print(f"    [{cyan}Finished Scraping{reset}]")
     input(f"    [{cyan}Press Enter To Go Back{reset}]")

