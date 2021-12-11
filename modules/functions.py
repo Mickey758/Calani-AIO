@@ -89,9 +89,9 @@ def log(type:str,account:str,service:str=None):
     with lock:
         if type == "custom":
             print(f"    [{yellow}Custom{reset}] {account} ~ {service}")
-        if type == "good":
+        elif type == "good":
             print(f"    [{green}Good{reset}] {account} ~ {service}")
-        if type == "bad":
+        elif type == "bad":
             print(f"    [{red}Bad{reset}] {account} ~ {service}")
         else:
             print(f"    {cyan}{account}")

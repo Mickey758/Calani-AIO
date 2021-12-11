@@ -31,7 +31,6 @@ def check(email:str,password:str):
         except:
             bad_proxy(proxy)
             Checker.errors += 1
-    if not Checker.cui: log("bad",email+":"+password,"Honeygain")
     Checker.bad += 1
     Checker.cpm += 1
     return

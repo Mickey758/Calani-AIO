@@ -29,8 +29,6 @@ def check(email:str,password:str):
                 raise
         except:
             Checker.retries += 1
-    if not Checker.cui:
-        log("bad",email+":"+password,"BWW")
     Checker.bad += 1
     Checker.cpm += 1
     return

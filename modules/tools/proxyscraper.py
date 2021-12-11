@@ -145,7 +145,7 @@ def scrape(links:str=None):
     def foo(link):
         count = 0
         try: a = get(link,timeout=Checker.timeout).text.splitlines()
-        except: pass
+        except: log(None,f"Connection Error ~ {link}")
         else:
             for line in a:
                 try:

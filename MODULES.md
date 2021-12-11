@@ -18,3 +18,7 @@
 17. Instagram
 18. Funimation
 19. Canva
+20. Uplay
+21. Paramount
+22. CuriosityStream
+23. WeMod

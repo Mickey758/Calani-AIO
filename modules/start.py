@@ -23,6 +23,10 @@ from modules.checkers import windscribe
 from modules.checkers import instagram
 from modules.checkers import funimation
 from modules.checkers import canva
+from modules.checkers import uplay
+from modules.checkers import paramount
+from modules.checkers import curiositystream
+from modules.checkers import wemod
 
 modules_list = {
     "nordvpn":nordvpn,
@@ -43,7 +47,11 @@ modules_list = {
     "windscribe":windscribe,
     "instagram":instagram,
     "funimation":funimation,
-    "canva":canva
+    "canva":canva,
+    "uplay":uplay,
+    "paramount":paramount,
+    "curiositystream":curiositystream,
+    "wemod":wemod
 }
 
 def starter(modules_lst:list):

@@ -59,6 +59,10 @@ def modules():
    [{cyan}17{reset}] Instagram
    [{cyan}18{reset}] Funimation
    [{cyan}19{reset}] Canva
+   [{cyan}20{reset}] Uplay/Ubisoft
+   [{cyan}21{reset}] Paramount
+   [{cyan}22{reset}] CuriosityStream
+   [{cyan}23{reset}] WeMod
 
     [{cyan}>{reset}] Selected Modules: {str([x.title() for x in selected_modules]).replace("'","").replace("', '",", ")}
     [{cyan}A{reset}] Add All Modules
@@ -85,6 +89,10 @@ def modules():
         elif option == "17": selected_modules.append("instagram") if "instagram" not in selected_modules else selected_modules.remove("instagram")
         elif option == "18": selected_modules.append("funimation") if "funimation" not in selected_modules else selected_modules.remove("funimation")
         elif option == "19": selected_modules.append("canva") if "canva" not in selected_modules else selected_modules.remove("canva")
+        elif option == "20": selected_modules.append("uplay") if "uplay" not in selected_modules else selected_modules.remove("uplay")
+        elif option == "21": selected_modules.append("paramount") if "paramount" not in selected_modules else selected_modules.remove("paramount")
+        elif option == "22": selected_modules.append("curiositystream") if "curiositystream" not in selected_modules else selected_modules.remove("curiositystream")
+        elif option == "23": selected_modules.append("wemod") if "wemod" not in selected_modules else selected_modules.remove("wemod")
         elif option == "s":
             if selected_modules != []:
                 starter(selected_modules)
