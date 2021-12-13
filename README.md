@@ -3,6 +3,8 @@ An all in account checker made in python. Made with multichecking and more. This
 
 Download the exe version [here](https://github.com/Mickey758/Calani-AIO/releases)
 
+Read the wiki if you need help [here](https://github.com/Mickey758/Calani-AIO/wiki)
+
 # Progress
 
 ## Checklist
