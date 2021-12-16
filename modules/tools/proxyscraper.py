@@ -1,6 +1,5 @@
 from modules.variables import Checker
 from modules.functions import *
-from colorama import Fore,init
 from time import sleep
 from requests import get
 from string import digits

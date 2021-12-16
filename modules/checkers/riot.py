@@ -26,8 +26,8 @@ def check(email:str,password:str):
                     retries += 1
                 elif "access_token" in response:
                     if not Checker.cui:
-                        log("good",username+":"+password,"Valorant")
-                    save("Valorant","good",Checker.time,username+":"+password+f" | Original Combo: {email}:{password}")
+                        log("good",username+":"+password,"Riot")
+                    save("Riot","good",Checker.time,username+":"+password+f" | Original Combo: {email}:{password}")
                     Checker.good += 1
                     Checker.cpm += 1
                     return

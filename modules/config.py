@@ -1,52 +1,34 @@
 from modules.variables import Checker
-from modules.functions import ascii,clear
+from modules.functions import *
 from colorama import Fore,init
 from os import makedirs, listdir
 from json import load, dump
 
 default = {"proxy_type":"http","proxy_timeout":5,"threads":200,"retries":1,"print_mode":"cui"}
 
-cyan = Fore.CYAN
-reset = Fore.RESET
-
 def load_config():
     """Load the config values"""
     while 1:
         try:
-            makedirs("Data",exist_ok=True)
-            if "config.json" not in listdir("Data"):
-                with open("Data/config.json","w") as file:
-                    dump(default,file,indent=4)
-            with open("Data/config.json","r") as file:
-                data = load(file)
+            with open("Data/config.json","r") as file: data = load(file)
             Checker.proxy_type = str(data["proxy_type"]).lower()
-            if Checker.proxy_type not in ("http","socks4","socks5"):
-                raise
             Checker.retries = int(data["retries"])
             Checker.timeout = int(data["proxy_timeout"])
             Checker.threads = int(data["threads"])
-            if Checker.threads <= 0:
-                Checker.threads = 1
             cui = data["print_mode"].lower()
-            if cui in ("log","cui"):
-                if cui == "log":
-                    Checker.cui = False
-                else:
-                    Checker.cui = True
-                break
-            else:
-                raise
+            if Checker.threads <= 0: Checker.threads = 1
+            if Checker.proxy_type not in ("http","socks4","socks5"): raise
+            if cui not in ("log","cui"): raise
+            Checker.cui = False if cui == "log" else True
+            break
         except:
             makedirs("Data",exist_ok=True)
-            with open("Data/config.json","w") as file:
-                dump(default,file,indent=4)
-            pass
+            with open("Data/config.json","w") as file: dump(default,file,indent=4)
 
 def update_config(values:dict):
     """Update the config values"""
     makedirs("Data",exist_ok=True)
-    with open("Data/config.json","w") as file:
-        dump(values,file,indent=4)
+    with open("Data/config.json","w") as file: dump(values,file,indent=4)
 
 def change(option:str):
     """

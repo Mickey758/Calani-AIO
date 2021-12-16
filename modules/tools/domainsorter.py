@@ -26,17 +26,19 @@ def start():
             print(f"    [{cyan}Removed {duplicates} Duplicates{reset}]")
         sleep(1)
         Checker.time = get_time()
-        edit(after_combos)
+        sort(after_combos)
         print("\n\n")
-        print(f"    [{cyan}Finished Removing Capture{reset}]")
+        print(f"    [{cyan}Finished Sorting Domains{reset}]")
         input(f"    [{cyan}Press Enter To Go Back{reset}]")
         return
-def edit(combos):
+def sort(combos):
+    clear()
+    ascii()
+    print("\n\n")
+    print(f"    [{cyan}Please Wait, Sorting Domains{reset}]")
     for combo in combos:
         if ":" in combo:
-            email = combo.split(":")[0].rstrip()
-            password = combo.split(":")[1]
-            if " " in password:
-                password = password.split(" ")[0]
-            log(None,email+":"+password)
-            save("Capture_Remove",None,Checker.time,email+":"+password)
+            email = combo.split(":")[0]
+            if "@" in email:
+                domain = email.split("@")[1].lower().split(".")[0]
+                save("@"+domain,None,Checker.time,combo)

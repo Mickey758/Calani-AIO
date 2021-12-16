@@ -123,7 +123,7 @@ def set_proxy(proxy:str=False):
 
 def bad_proxy(proxy):
     if proxy not in Checker.bad_proxies:
-        Checker.bad_proxies.append(proxy)
+        Checker.bad_proxies.append(proxy) # Adds the proxy to a list of bads so that it cant be used
 
 def get_file(title:str,type:str):
     """
@@ -135,8 +135,8 @@ def get_file(title:str,type:str):
     root.withdraw()
     try: root.iconbitmap(default=ICON_PATH)
     except: pass
-    root.withdraw
-    response = filedialog.askopenfilename(title=title,filetypes=((type, '.txt'),))
+    response = filedialog.askopenfilename(title=title,filetypes=((type, '.txt'),('All Files', '.*'),))
+    root.destroy()
     return response if response not in ("",()) else False
 
 def cui(modules:int):
@@ -184,7 +184,6 @@ def title(modules:int):
         try:
             Checker.title = f"Calani AIO | Good: {Checker.good}  ~  Custom: {Checker.custom}  ~  Bad: {Checker.bad}  ~  Errors: {Checker.errors}  ~  CPM: {Checker.cpm}  ~  Progress: {Checker.good+Checker.bad+Checker.custom}/{len(Checker.accounts)*modules} = {round(((Checker.good+Checker.bad+Checker.custom)/(len(Checker.accounts)*modules))*100,2)}%"
             change_title(Checker.title)
-            sleep(1)
         except:
             pass
 def title_2():

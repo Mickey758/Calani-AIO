@@ -1,5 +1,6 @@
 from threading import Lock
 lock = Lock()
+version = "0.2.5"
 class Checker:
     bad = 0
     good = 0

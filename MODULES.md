@@ -9,7 +9,7 @@
 8. SpotifyVM
 9. Buffalo Wild Wings
 10. Pornhub
-11. Valorant
+11. Riot
 12. HoneyGain
 13. DiscordVM
 14. Netflix
@@ -22,3 +22,7 @@
 21. Paramount
 22. CuriosityStream
 23. WeMod
+24. Facebook
+25. IpVanish
+26. Twitch
+27. Tunnelbear

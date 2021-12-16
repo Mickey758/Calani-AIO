@@ -1,6 +1,5 @@
 from modules.variables import Checker
 from modules.functions import *
-from colorama import Fore,init
 from time import sleep
 from threading import Thread
 from multiprocessing.dummy import Pool

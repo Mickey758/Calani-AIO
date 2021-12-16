@@ -14,7 +14,7 @@ from modules.checkers import crunchyroll
 from modules.checkers import spotifyvm
 from modules.checkers import bww
 from modules.checkers import pornhub
-from modules.checkers import valorant
+from modules.checkers import riot
 from modules.checkers import honeygain
 from modules.checkers import discordvm
 from modules.checkers import netflix
@@ -27,10 +27,14 @@ from modules.checkers import uplay
 from modules.checkers import paramount
 from modules.checkers import curiositystream
 from modules.checkers import wemod
+from modules.checkers import facebook
+from modules.checkers import ipvanish
+from modules.checkers import twitch
+from modules.checkers import tunnelbear
 
 modules_list = {
-    "nordvpn":nordvpn,
     "minecraft":minecraft,
+    "nordvpn":nordvpn,
     "bonk.io":bonk_io,
     "disney+":disney,
     "duolingo":duolingo,
@@ -39,7 +43,7 @@ modules_list = {
     "spotifyvm":spotifyvm,
     "bww":bww,
     "pornhub":pornhub,
-    "valorant":valorant,
+    "riot":riot,
     "honeygain":honeygain,
     "discordvm":discordvm,
     "netflix":netflix,
@@ -51,7 +55,11 @@ modules_list = {
     "uplay":uplay,
     "paramount":paramount,
     "curiositystream":curiositystream,
-    "wemod":wemod
+    "wemod":wemod,
+    "facebook":facebook,
+    "ipvanish":ipvanish,
+    "twitch":twitch,
+    "tunnelbear":tunnelbear,
 }
 
 def starter(modules_lst:list):
@@ -78,7 +86,7 @@ def starter(modules_lst:list):
     sleep(1)
     file_path = get_file("Combo File",type="Combo File")
     get_focus()
-    if file_path == False:
+    if not file_path:
         print(f"    [{cyan}No File Detected{reset}]")
         sleep(1)
         return
@@ -86,7 +94,6 @@ def starter(modules_lst:list):
         before_accounts = file.read().splitlines()
         accounts = list(set(before_accounts))
         Checker.accounts = list(set(before_accounts))
-        Checker.accounts_down = list(set(before_accounts))
         Checker.save_lines = list(set(before_accounts))
         duplicates = len(before_accounts)-len(accounts)
     print(f"    [{cyan}Imported {len(before_accounts)} Accounts{reset}]")
@@ -100,7 +107,7 @@ def starter(modules_lst:list):
     sleep(1)
     file_path = get_file("Proxy File File",type="Proxy File")
     get_focus()
-    if file_path == False:
+    if not file_path:
         print(f"    [{cyan}No File Detected{reset}]")
         sleep(1)
         return
@@ -123,16 +130,12 @@ def starter(modules_lst:list):
     Thread(target=level_cpm,daemon=True).start()
 
     clear()
-    ascii()
-    print("\n\n")
-    print(f"    [{cyan}Starting Threads{reset}]")
-    mainpool = Pool(processes=Checker.threads)
-    clear()
     if not Checker.cui:
         ascii()
         print("\n\n")
     else: Thread(target=cui,args=(len(modules_lst),),daemon=True).start()
-    mainpool.imap_unordered(func=foo,iterable=Checker.accounts_down)
+    mainpool = Pool(processes=Checker.threads)
+    mainpool.imap_unordered(func=foo,iterable=Checker.accounts)
     mainpool.close()
     mainpool.join()
     sleep(5)
