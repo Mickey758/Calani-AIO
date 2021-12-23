@@ -1,6 +1,6 @@
 from threading import Lock
 lock = Lock()
-version = "0.2.5"
+version = "0.2.6"
 class Checker:
     bad = 0
     good = 0
@@ -18,6 +18,7 @@ class Checker:
     time = ""
 
     cui = True
+    share = False
     retries = 1
     timeout = 10
     threads = 200

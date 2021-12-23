@@ -31,6 +31,11 @@ from modules.checkers import facebook
 from modules.checkers import ipvanish
 from modules.checkers import twitch
 from modules.checkers import tunnelbear
+from modules.checkers import plextv
+from modules.checkers import tlauncher
+from modules.checkers import freefire
+from modules.checkers import picsart
+from modules.checkers import nutaku
 
 modules_list = {
     "minecraft":minecraft,
@@ -60,12 +65,17 @@ modules_list = {
     "ipvanish":ipvanish,
     "twitch":twitch,
     "tunnelbear":tunnelbear,
+    "plextv":plextv,
+    "tlauncher":tlauncher,
+    "freefire":freefire,
+    'picsart':picsart,
+    'nutaku':nutaku
 }
 
 def starter(modules_lst:list):
     """Starts checking accounts"""
     reset_stats()
-    set_title("Calani AIO | Getting Ready | MickeyYe#0003")
+    set_title("Calani AIO | Getting Ready | MickeyYe#9423")
     def foo(account:str):
         try:
             email = account.split(":")[0]

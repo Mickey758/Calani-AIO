@@ -26,3 +26,8 @@
 25. IpVanish
 26. Twitch
 27. Tunnelbear
+28. PlexTV
+29. TLauncher
+30. Freefire
+31. Picsart
+32. Nutaku

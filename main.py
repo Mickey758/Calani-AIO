@@ -14,7 +14,7 @@ import modules.tools.domainsorter as domainsorter
 
 def home():
     while 1:
-        change_title("Calani AIO | Home | MickeyYe#0003")
+        change_title("Calani AIO | Home | MickeyYe#9423")
         clear()
         ascii()
         print("\n\n")
@@ -38,11 +38,13 @@ def info():
     ascii()
     print("\n\n")
     print(f"    [{cyan}Info{reset}]\n")
-    print(f"""    [{cyan}>{reset}] Created By: MickeyYe#0003
+    print(f"""    [{cyan}>{reset}] Created By: MickeyYe#9423
     [{cyan}>{reset}] Wanna Make A Donation?
         BTC: bc1qt6gcll4hp7wwqaap7x3lwunf9srw4enuxxddzn
         ETH: 0xd7F5C1AB4765Be15F738367905bF4E7Ea83eC9F7
         LTC: LdsjBD8ACvqUinrgbJJvCcELs2AxN5NSpc
+    [{cyan}>{reset}] Consider turning on hit share in the settings if u cant donate :)
+
     [{cyan}>{reset}] If you payed for this application, you were SCAMMED!
 
     Press Enter To Go Back""",end="")
@@ -51,7 +53,7 @@ def info():
 def modules():
     selected_modules = []
     while 1:
-        change_title("Calani AIO | Modules | MickeyYe#0003")
+        change_title("Calani AIO | Modules | MickeyYe#9423")
         clear()
         ascii()
         print("\n\n")
@@ -106,7 +108,7 @@ def modules():
 def settings():
     while 1:
         load_config()
-        change_title("Calani AIO | Settings | MickeyYe#0003")
+        change_title("Calani AIO | Settings | MickeyYe#9423")
         clear()
         ascii()
         print("\n\n")
@@ -117,6 +119,7 @@ def settings():
     [{cyan}3{reset}] Print Mode : {"CUI" if Checker.cui else "LOG"}
     [{cyan}4{reset}] Retries : {Checker.retries}
     [{cyan}5{reset}] Threads : {Checker.threads}
+    [{cyan}6{reset}] Share Hits : {Checker.share}
 
     [{cyan}X{reset}] Back""")
         option = input(f"    [{cyan}>{reset}] ").lower()
@@ -125,12 +128,13 @@ def settings():
         elif option == "3": change("print")
         elif option == "4": change("retries")
         elif option == "5": change("threads")
+        elif option == "6": change("share")
         elif option == "x": return
 
 def tools():
     while 1:
         load_config()
-        change_title("Calani AIO | Tools | MickeyYe#0003")
+        change_title("Calani AIO | Tools | MickeyYe#9423")
         clear()
         ascii()
         print("\n\n")
@@ -145,10 +149,10 @@ def tools():
     [{cyan}X{reset}] Back""")
         option = input(f"    [{cyan}>{reset}] ").lower()
         if option == "1": proxychecker.start()
-        elif option == "2": change_title("Calani AIO | Proxy Scraper | MickeyYe#0003");proxyscraper.start()
-        elif option == "3": change_title("Calani AIO | Capture Remover | MickeyYe#0003");captureremover.start()
-        elif option == "4": change_title("Calani AIO | Combo Editor | MickeyYe#0003");comboeditor.start()
-        elif option == "5": change_title("Calani AIO | Domain Sorter | MickeyYe#0003");domainsorter.start()
+        elif option == "2": change_title("Calani AIO | Proxy Scraper | MickeyYe#9423");proxyscraper.start()
+        elif option == "3": change_title("Calani AIO | Capture Remover | MickeyYe#9423");captureremover.start()
+        elif option == "4": change_title("Calani AIO | Combo Editor | MickeyYe#9423");comboeditor.start()
+        elif option == "5": change_title("Calani AIO | Domain Sorter | MickeyYe#9423");domainsorter.start()
         elif option == "x": return
 
 if __name__ == "__main__":

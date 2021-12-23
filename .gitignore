@@ -2,7 +2,6 @@
 *.pyc
 *.txt
 *.bat
-*.ico
 *.spec
 results
 build

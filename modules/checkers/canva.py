@@ -1,16 +1,7 @@
 from modules.variables import Checker
 from requests import post,get,Session
-from modules.functions import log,save,set_proxy,bad_proxy
+from modules.functions import log,save,set_proxy,bad_proxy, get_guid
 from random import choices
-
-def get_guid():
-    letters = list("abcdefghijklmnopqrstuvwxyz")
-    numbers = list("1234567890")
-    def char8():
-        return "".join(choices(letters+numbers,k=8))
-    def char4():
-        return "".join(choices(letters+numbers,k=4))
-    return f"{char8()}-{char4()}-{char4()}-{char4()}-{char8()}"
 
 def check(email:str,password:str):
     retries = 0

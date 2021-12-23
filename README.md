@@ -35,6 +35,6 @@ If you would like to show some appreciation for this free project, consider dona
 Give credits if you are going to use the code
 
 This project was started and is being developed by:
-- Discord: MickeyYe#0003
+- Discord: MickeyYe#9423
 - Youtube: Micx
 - Github: Mickey758
