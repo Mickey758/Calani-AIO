@@ -4,7 +4,7 @@ from colorama import Fore,init
 from os import makedirs, listdir
 from json import load, dump
 
-default = {"proxy_type":"http","proxy_timeout":5,"threads":200,"retries":1,"print_mode":"cui","share":False}
+default = {"proxy_type":"http","proxy_timeout":5,"threads":200,"retries":1,"print_mode":"cui"}
 
 def load_config():
     """Load the config values"""
@@ -15,7 +15,6 @@ def load_config():
             Checker.retries = int(data["retries"])
             Checker.timeout = int(data["proxy_timeout"])
             Checker.threads = int(data["threads"])
-            Checker.share = bool(data['share'])
             cui = data["print_mode"].lower()
             if Checker.threads <= 0: Checker.threads = 1
             if Checker.proxy_type not in ("http","socks4","socks5"): raise
@@ -88,7 +87,3 @@ def change(option:str):
             update_config(values)
         except:
             pass
-    elif option == "share":
-        Checker.share = False if Checker.share else True
-        values["share"] = Checker.share
-        update_config(values)

