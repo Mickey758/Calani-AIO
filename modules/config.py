@@ -35,7 +35,7 @@ def change(option:str):
     Change a value in the config file
     change("threads")
     """
-    values = {"proxy_type":Checker.proxy_type,"proxy_timeout":Checker.timeout,"threads":Checker.threads,"retries":Checker.retries,"print_mode":"cui" if Checker.cui else "log","share":Checker.share}
+    values = {"proxy_type":Checker.proxy_type,"proxy_timeout":Checker.timeout,"threads":Checker.threads,"retries":Checker.retries,"print_mode":"cui" if Checker.cui else "log"}
     clear()
     ascii()
     print("\n\n")
