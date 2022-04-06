@@ -1,3 +1,11 @@
+
+# **NO LONGER BEING UPDATED**
+Calani AIO has come a long way. Most of the modules have already stoppped working too. Due to fact that this is free and nobody donating <img src="https://pbs.twimg.com/profile_images/1482852538248577033/2zwdSG1d_400x400.jpg" width="20" title="peposad">, i have stopped updating the software. You are free to use this repo to learn but skidding will always be a bad decision. Thanks for all of you who supported the software and helped in any way. 
+
+Check out <a href="https://discord.gg/Jhms27cnAh">Eternity AIO</a>
+Updated AIO with many more op modules including the new popular **Uncreated Mail** modules. Also includes gitcard modules. The cpm is also really speedy.
+
+
 # Calani AIO
 An all in account checker made in python. Made with multichecking and more. This was made to demonstrate the flaws in certain website API's.
 
@@ -36,6 +44,5 @@ Give credits if you are going to use the code
 
 This project was started and is being developed by:
 - Discord: MickeyYe#9423
-- Youtube: Micx
 - Github: Mickey758
 - Cracked.io: Mickey758
