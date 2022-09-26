@@ -21,8 +21,9 @@ Read the wiki if you need help [here](https://github.com/Mickey758/Calani-AIO/wi
 - [x] In-app Settings
 - [x] Proxy Management
 - [x] Auth Proxy Support
-- [ ] Solver Modules (2Captcha) 
-- [ ] Solver Modules (AntiCaptcha) 
+- [ ] Solver Support (2Captcha) 
+- [ ] Solver Support (AntiCaptcha)
+- [ ] Solver Support (AnyCaptcha)
 
 ## Modules
 Check the modules list [here](https://github.com/Mickey758/Calani-AIO/blob/master/MODULES.md)
