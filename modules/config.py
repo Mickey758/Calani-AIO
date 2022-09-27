@@ -1,10 +1,9 @@
 from modules.variables import Checker
 from modules.functions import *
-from colorama import Fore,init
-from os import makedirs, listdir
+from os import makedirs
 from json import load, dump
 
-default = {"proxy_type":"http","proxy_timeout":5,"threads":200,"retries":1,"print_mode":"cui"}
+default = {"proxy_type":"http","proxy_timeout":5,"threads":200,"retries":1,"print_mode":"cui",'solver_service':'2captcha','api_key':''}
 
 def load_config():
     """Load the config values"""
@@ -15,9 +14,12 @@ def load_config():
             Checker.retries = int(data["retries"])
             Checker.timeout = int(data["proxy_timeout"])
             Checker.threads = int(data["threads"])
-            cui = data["print_mode"].lower()
+            Checker.solver_serice = str(data["solver_service"]).lower()
+            Checker.api_key = str(data["api_key"])
+            cui = str(data["print_mode"]).lower()
             if Checker.threads <= 0: Checker.threads = 1
             if Checker.proxy_type not in ("http","socks4","socks5"): raise
+            if Checker.solver_serice not in ('2captcha','anycaptcha','anticaptcha'): raise
             if cui not in ("log","cui"): raise
             Checker.cui = False if cui == "log" else True
             break
@@ -35,55 +37,62 @@ def change(option:str):
     Change a value in the config file
     change("threads")
     """
-    values = {"proxy_type":Checker.proxy_type,"proxy_timeout":Checker.timeout,"threads":Checker.threads,"retries":Checker.retries,"print_mode":"cui" if Checker.cui else "log"}
+    values = {"proxy_type":Checker.proxy_type,"proxy_timeout":Checker.timeout,"threads":Checker.threads,"retries":Checker.retries,"print_mode":"cui" if Checker.cui else "log",'solver_service':Checker.solver_serice,'api_key':Checker.api_key}
     clear()
     ascii()
     print("\n\n")
-    if option == "proxy_type":
-        if Checker.proxy_type == "http":
-            Checker.proxy_type = "socks4"
-        elif Checker.proxy_type == "socks4":
-            Checker.proxy_type = "socks5"
-        elif Checker.proxy_type == "socks5":
-            Checker.proxy_type = "http"
-        values["proxy_type"] = Checker.proxy_type
-        update_config(values)
-    elif option == "proxy_timeout":
-        print(f"    [{cyan}Pick proxy timeout{reset}]")
-        print("\n")
-        try:
-            timeout = int(input(f"    [{cyan}>{reset}] "))
-            Checker.timeout = timeout
-            values["proxy_timeout"] = timeout
+    match option:
+        case "proxy_type":
+            match Checker.proxy_type:
+                case "socks4": Checker.proxy_type = "socks5"
+                case "socks5": Checker.proxy_type = "http"
+                case _: Checker.proxy_type = "socks4"
+            values["proxy_type"] = Checker.proxy_type
             update_config(values)
-        except:
-            pass
-    elif option == "retries":
-        print(f"    [{cyan}Pick check retries{reset}]")
-        print("\n")
-        try:
-            retries = int(input(f"    [{cyan}>{reset}] "))
-            if retries <= 0:
-                retries = 1
-            Checker.retries = retries
-            values["retries"] = retries
+        case "proxy_timeout":
+            print(f"    [{cyan}>{reset}] Pick proxy timeout")
+            print("\n")
+            timeout = input(f"    [{cyan}>{reset}] ")
+            if not timeout.isdigit(): return
+            if int(timeout) <= 0: timeout = 1
+            Checker.timeout = int(timeout)
+            values["proxy_timeout"] = Checker.timeout
             update_config(values)
-        except:
-            pass
-    elif option == "print":
-        if Checker.cui == False:
-            Checker.cui = True
-        else:
-            Checker.cui = False
-        values["print_mode"] = "cui" if Checker.cui else "log"
-        update_config(values)
-    elif option == "threads":
-        print(f"    [{cyan}Pick ammount of threads{reset}]")
-        print("\n")
-        try:
-            threads = int(input(f"    [{cyan}>{reset}] "))
+        case "retries":
+            print(f"    [{cyan}>{reset}] Pick max request retries")
+            print("\n")
+            retries = input(f"    [{cyan}>{reset}] ")
+            if not retries.isdigit(): return
+            if int(retries) <= 0: retries = 1
+            Checker.retries = int(retries)
+            values["retries"] = Checker.retries
+            update_config(values)
+        case "print":
+            match Checker.cui:
+                case False: Checker.cui = True
+                case _: Checker.cui = False
+            values["print_mode"] = "cui" if Checker.cui else "log"
+            update_config(values)
+        case "threads":
+            print(f"    [{cyan}>{reset}] Pick ammount of threads")
+            print("\n")
+            threads = input(f"    [{cyan}>{reset}] ")
+            if not threads.isdigit(): return
+            if int(threads) <= 0: threads = 0
             Checker.threads = threads
             values["threads"] = threads
             update_config(values)
-        except:
-            pass
+        case 'solver_service':
+            match Checker.solver_serice:
+                case '2captcha': Checker.solver_serice = 'anticaptcha'
+                case 'anticaptcha': Checker.solver_serice = 'anycaptcha'
+                case _: Checker.solver_serice = '2captcha'
+            values['solver_service'] = Checker.solver_serice
+            update_config(values)
+        case 'api_key':
+            print(f"    [{cyan}>{reset}] Input API key")
+            print(f"    [{cyan}>{reset}] Enter nothing to disable")
+            print("\n")
+            api_key = input(f"    [{cyan}>{reset}] ")
+            values["api_key"] = api_key
+            update_config(values)

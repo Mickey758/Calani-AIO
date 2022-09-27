@@ -1,7 +1,3 @@
-
-# **UPDATE COMING SOON**
-Ive decided to continue update calani aio. New features & better modules are coming.
-
 # Calani AIO
 An all in account checker made in python. Made with multichecking and more. This was made to demonstrate the flaws in certain website API's.
 
@@ -21,9 +17,9 @@ Read the wiki if you need help [here](https://github.com/Mickey758/Calani-AIO/wi
 - [x] In-app Settings
 - [x] Proxy Management
 - [x] Auth Proxy Support
-- [ ] Solver Support (2Captcha) 
-- [ ] Solver Support (AntiCaptcha)
-- [ ] Solver Support (AnyCaptcha)
+- [x] Solver Support (2Captcha) 
+- [x] Solver Support (AntiCaptcha)
+- [x] Solver Support (AnyCaptcha)
 
 ## Modules
 Check the modules list [here](https://github.com/Mickey758/Calani-AIO/blob/master/MODULES.md)

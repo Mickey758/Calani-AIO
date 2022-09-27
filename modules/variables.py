@@ -1,22 +1,30 @@
 from threading import Lock
 lock = Lock()
-version = "0.2.6.1"
+version = "1.0"
+discord = "MickeyYe#9423"
 class Checker:
     bad = 0
     good = 0
     custom = 0
     cpm = 0
+    cpm_averages = [0]
     errors = 0
 
     saving = False
     checking = False
     proxies = []
+    locked_proxies = []
     bad_proxies = []
     accounts = []
-    accounts_down = []
-    save_lines = []
+    remaining = []
+    total_proxies = 0
+    total_accounts = 0
     time = ""
 
+    solver_serice = '2captcha'
+    api_key = ''
+
+    lockProxies = False
     cui = True
     retries = 1
     timeout = 10

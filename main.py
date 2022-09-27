@@ -1,22 +1,23 @@
 from colorama import init
 from time import sleep
 from modules.updater import check as check_updates
-from modules.variables import Checker
-import keyboard
+from modules.variables import Checker, discord
 from modules.config import *
 from modules.functions import *
 from modules.start import starter,modules_list
-import modules.tools.proxychecker as proxychecker
-import modules.tools.proxyscraper as proxyscraper
+import modules.tools.proxy_check as proxy_check
+import modules.tools.proxy_scrape as proxy_scrape
 import modules.tools.capture_remove as captureremover
-import modules.tools.comboeditor as comboeditor
-import modules.tools.domainsorter as domainsorter
+import modules.tools.combo_edit as combo_edit
+import modules.tools.domain_sort as domain_sort
+import win32api, os
 
 def home():
     while 1:
-        change_title("Calani AIO | Home | MickeyYe#9423")
+        change_title(f"Calani AIO | Home | {discord}")
         clear()
         ascii()
+        message_box('Creator Info','Discord: MickeyYe#9423\nCracked.io: MickeyYe\nGithub: Mickey758\n\nReport Bugs / Request Modules',0)
         print("\n\n")
         print(f"""    [{cyan}Main Menu{reset}]
     
@@ -27,18 +28,19 @@ def home():
 
     [{cyan}X{reset}] Exit""")
         option = input(f"    [{cyan}>{reset}] ").lower()
-        if option == "1": modules()
-        elif option == "2": tools()
-        elif option == "3": settings()
-        elif option == "4": info()
-        elif option == "x": return
+        match option:
+            case "1": modules()
+            case "2": tools()
+            case "3": settings()
+            case "4": info()
+            case "x": os._exit(1)
 
 def info():
     clear()
     ascii()
     print("\n\n")
     print(f"    [{cyan}Info{reset}]\n")
-    print(f"""    [{cyan}>{reset}] Created By: MickeyYe#9423
+    print(f"""    [{cyan}>{reset}] Created By: {discord}
     [{cyan}>{reset}] Wanna Make A Donation?
         BTC: bc1qt6gcll4hp7wwqaap7x3lwunf9srw4enuxxddzn
         ETH: 0xd7F5C1AB4765Be15F738367905bF4E7Ea83eC9F7
@@ -52,7 +54,7 @@ def info():
 def modules():
     selected_modules = []
     while 1:
-        change_title("Calani AIO | Modules | MickeyYe#9423")
+        change_title(f"Calani AIO | Modules | {discord}")
         clear()
         ascii()
         print("\n\n")
@@ -64,6 +66,7 @@ def modules():
             print(f"    [{selected}] [{cyan}{index}{reset}] {module.title()}")
         
         print(f"""
+    [{cyan}>{reset}] Use CTRL+F To Search For A Module
     [{cyan}>{reset}] Choose A Number To Select/Deselect A Module
     [{cyan}>{reset}] Seperate Numbers With ',' To Select Multiple Modules Faster
 
@@ -74,7 +77,6 @@ def modules():
     [{cyan}X{reset}] Back""")
         
         option = input(f"    [{cyan}>{reset}] ").lower()
-        
         if option.isdigit():
             if int(option) <= len(modules_list) and int(option):
                 module = list(modules_list)[int(option)-1]
@@ -83,33 +85,45 @@ def modules():
         elif "," in option:
             selects = option.split(",")
             for option in selects:
-                if option.isdigit():
-                    if int(option) <= len(modules_list) and int(option):
-                        module = list(modules_list)[int(option)-1]
-                        selected_modules.append(module) if module not in selected_modules else selected_modules.remove(module)
+                if option.isdigit() and int(option) <= len(modules_list) and int(option):
+                    module = list(modules_list)[int(option)-1]
+                    selected_modules.append(module) if module not in selected_modules else selected_modules.remove(module)
         
-        elif option == "s":
-            if selected_modules:
+        match option:
+            case "s":
+                if not selected_modules:
+                    print(f"    [{cyan}>{reset}] Must select at least 1 module!")
+                    sleep(1)
+                    continue
+                
                 starter(selected_modules)
                 selected_modules.clear()
-            else:
-                print(f"    [{cyan}>{reset}] Must select at least 1 module!")
-                sleep(1)
+                
         
-        elif option == "a":
-            if len(selected_modules) == len(modules_list): selected_modules.clear()
-            else:
+            case "a":
+                if len(selected_modules) == len(modules_list): 
+                    selected_modules.clear()
+                    continue
                 for module in modules_list:
                     if module not in selected_modules: selected_modules.append(module)
-        
-        elif option == "x": return
+            
+            case "x": return
 
 def settings():
     while 1:
         load_config()
-        change_title("Calani AIO | Settings | MickeyYe#9423")
+        change_title(f"Calani AIO | Settings | {discord}")
         clear()
         ascii()
+        if Checker.api_key:
+            print("\n\n")
+            print(f'    [{cyan}Getting API Key Balance{reset}]')
+            status = get_solver_balance()
+            clear()
+            ascii()
+        else:
+            status = f'{red}Disabled{reset}'
+        
         print("\n\n")
         print(f"""    [{cyan}Settings{reset}]
 
@@ -118,20 +132,25 @@ def settings():
     [{cyan}3{reset}] Print Mode : {"CUI" if Checker.cui else "LOG"}
     [{cyan}4{reset}] Retries : {Checker.retries}
     [{cyan}5{reset}] Threads : {Checker.threads}
+    [{cyan}6{reset}] Solver Service : {Checker.solver_serice.title()}
+    [{cyan}7{reset}] Solver API Key : {Checker.api_key if Checker.api_key else None} | Status: {status}
 
     [{cyan}X{reset}] Back""")
         option = input(f"    [{cyan}>{reset}] ").lower()
-        if option == "1": change("proxy_type")
-        elif option == "2": change("proxy_timeout")
-        elif option == "3": change("print")
-        elif option == "4": change("retries")
-        elif option == "5": change("threads")
-        elif option == "x": return
+        match option:
+            case "1": change("proxy_type")
+            case "2": change("proxy_timeout")
+            case "3": change("print")
+            case "4": change("retries")
+            case "5": change("threads")
+            case "6": change("solver_service")
+            case "7": change("api_key")
+            case "x": return
 
 def tools():
     while 1:
         load_config()
-        change_title("Calani AIO | Tools | MickeyYe#9423")
+        change_title(f"Calani AIO | Tools | {discord}")
         clear()
         ascii()
         print("\n\n")
@@ -145,23 +164,24 @@ def tools():
 
     [{cyan}X{reset}] Back""")
         option = input(f"    [{cyan}>{reset}] ").lower()
-        if option == "1": proxychecker.start()
-        elif option == "2": change_title("Calani AIO | Proxy Scraper | MickeyYe#9423");proxyscraper.start()
-        elif option == "3": change_title("Calani AIO | Capture Remover | MickeyYe#9423");captureremover.start()
-        elif option == "4": change_title("Calani AIO | Combo Editor | MickeyYe#9423");comboeditor.start()
-        elif option == "5": change_title("Calani AIO | Domain Sorter | MickeyYe#9423");domainsorter.start()
-        elif option == "x": return
+        match option:
+            case "1": proxy_check.start()
+            case "2": proxy_scrape.start()
+            case "3": change_title(f"Calani AIO | Capture Remover | {discord}");captureremover.start()
+            case "4": change_title(f"Calani AIO | Combo Editor | {discord}");combo_edit.start()
+            case "5": change_title(f"Calani AIO | Domain Sorter | {discord}");domain_sort.start()
+            case "x": return
 
 if __name__ == "__main__":
     init(autoreset=True)
+    win32api.SetConsoleCtrlHandler(save_lines, True)
     load_config()
-    keyboard.add_hotkey("s",save_lines)
     clear()
     ascii()
     print("\n\n")
-    if not check_updates(): home()
-    else:
-        print(f"    [{red}>{reset}] Your version is outdated!")
-        print(f"    [{cyan}>{reset}] Find the latest version of Calani AIO here: https://github.com/Mickey758/Calani-AIO/releases")
-        input(f"    [{cyan}>{reset}] Press enter to ignore")
-        home()
+    need_update = check_updates()
+    if not need_update: home()
+    print(f"    [{red}>{reset}] Your version is outdated!")
+    print(f"    [{cyan}>{reset}] Find the latest version of Calani AIO here: https://github.com/Mickey758/Calani-AIO/releases")
+    input(f"    [{cyan}>{reset}] Press enter to ignore")
+    home()

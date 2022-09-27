@@ -1,0 +1,11 @@
+setup.py
+anycaptcha/__init__.py
+anycaptcha/base.py
+anycaptcha/compat.py
+anycaptcha/exceptions.py
+anycaptcha/fields.py
+anycaptcha/tasks.py
+anycaptcha.egg-info/PKG-INFO
+anycaptcha.egg-info/SOURCES.txt
+anycaptcha.egg-info/dependency_links.txt
+anycaptcha.egg-info/top_level.txt

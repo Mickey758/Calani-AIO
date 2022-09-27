@@ -7,36 +7,37 @@ def start():
         clear()
         ascii()
         print("\n\n")
-        clear()
-        ascii()
-        print("\n\n")
-        print(f"    [{cyan}Pick Combo File{reset}]")
+        print(f"    [{cyan}>{reset}] Pick Combo File")
         file_path = get_file("Combo File","Combo File")
-        get_focus()
         if not file_path:
-            print(f"    [{cyan}No File Detected{reset}]")
+            print(f"    [{cyan}>{reset}] No File Detected")
             sleep(1)
             return
         with open(file_path,errors="ignore") as file:
             original_combos = file.read().splitlines()
             after_combos = list(set(original_combos))
             duplicates = len(original_combos)-len(after_combos)
-        print(f"    [{cyan}Imported {len(original_combos)} Combos{reset}]")
+        if not len(original_combos):
+            print(f"    [{red}>{reset}] No Combos Detected")
+            sleep(1)
+            return
+        print(f"    [{cyan}>{reset}] Imported {green}{len(original_combos)}{reset} Combos")
         if duplicates != 0:
-            print(f"    [{cyan}Removed {duplicates} Duplicates{reset}]")
+            print(f"    [{cyan}>{reset}] Removed {duplicates} Duplicates")
         sleep(1)
         Checker.time = get_time()
         edit(after_combos)
         print("\n\n")
-        print(f"    [{cyan}Finished Removing Capture{reset}]")
-        input(f"    [{cyan}Press Enter To Go Back{reset}]")
+        print(f"    [{cyan}>{reset}] Finished Removing Capture")
+        input(f"    [{cyan}>{reset}] Press Enter To Go Back")
         return
 def edit(combos):
     for combo in combos:
-        if ":" in combo:
-            email = combo.split(":")[0].rstrip()
-            password = combo.split(":")[1]
-            if " " in password:
-                password = password.split(" ")[0]
-            log(None,email+":"+password)
-            save("Capture_Remove",None,Checker.time,email+":"+password)
+        if not ":" in combo:
+            continue
+        
+        email = combo.split(":")[0].rstrip()
+        password = combo.split(":")[1]
+        if " " in password: password = password.split(" ")[0]
+        log(None,":".join([email,password]))
+        save("Capture_Remove",None,Checker.time,":".join([email,password]))

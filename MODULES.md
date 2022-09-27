@@ -1,33 +1,26 @@
-# Modules
-1. Minecraft
-2. NordVPN
-3. Bonkio
-4. Disney+
-5. Duolingo
-6. Gfuel
-7. Crunchyroll
-8. SpotifyVM
-9. Buffalo Wild Wings
-10. Pornhub
-11. Riot
-12. HoneyGain
-13. DiscordVM
-14. Netflix
-15. Steam
-16. Windscribe
-17. Instagram
-18. Funimation
-19. Canva
-20. Uplay
-21. Paramount
-22. CuriosityStream
-23. WeMod
-24. Facebook
-25. IpVanish
-26. Twitch
-27. Tunnelbear
-28. PlexTV
-29. TLauncher
-30. Freefire
-31. Picsart
-32. Nutaku
+# Modules List
+### 24 Total Modules
+- Disney+ [Full Capture]
+- PlexTV [Subscription Capture]
+- Duolingo [Full Capture]
+- Gfuel [Full Capture]
+- Crunchyroll [Subscription Capture]
+- Spotify [Valid Mail]
+- Buffalo Wild Wings [Points Capture]
+- Dominos  [Points Capture]
+- Dickeys [Points Capture]
+- Pornhub [Subscription Capture]
+- Honeygain [Credits Capture]
+- Yahoo [Brute]
+- Discord [Token Capture]
+- Discord [Valid Mail]
+- Instagram [Followers Capture]
+- Bonk.io [Full Capture]
+- Uplay [Full Capture]
+- Origin [Full Capture]
+- Steam [Full Capture]
+- Paramount [Full Capture]
+- NordVPN [Subscription Capture]
+- Windscribe [Subscription Capture]
+- IPVanish [Subscription Capture]
+- TunnelBear [Subscription Capture]

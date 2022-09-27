@@ -5,7 +5,7 @@ from modules.variables import *
 
 def check():
     """Checks for updates"""
-    change_title("Calani AIO | Checking For Updates | MickeyYe#9423")
+    change_title(f"Calani AIO | Checking For Updates | {discord}")
     print(f"    [{cyan}>{reset}] Checking for updates")
     try:
         ver = get("https://raw.githubusercontent.com/Mickey758/Calani-AIO/master/version").text.rstrip()
