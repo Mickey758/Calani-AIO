@@ -17,7 +17,6 @@ def home():
         change_title(f"Calani AIO | Home | {discord}")
         clear()
         ascii()
-        message_box('Creator Info','Discord: MickeyYe#9423\nCracked.io: MickeyYe\nGithub: Mickey758\n\nReport Bugs / Request Modules',0)
         print("\n\n")
         print(f"""    [{cyan}Main Menu{reset}]
     
@@ -179,6 +178,7 @@ if __name__ == "__main__":
     clear()
     ascii()
     print("\n\n")
+    message_box('Creator Info',f'Discord: {discord}\nCracked.io: MickeyYe\nGithub: Mickey758\n\nReport Bugs / Request Modules',0)
     need_update = check_updates()
     if not need_update: home()
     print(f"    [{red}>{reset}] Your version is outdated!")
