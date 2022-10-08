@@ -1,7 +1,9 @@
 anticaptchaofficial==1.0.43
 beautifulsoup4==4.11.1
+colored==1.4.3
 console==0.9907
 numerize==0.12
+PyAutoGUI==0.9.53
 pywin32==304
 random_user_agent==1.0.1
 requests==2.27.1
