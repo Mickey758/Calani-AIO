@@ -63,7 +63,7 @@ def modules():
         disabled = []
         for module in modules_list:
             if module in selected_modules and module.split(' ')[0] in ['discord']:
-                if not balance or 'Invalid' in balance:
+                if not Checker.api_key or not balance or 'Invalid' in balance:
                     selected_modules.remove(module)
                     disabled.append(module.split(' ')[0])
             index = list(modules_list).index(module)+1
