@@ -55,8 +55,9 @@ def start():
     sleep(5)
     Checker.checking = False
     print("\n\n")
-    print(f"    [{cyan}Finished Checking{reset}]")
-    input(f"    [{cyan}Press Enter To Go Back{reset}]")
+    print(f"    [{cyan}>{reset}] Finished Checking Proxies")
+    print(f"    [{cyan}>{reset}] Saved to Results/{Checker.time}")
+    input(f"    [{cyan}>{reset}] Press Enter To Go Back")
 
 def check(proxy:str):
     while 1:

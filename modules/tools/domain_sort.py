@@ -29,6 +29,7 @@ def start():
         sort(after_combos)
         print("\n\n")
         print(f"    [{cyan}>{reset}] Finished Sorting Domains")
+        print(f"    [{cyan}>{reset}] Saved to Results/{Checker.time}")
         input(f"    [{cyan}>{reset}] Press Enter To Go Back")
         return
 def sort(combos):

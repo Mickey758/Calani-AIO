@@ -1,4 +1,3 @@
-from time import sleep
 from modules.variables import Checker
 from modules.functions import bad_proxy, log, save, set_proxy, return_proxy
 from requests import Session
@@ -35,11 +34,10 @@ def check(email:str,password:str):
                 # save("NAME","custom",Checker.time,":".join([email,password]))
                 # Checker.custom += 1
                 # return_proxy(proxy)
+                # return
 
 
         except:
             bad_proxy(proxy)
             return_proxy(proxy)
             Checker.errors += 1
-        
-        sleep(0.1)

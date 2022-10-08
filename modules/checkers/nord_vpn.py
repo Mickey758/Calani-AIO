@@ -1,4 +1,3 @@
-from time import sleep
 from modules.variables import Checker
 from requests import Session
 from modules.functions import return_proxy, set_proxy, log, save, bad_proxy
@@ -69,4 +68,4 @@ def check(email:str,password:str):
             return_proxy(proxy)
             Checker.errors += 1
         
-        sleep(0.1)
+        

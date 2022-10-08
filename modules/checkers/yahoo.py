@@ -1,9 +1,6 @@
-from time import sleep
 from modules.variables import Checker
-from modules.functions import bad_proxy, log, save, set_proxy, return_proxy
+from modules.functions import bad_proxy, get_random_ua, log, save, set_proxy, return_proxy
 from requests import Session
-from random_user_agent.user_agent import UserAgent
-from random_user_agent.params import SoftwareName, OperatingSystem
 import functools
 from requests.adapters import HTTPAdapter, Retry
 
@@ -19,10 +16,7 @@ def check(email:str,password:str):
                 proxy = set_proxy()
                 proxy_set = set_proxy(proxy)
 
-                software_names = [SoftwareName.CHROME.value]
-                operating_systems = [OperatingSystem.WINDOWS.value, OperatingSystem.LINUX.value]   
-                user_agent_rotator = UserAgent(software_names=software_names, operating_systems=operating_systems, limit=100)
-                user_agent = user_agent_rotator.get_random_user_agent()
+                user_agent = get_random_ua()
 
                 s.request = functools.partial(s.request, timeout=Checker.timeout)
                 s.proxies.update(proxy_set)
@@ -125,4 +119,4 @@ def check(email:str,password:str):
             return_proxy(proxy)
             Checker.errors += 1
         
-        sleep(0.1)
+        

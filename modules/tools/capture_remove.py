@@ -29,6 +29,7 @@ def start():
         edit(after_combos)
         print("\n\n")
         print(f"    [{cyan}>{reset}] Finished Removing Capture")
+        print(f"    [{cyan}>{reset}] Saved to Results/{Checker.time}/Capture_Remove.txt")
         input(f"    [{cyan}>{reset}] Press Enter To Go Back")
         return
 def edit(combos):

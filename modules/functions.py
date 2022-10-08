@@ -1,6 +1,5 @@
-from os import system,name,_exit
+from os import _exit
 from datetime import datetime
-from colorama import Fore,Style
 from modules.variables import Checker,lock
 from random import choice, choices, randint
 from tkinter import Tk,filedialog
@@ -12,16 +11,16 @@ from console.utils import set_title
 from os import makedirs
 import win32gui,win32process,os
 from numerize.numerize import numerize
+from colored import fg
 import ctypes
 
-yellow = Fore.YELLOW
-green = Fore.GREEN
-reset = Fore.RESET
-cyan = Fore.CYAN
-red = Fore.RED
-dark_yellow = Fore.YELLOW+Style.DIM
-dark_cyan = Fore.CYAN+Style.DIM
-bright = Style.BRIGHT
+yellow = fg(3)
+green = fg(2)
+reset = fg(7)
+cyan = fg(6)
+red = fg(1)
+dark_yellow = fg(166)
+dark_cyan = fg(4)
 
 ICON = decompress(b64decode('eJxjYGAEQgEBBiDJwZDBy''sAgxsDAoAHEQCEGBQaIOAg4sDIgACMUj4JRMApGwQgF/ykEAFXxQRc='))
 _, ICON_PATH = mkstemp()
@@ -62,7 +61,7 @@ def message_box(title, text, style):
 
 def clear():
     """Clears the console"""
-    system('cls' if name=='nt' else 'clear')
+    os.system('cls')
 
 def ascii():
     """Prints the ascii logo"""
@@ -73,7 +72,7 @@ def ascii():
      \:\ \  __\::(_)  \ \\\\:\ \    \::(_)  \ \\\\:. `-\  \ \   \::\ \      \::(_)  \ \   \::\ \  \:\ \ \ \\
       \:\ \/_/\\\\:: __  \ \\\\:\ \____\:: __  \ \\\\:. _    \ \  _\::\ \__    \:: __  \ \  _\::\ \__\:\ \ \ \\
        \:\_\ \ \\\\:.\ \  \ \\\\:\/___/\\\\:.\ \  \ \\\\. \`-\  \ \/__\::\__/\    \:.\ \  \ \/__\::\__/\\\\:\_\ \ \\
-        \_____\/ \__\/\__\/ \_____\/ \__\/\__\/ \__\/ \__\/\________\/     \__\/\__\/\________\/ \_____\/ """)
+        \_____\/ \__\/\__\/ \_____\/ \__\/\__\/ \__\/ \__\/\________\/     \__\/\__\/\________\/ \_____\/ """+reset)
 
 def get_time():
     """
@@ -94,7 +93,7 @@ def save(name:str,saveType:str,time:str,content:str):
     """
     if not os.path.exists(f"Results/{time}"):
         makedirs(f"Results/{time}",exist_ok=True)
-    with lock:
+    with Checker.save_lock:
         match saveType:
             case "custom":
                 with open(f"Results/{time}/{name}_custom.txt","a",errors="ignore") as file: file.write(content+"\n")
@@ -112,7 +111,7 @@ def log(logType:str,account:str,service:str=None):
         service="NordVPN"
     )
     """
-    with lock:
+    with Checker.print_lock:
         match logType:
             case "custom":
                 print(f"    [{yellow}Custom{reset}] {account} ~ {service}")
@@ -140,20 +139,21 @@ def set_proxy(proxy:str=False):
             case "socks4": return {"http":f"socks4://{proxy}","https":f"socks4://{proxy}"}
             case "socks5": return {"http":f"socks5://{proxy}","https":f"socks5://{proxy}"}
 
-    else:
-        while 1:
+    while 1:
+        with Checker.proxy_lock:
             proxies = [proxy for proxy in Checker.proxies if proxy not in Checker.bad_proxies and proxy not in Checker.locked_proxies]
             if not proxies:
                 Checker.bad_proxies.clear()
                 continue
             proxy = choice(proxies)
             lock_proxy(proxy)
-            return proxy
+        return proxy
 def return_proxy(proxy):
     """
     Remove a proxy from the locked proxies pool
     """
-    if proxy in Checker.locked_proxies: Checker.locked_proxies.remove(proxy)
+    with Checker.proxy_lock:
+        if proxy in Checker.locked_proxies: Checker.locked_proxies.remove(proxy)
 def lock_proxy(proxy):
     """
     Temporarily remove a proxy from the pool to lock to one thread
@@ -172,6 +172,7 @@ def get_file(title:str,type:str):
     get_file(title="Combo File",type="Combo File")
     """
     root = Tk()
+    root.lift()
     root.withdraw()
     root.iconbitmap(default=ICON_PATH)
     response = filedialog.askopenfilename(title=title,filetypes=((type, '.txt'),('All Files', '.*'),))
@@ -182,43 +183,48 @@ def cui(modules:int):
     """Prints the cui"""
 
     while Checker.checking:
-        clear()
-        ascii()
-        print("\n\n")
-        print(f"""
-    [{dark_cyan}Loaded Modules{reset}] {modules}
+        with lock:
+            clear()
+            ascii()
+            print(f"""
+            
+                                            {cyan}{modules}{reset} Loaded Module{'s' if modules > 1 else ''}
 
-    [{green}Hits{reset}] {numerize(Checker.good)}
-    [{yellow}Custom{reset}] {numerize(Checker.custom)}
-    [{red}Bad{reset}] {numerize(Checker.bad)}
+    {'Hits'.center(11,' ')}{fg(8)}-{reset}  {fg(2)}{numerize(Checker.good)}{reset}
+    {'Custom'.center(11,' ')}{fg(8)}-{reset}  {fg(3)}{numerize(Checker.custom)}{reset}
+    {'Bad'.center(11,' ')}{fg(8)}-{reset}  {fg(1)}{numerize(Checker.bad)}{reset}
 
-    [{dark_yellow}Errors{bright}{reset}] {numerize(Checker.errors)}
-    [{dark_cyan}CPM{bright}{reset}] {numerize(get_cpm())}
-    [{cyan}{bright}Remaining{dark_cyan}{reset}] {numerize(len(Checker.remaining)*modules)}""")
-        sleep(1)
+    {'Remaining'.center(11,' ')}{fg(8)}-{reset}  {fg(25)}{numerize(len(Checker.remaining)*modules)}{reset}
+    {'Errors'.center(11,' ')}{fg(8)}-{reset}  {fg(124)}{numerize(Checker.errors)}{reset}
+    {'CPM'.center(11,' ')}{fg(8)}-{reset}  {fg(104)}{numerize(get_cpm())}{reset}
+    
+            """)
+        sleep(5)
 
 def cui_2():
     """Prints the proxy checker cui"""
     while Checker.checking:
-        clear()
-        ascii()
-        print("\n\n")
-        print(f"""
-    [{dark_cyan}Proxy Type{reset}] {Checker.proxy_type.title()}
+        with lock:
+            clear()
+            ascii()
+            print(f"""  
 
-    [{green}Good{reset}] {numerize(Checker.good)}
-    [{red}Bad{reset}] {numerize(Checker.bad)}
 
-    [{dark_cyan}CPM{bright}{reset}] {numerize(get_cpm())}
-    [{cyan}{bright}Remaining{dark_cyan}{reset}] {numerize(len(Checker.remaining))}""")
-        sleep(1)
+    {'Hits'.center(11,' ')}{fg(8)}-{reset}  {fg(2)}{numerize(Checker.good)}{reset}
+    {'Bad'.center(11,' ')}{fg(8)}-{reset}  {fg(1)}{numerize(Checker.bad)}{reset}
+
+    {'Remaining'.center(11,' ')}{fg(8)}-{reset}  {fg(25)}{numerize(len(Checker.remaining))}{reset}
+    {'CPM'.center(11,' ')}{fg(8)}-{reset}  {fg(104)}{numerize(get_cpm())}{reset}
+    
+            """)
+        sleep(5)
 
 def title(modules:int):
     """
     Sets the title while checking
     """
     while Checker.checking:
-        Checker.title = f"Calani AIO | Good: {numerize(Checker.good)}  ~  Custom: {numerize(Checker.custom)}  ~  Bad: {numerize(Checker.bad)}  ~  Errors: {numerize(Checker.errors)}  ~  CPM: {numerize(get_cpm())}  ~  Remaining: {numerize(len(Checker.remaining)*modules)}  ~  Proxies: {numerize(len([proxy for proxy in Checker.proxies if proxy not in Checker.bad_proxies and proxy not in Checker.locked_proxies]))}/{numerize(Checker.total_proxies)}"
+        Checker.title = f"Calani AIO | Good: {numerize(Checker.good)}  ~  Custom: {numerize(Checker.custom)}  ~  Bad: {numerize(Checker.bad)}  ~  Errors: {numerize(Checker.errors)}  ~  CPM: {numerize(get_cpm())}  ~  Remaining: {numerize(len(Checker.remaining)*modules)}"
         change_title(Checker.title)
         sleep(0.1)
 def title_2():
@@ -257,8 +263,7 @@ def is_focused():
     return focus_window_pid == current_process_pid
 
 def get_cpm():
-    cpm_averages = [cpm_average for cpm_average in Checker.cpm_averages if cpm_average]
-    return int(sum(cpm_averages)/len(cpm_averages)) if cpm_averages else 0
+    return round(int(sum(Checker.cpm_averages)/30) / 5) * 5
 
 def level_cpm():
     """This levels the cpm every second"""
@@ -275,22 +280,35 @@ def change_title(text:str):
     Checker.title = text
     set_title(Checker.title)
 
+def get_random_ua():
+    from random_user_agent.user_agent import UserAgent
+    from random_user_agent.params import SoftwareName, OperatingSystem
+    software_names = [SoftwareName.CHROME.value]
+    operating_systems = [OperatingSystem.WINDOWS.value, OperatingSystem.LINUX.value]   
+    user_agent_rotator = UserAgent(software_names=software_names, operating_systems=operating_systems, limit=100)
+    return user_agent_rotator.get_random_user_agent()
+
 def get_solver_balance():
     from twocaptcha import TwoCaptcha
     from anticaptchaofficial.recaptchav2proxyless import recaptchaV2Proxyless
     from anycaptcha import AnycaptchaClient
+    from console.utils import clear_lines
     invalid_key = f'{red}Api Key Invalid{reset}'
     match Checker.solver_serice:
         case '2captcha': 
-            try: balance = TwoCaptcha(Checker.api_key).get_balance()
+            try: balance = TwoCaptcha(Checker.api_key).balance()
             except: return invalid_key
             else: return f'{green}${round(float(balance),2)}{reset}'
         case 'anticaptcha':
             solver = recaptchaV2Proxyless()
             solver.set_verbose(1)
             solver.set_key(Checker.api_key)
-            try: balance = solver.get_balance()
-            except: return invalid_key
+            try:
+                balance = solver.get_balance()
+                clear_lines(1)
+            except: 
+                clear_lines(1)
+                return invalid_key
             else: return f'{green}${round(balance,2)}{reset}'
         case 'anycaptcha':
             client = AnycaptchaClient(Checker.api_key)

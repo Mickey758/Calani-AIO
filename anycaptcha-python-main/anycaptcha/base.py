@@ -209,7 +209,7 @@ class AnycaptchaClient(object):
             urljoin(self.base_url, self.BALANCE_URL), json=request
         ).json()
         self._check_response(response)
-        return response["balance"]
+        return response.get("balance",False)
 
     def getAppStats(self, soft_id, mode):
         request = {"clientKey": self.client_key, "softId": soft_id, "mode": mode}

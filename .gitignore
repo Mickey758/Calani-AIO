@@ -11,6 +11,7 @@ binary
 !SOURCES.txt
 !top_level.txt
 !dependency_links.txt
+test.*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

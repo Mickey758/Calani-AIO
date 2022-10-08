@@ -1,3 +1,4 @@
+from pyautogui import sleep
 from modules.variables import Checker
 from modules.functions import set_proxy,log,save,bad_proxy, return_proxy
 from requests import Session
@@ -51,3 +52,5 @@ def check(email:str,password:str):
             return_proxy(proxy)
             Checker.errors += 1
             continue
+    
+        

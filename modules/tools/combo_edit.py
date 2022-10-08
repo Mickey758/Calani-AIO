@@ -29,6 +29,7 @@ def start():
         edit(after_combos)
         print("\n\n")
         print(f"    [{cyan}>{reset}] Finished Editing Combo")
+        print(f"    [{cyan}>{reset}] Saved to Results/{Checker.time}/Combo_Editor.txt")
         input(f"    [{cyan}>{reset}] Press Enter To Go Back")
         return
 def edit(combos):
@@ -37,7 +38,10 @@ def edit(combos):
     ascii()
     print("\n\n")
     print(f"    [{cyan}Please Wait, Editing Combo{reset}]")
+    acc = 0
     for combo in combos:
+        acc += 1
+        print(f'    [{cyan}{int((acc/len(combos))*100)}%{reset}]')
         if not ":" in combo: continue
         email,password = combo.split(":")
         if not email or not password: continue

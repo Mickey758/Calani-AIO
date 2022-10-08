@@ -3,8 +3,6 @@ from requests import Session
 from modules.functions import log,save,set_proxy,bad_proxy, return_proxy
 from requests.adapters import HTTPAdapter, Retry
 from uuid import uuid4
-from time import sleep
-from urllib.parse import quote
 import functools
 
 def check(email:str,password:str):
@@ -56,4 +54,4 @@ def check(email:str,password:str):
             return_proxy(proxy)
             Checker.errors += 1
         
-        sleep(0.1)
+        

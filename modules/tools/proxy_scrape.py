@@ -1,4 +1,4 @@
-from modules.variables import Checker,discord
+from modules.variables import Checker,discord_name
 from modules.functions import *
 from time import sleep
 from requests import get
@@ -88,7 +88,7 @@ https://api.proxyscrape.com/v2/?request=getproxies&protocol=http&timeout=10000&c
 https://api.proxyscrape.com/v2/?request=getproxies&protocol=socks5&timeout=10000&country=all""".splitlines()
 
 def start():
-    change_title(f"Calani AIO | Proxy Scraper | {discord}")
+    change_title(f"Calani AIO | Proxy Scraper | {discord_name}")
     reset_stats()
     while 1:
         clear()
@@ -131,7 +131,7 @@ def scrape(links:str=None):
     Checker.time = get_time()
     proxies = []
     if not links: links = default
-    def foo(link):
+    def get_proxies(link):
         count = 0
         try: a = get(link,timeout=Checker.timeout,headers={"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36"}).text.splitlines()
         except: log(None,f"Connection Error ~ {link}")
@@ -151,7 +151,7 @@ def scrape(links:str=None):
                                     ip = ip.split(char)[-1]
                             if ip and port and ip.count('.') == 3:
                                 count += 1
-                                proxies.append(ip+":"+port)
+                                proxies.append(':'.join([ip,port]))
 
                         elif line.count(':') > 1:
                             for _ in range(line.count(':')+1):
@@ -167,7 +167,7 @@ def scrape(links:str=None):
                                             ip = ip.split(char)[-1]
                                     if ip and port and ip.count('.') == 3:
                                         count += 1
-                                        proxies.append(ip+":"+port)
+                                        proxies.append(':'.join([ip,port]))
                 except:
                     pass
             log(None,f"{count} Proxies ~ {link}")
@@ -175,7 +175,7 @@ def scrape(links:str=None):
     ascii()
     print("\n\n")
     mainpool = Pool(Checker.threads)
-    mainpool.imap_unordered(func=foo,iterable=list(set(links)))
+    mainpool.imap_unordered(func=get_proxies,iterable=list(set(links)))
     mainpool.close()
     mainpool.join()
     print("\n\n")
@@ -185,4 +185,5 @@ def scrape(links:str=None):
     with open(f"Results/{Checker.time}/Scraped_Proxies.txt","w",errors="ignore") as file: file.write("\n".join(proxies))
     print("\n\n")
     print(f"    [{cyan}>{reset}] Finished Scraping")
+    print(f"    [{cyan}>{reset}] Saved to Results/{Checker.time}/Scraped_Proxies.txt")
     input(f"    [{cyan}>{reset}] Press Enter To Go Back")

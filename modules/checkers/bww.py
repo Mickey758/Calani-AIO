@@ -1,4 +1,3 @@
-from time import sleep
 from modules.variables import Checker
 from requests import Session
 from modules.functions import log,save
@@ -64,4 +63,4 @@ def check(email:str,password:str):
         except:
             Checker.errors += 1
         
-        sleep(0.1)
+        

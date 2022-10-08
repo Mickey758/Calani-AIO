@@ -1,6 +1,5 @@
 anticaptchaofficial==1.0.43
 beautifulsoup4==4.11.1
-colorama==0.4.5
 console==0.9907
 numerize==0.12
 pywin32==304

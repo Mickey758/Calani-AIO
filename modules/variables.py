@@ -1,7 +1,7 @@
 from threading import Lock
 lock = Lock()
 version = "1.0.1"
-discord = "MickeyYe#9423"
+discord_name = "MickeyYe#9423"
 class Checker:
     bad = 0
     good = 0
@@ -10,7 +10,6 @@ class Checker:
     cpm_averages = [0]
     errors = 0
 
-    saving = False
     checking = False
     proxies = []
     locked_proxies = []
@@ -30,3 +29,7 @@ class Checker:
     timeout = 10
     threads = 200
     proxy_type = "socks4"
+    
+    proxy_lock = Lock()
+    save_lock = Lock()
+    print_lock = Lock()
