@@ -37,11 +37,18 @@ def sort(combos):
     ascii()
     print("\n\n")
     print(f"    [{cyan}Please Wait, Sorting Domains{reset}]")
+    combo_number = 0
+    domains = {}
     for combo in combos:
+        combo_number += 1
+        print(f'    [{cyan}{int((combo_number/len(combos))*100)}%{reset}]',end='\r')
         if not ":" in combo: continue
         
         email = combo.split(":")[0]
         if not "@" in email: continue
         
         domain = email.split("@")[1].lower().split(".")[0]
-        save(f"@{domain}",None,Checker.time,combo)
+        if domain not in domains: domains[domain] = []
+        domains[domain].append(combo)
+    for domain in domains:
+        save(f"@{domain}",None,Checker.time,'\n'.join(domains[domain]))

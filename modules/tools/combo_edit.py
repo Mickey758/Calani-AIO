@@ -37,32 +37,34 @@ def edit(combos):
     clear()
     ascii()
     print("\n\n")
-    print(f"    [{cyan}Please Wait, Editing Combo{reset}]")
+    print(f"    [{cyan}Please Wait, Editing Combos{reset}]")
     acc = 0
     for combo in combos:
         acc += 1
-        print(f'    [{cyan}{int((acc/len(combos))*100)}%{reset}]')
+        print(f'    [{cyan}{int((acc/len(combos))*100)}%{reset}]',end='\r')
         if not ":" in combo: continue
-        email,password = combo.split(":")
+        email,password = combo.split(":",1)
         if not email or not password: continue
 
         passwords = []
         passwords.append(password)
         passwords.append(f"{password[0].upper()}{password[1:]}")
+        passwords.append(f"{password[0].lower()}{password[1:]}")
         passwords.append(f"{password[0].upper()}{password[1:]}1")
         passwords.append(f"{password[0].upper()}{password[1:]}12")
         passwords.append(f"{password[0].upper()}{password[1:]}123")
         passwords.append(f"{password[0].upper()}{password[1:]}1234")
         passwords.append(f"{password[0].upper()}{password[1:]}12345")
+        passwords.append(f"{password[0].upper()}{password[1:]}*")
         passwords.append(f"{password[0].upper()}{password[1:]}!")
         passwords.append(f"{password[0].upper()}{password[1:]}?")
         passwords.append(f"{password[0].upper()}{password[1:]}@")
-        passwords.append(f"{password[0].lower()}{password[1:]}")
         passwords.append(f"{password[0].lower()}{password[1:]}1")
         passwords.append(f"{password[0].lower()}{password[1:]}12")
         passwords.append(f"{password[0].lower()}{password[1:]}123")
         passwords.append(f"{password[0].lower()}{password[1:]}1234")
         passwords.append(f"{password[0].lower()}{password[1:]}12345")
+        passwords.append(f"{password[0].lower()}{password[1:]}*")
         passwords.append(f"{password[0].lower()}{password[1:]}!")
         passwords.append(f"{password[0].lower()}{password[1:]}?")
         passwords.append(f"{password[0].lower()}{password[1:]}@")
@@ -82,4 +84,4 @@ def edit(combos):
         passwords.append(f"{password}*$@")
         for password in passwords:
             edited.append(":".join([email,password]))
-    save("Combo_Editor",None,Checker.time,"\n".join(edited))
+    save("Combo_Editor",None,Checker.time,"\n".join(list(set(edited))))

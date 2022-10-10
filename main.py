@@ -186,6 +186,7 @@ if __name__ == "__main__":
     clear()
     ascii()
     print("\n\n")
+    set_title('Info')
     message_box('Creator Info',f'Discord: {discord_name}\nCracked.io: MickeyYe\nGithub: Mickey758\n\nReport Bugs / Request Modules',0)
     need_update = check_updates()
     if not need_update: home()

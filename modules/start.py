@@ -60,7 +60,7 @@ def starter(modules_lst:list):
     set_title(f"Calani AIO | Getting Ready | {discord_name}")
     def initializeChecker(account:str):
         if ':' in account:
-            email,password = account.split(":")
+            email,password = account.split(":",1)
             if email and password:
                 for module in modules_lst:
                     modules_list[module].check(email,password)
@@ -100,7 +100,7 @@ def starter(modules_lst:list):
     print("\n")
 
     print(f"    [{cyan}>{reset}] Pick Proxy File")
-    file_path = get_file("Proxy File File",type="Proxy File")
+    file_path = get_file("Proxy File",type="Proxy File")
     if not file_path:
         print(f"    [{red}>{reset}] No File Detected")
         sleep(1)

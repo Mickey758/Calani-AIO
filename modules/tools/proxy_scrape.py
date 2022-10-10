@@ -122,12 +122,12 @@ def start():
                 print(f"    [{cyan}>{reset}] Imported {green}{len(original_links)}{reset} Links")
                 if duplicates != 0:
                     print(f"    [{cyan}>{reset}] Removed {green}{duplicates}{reset} Duplicates")
-                sleep(1)
+                sleep(0.5)
                 scrape(after_links)
             case "2": scrape()
             case "x": return
 
-def scrape(links:str=None):
+def scrape(links:list=None):
     Checker.time = get_time()
     proxies = []
     if not links: links = default

@@ -172,8 +172,8 @@ def get_file(title:str,type:str):
     get_file(title="Combo File",type="Combo File")
     """
     root = Tk()
-    root.lift()
     root.withdraw()
+    root.lift()
     root.iconbitmap(default=ICON_PATH)
     response = filedialog.askopenfilename(title=title,filetypes=((type, '.txt'),('All Files', '.*'),))
     root.destroy()

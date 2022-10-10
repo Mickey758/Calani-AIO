@@ -23,7 +23,7 @@ def start():
             return
         print(f"    [{cyan}>{reset}] Imported {green}{len(original_combos)}{reset} Combos")
         if duplicates != 0:
-            print(f"    [{cyan}>{reset}] Removed {duplicates} Duplicates")
+            print(f"    [{cyan}>{reset}] Removed {green}{duplicates}{reset} Duplicates")
         sleep(1)
         Checker.time = get_time()
         edit(after_combos)
@@ -33,12 +33,22 @@ def start():
         input(f"    [{cyan}>{reset}] Press Enter To Go Back")
         return
 def edit(combos):
+    clear()
+    ascii()
+    print("\n\n")
+    print(f"    [{cyan}Please Wait, Removing Capture{reset}]")
+    combo_number = 0
+    to_save = []
     for combo in combos:
+        combo_number += 1
+        print(f'    [{cyan}{int((combo_number/len(combos))*100)}%{reset}]',end='\r')
         if not ":" in combo:
             continue
         
-        email = combo.split(":")[0].rstrip()
-        password = combo.split(":")[1]
+        email,password = combo.split(":",1)
         if " " in password: password = password.split(" ")[0]
-        log(None,":".join([email,password]))
-        save("Capture_Remove",None,Checker.time,":".join([email,password]))
+        new_combo = ':'.join([email,password])
+
+        if new_combo not in to_save: to_save.append(combo)
+    
+    save("Capture_Remove",None,Checker.time,"\n".join(to_save))
