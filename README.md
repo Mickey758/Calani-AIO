@@ -41,4 +41,4 @@ Give credits if you are going to use the code
 This project was started and is being developed by:
 - Discord: MickeyYe#9423
 - Github: Mickey758
-- Cracked.io: MickeyYe
+- Cracked.to: MickeyYe
