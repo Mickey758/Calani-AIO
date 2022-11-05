@@ -6,9 +6,13 @@ Download the exe version [here](https://github.com/Mickey758/Calani-AIO/releases
 Read the wiki if you need help [here](https://github.com/Mickey758/Calani-AIO/wiki)
 
 [![HitCount](https://hits.dwyl.com/Mickey758/Calani-AIO.svg?style=flat-square)](http://hits.dwyl.com/Mickey758/Calani-AIO)
-# Progress
+# Other Links
+The Best Discord Account Checker - [DashCord](https://dashcord.lol)
 
-## Checklist
+Discord Hits - [Shop](https://dashcord.sellix.io/group/636564f352dd0)
+
+OnlyFans Account Checker - [DashFans](https://cracked.io/Thread-Supreme-DashFans-Only-Fans-Checker-Full-Capture)
+# Progress
 - [x] Log Checking Mode
 - [x] Cui Checking Mode
 - [x] Auto Updater
