@@ -1,11 +1,15 @@
 # Calani AIO ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+<html>
+<a href=https://discord.gg/PEhWnFcuhq><img src=https://img.shields.io/badge/Discord-blue?style=for-the-badge></a>
+</html>
+
+
 An all in account checker made in python. Made with multichecking and more. This was made to demonstrate the flaws in certain website API's.
 
 Download the exe version [here](https://github.com/Mickey758/Calani-AIO/releases)
 
 Read the wiki if you need help [here](https://github.com/Mickey758/Calani-AIO/wiki)
 
-[![HitCount](https://hits.dwyl.com/Mickey758/Calani-AIO.svg?style=flat-square)](http://hits.dwyl.com/Mickey758/Calani-AIO)
 # Other Links
 The Best Discord Account Checker - [DashCord](https://dashcord.lol)
 
