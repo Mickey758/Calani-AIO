@@ -33,7 +33,7 @@ modules_list = {
     "dominos [points capture | recaptcha v3 bypass]":dominos,
     "dickeys [points capture]":dickeys,
     "honeygain [credits capture]":honeygain,
-    'yahoo [brute]':yahoo,
+    "yahoo [brute]":yahoo,
     "discord [token capture | solver]":discord,
     "instagram [followers capture]":instagram,
     "disney+ [full capture]":disney,
@@ -68,6 +68,7 @@ def starter(modules_lst:list):
                 Checker.remaining.remove(account)
                 return
         
+        Checker.remaining.remove(account)
         Checker.cpm += 60
         Checker.bad += 1
         

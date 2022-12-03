@@ -49,6 +49,6 @@ def edit(combos):
         if " " in password: password = password.split(" ")[0]
         new_combo = ':'.join([email,password])
 
-        if new_combo not in to_save: to_save.append(combo)
+        if new_combo not in to_save: to_save.append(new_combo)
     
     save("Capture_Remove",None,Checker.time,"\n".join(to_save))

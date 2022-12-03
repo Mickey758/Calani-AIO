@@ -70,12 +70,12 @@ def check(proxy:str):
 
                 s.get("http://httpbin.org/get")
                 Checker.good += 1
-                Checker.cpm += 60
                 
                 if not Checker.cui: log("good",proxy,Checker.proxy_type.title())
                 save(Checker.proxy_type.title(),"good",Checker.time,proxy)
         except:
             Checker.bad += 1
         finally:
+            Checker.cpm += 60
             Checker.remaining.remove(proxy)
             return

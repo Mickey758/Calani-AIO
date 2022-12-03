@@ -119,8 +119,7 @@ def check(email:str,password:str):
                 return
 
 
-        except Exception as e:
-            print(e)
+        except:
             bad_proxy(proxy)
             return_proxy(proxy)
             Checker.errors += 1

