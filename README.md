@@ -1,19 +1,19 @@
-# Calani AIO ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+# Calani AIO 
+
 <html>
-<a href=https://discord.gg/PEhWnFcuhq><img src=https://img.shields.io/badge/Discord-blue?style=for-the-badge></a>
+<a href=https://python.org><img src=https://img.shields.io/badge/download_python-3670A0?style=for-the-badge&logo=python&logoColor=white></a>
+<a href=https://discord.gg/PEhWnFcuhq><img src=https://img.shields.io/badge/Discord_Server-3670a0?style=for-the-badge&logo=discord&logoColor=white></a>
 </html>
 
 
 An all in account checker made in python. Made with multichecking and more. This was made to demonstrate the flaws in certain website API's.
 
-Download the exe version [here](https://github.com/Mickey758/Calani-AIO/releases)
+<html>
+<a href=https://github.com/Mickey758/Calani-AIO/releases><img src=https://img.shields.io/badge/download_calani-3670A0?style=for-the-badge></a>
+<a href=https://github.com/Mickey758/Calani-AIO/wiki><img src=https://img.shields.io/badge/help_page-3670a0?style=for-the-badge></a>
+</html>
 
-Read the wiki if you need help [here](https://github.com/Mickey758/Calani-AIO/wiki)
 
-# Other Links
-The Best Discord Account Checker - [DashCord](https://dashcord.lol)
-
-Discord Hits - [Shop](https://dashcord.sellix.io/group/636564f352dd0)
 # Progress
 - [x] Log Checking Mode
 - [x] Cui Checking Mode
@@ -47,4 +47,4 @@ Give credits if you are going to use the code
 This project was started and is being developed by:
 - Discord: MickeyYe#9423
 - Github: Mickey758
-- Cracked.to: MickeyYe
+- Cracked.io: MickeyYe
