@@ -6,6 +6,7 @@ from multiprocessing.dummy import Pool
 from requests import Session
 from requests.adapters import HTTPAdapter, Retry
 import functools
+import os
 
 def start():
     clear()
@@ -54,8 +55,9 @@ def start():
     sleep(1)
     Checker.checking = False
     print("\n\n")
+    save_path = os.path.join(os.getcwd(),f'Results\\{Checker.time}')
     print(f"    [{cyan}>{reset}] Finished Checking Proxies")
-    print(f"    [{cyan}>{reset}] Saved to Results/{Checker.time}")
+    print(f"    [{cyan}>{reset}] Saved to \"{save_path}\"")
     input(f"    [{cyan}>{reset}] Press Enter To Go Back")
 
 def check(proxy:str):

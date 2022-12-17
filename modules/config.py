@@ -18,7 +18,7 @@ def load_config():
             Checker.api_key = str(data["api_key"])
             cui = str(data["print_mode"]).lower()
             if Checker.threads <= 0: Checker.threads = 1
-            if Checker.proxy_type not in ("http","socks4","socks5"): raise
+            if Checker.proxy_type not in ("http","socks4","socks5","none"): raise
             if Checker.solver_serice not in ('2captcha','anycaptcha','anticaptcha'): raise
             if cui not in ("log","cui"): raise
             Checker.cui = False if cui == "log" else True
@@ -46,6 +46,7 @@ def change(option:str):
             match Checker.proxy_type:
                 case "socks4": Checker.proxy_type = "socks5"
                 case "socks5": Checker.proxy_type = "http"
+                case "http": Checker.proxy_type = "none"
                 case _: Checker.proxy_type = "socks4"
             values["proxy_type"] = Checker.proxy_type
             update_config(values)

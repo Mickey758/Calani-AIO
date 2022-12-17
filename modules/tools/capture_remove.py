@@ -1,5 +1,6 @@
 from modules.variables import Checker
 from modules.functions import *
+import os
 
 def start():
     reset_stats()
@@ -27,9 +28,10 @@ def start():
         sleep(1)
         Checker.time = get_time()
         edit(after_combos)
+        save_path = os.path.join(os.getcwd(),f'Results\\{Checker.time}')
         print("\n\n")
         print(f"    [{cyan}>{reset}] Finished Removing Capture")
-        print(f"    [{cyan}>{reset}] Saved to Results/{Checker.time}/Capture_Remove.txt")
+        print(f"    [{cyan}>{reset}] Saved to \"{save_path}\\Capture_Remove.txt\"")
         input(f"    [{cyan}>{reset}] Press Enter To Go Back")
         return
 def edit(combos):

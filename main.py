@@ -142,7 +142,10 @@ def settings():
     [{cyan}5{reset}] Threads : {Checker.threads}
     [{cyan}6{reset}] Solver Service : {Checker.solver_serice.title()}
     [{cyan}7{reset}] Solver API Key : {Checker.api_key if Checker.api_key else None} | Status: {status}
+   
+    [{cyan}ENTER{reset}] Reload Config
 
+    [{cyan}O{reset}] Open Config File
     [{cyan}X{reset}] Back""")
         option = input(f"    [{cyan}>{reset}] ").lower()
         match option:
@@ -153,6 +156,7 @@ def settings():
             case "5": change("threads")
             case "6": change("solver_service")
             case "7": change("api_key")
+            case "o": os.startfile(os.path.join(os.getcwd(),'Data/config.json'))
             case "x": return
 
 def tools():
@@ -187,7 +191,7 @@ if __name__ == "__main__":
     ascii()
     print("\n\n")
     set_title('Info')
-    message_box('Creator Info',f'Discord: {discord_name}\nCracked.io: MickeyYe\nGithub: Mickey758\n\nReport Bugs / Request Modules',0)
+    message_box('Creator Info',f'Discord: {discord_name}\nCracked.io: MickeyYe\nGithub: Mickey758\nDiscord Server: https://discord.gg/PEhWnFcuhq\n\nFeel Free To Report Bugs & Request Modules',0)
     need_update = check_updates()
     if not need_update: home()
     print(f"    [{red}>{reset}] Your version is outdated!")

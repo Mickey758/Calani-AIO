@@ -4,6 +4,7 @@ from time import sleep
 from requests import get
 from string import digits
 from multiprocessing.dummy import Pool
+import os
 
 default = """https://api.proxyscrape.com/?request=getproxies&proxytype=http&timeout=10000&country=all&ssl=all&anonymity=all
 https://api.proxyscrape.com/?request=getproxies&proxytype=socks4&timeout=10000&country=all
@@ -184,6 +185,7 @@ def scrape(links:list=None):
     makedirs(f"Results/{Checker.time}",exist_ok=True)
     with open(f"Results/{Checker.time}/Scraped_Proxies.txt","w",errors="ignore") as file: file.write("\n".join(proxies))
     print("\n\n")
+    save_path = os.path.join(os.getcwd(),f'Results\\{Checker.time}')
     print(f"    [{cyan}>{reset}] Finished Scraping")
-    print(f"    [{cyan}>{reset}] Saved to Results/{Checker.time}/Scraped_Proxies.txt")
+    print(f"    [{cyan}>{reset}] Saved to \"{save_path}\\Scraped_Proxies.txt\"")
     input(f"    [{cyan}>{reset}] Press Enter To Go Back")

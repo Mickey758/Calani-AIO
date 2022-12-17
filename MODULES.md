@@ -1,5 +1,5 @@
 # Modules List
-### 23 Total Modules
+### 24 Total Modules
 -  Bww [Points Capture | Proxyless]
 -  Dominos [Points Capture | Recaptcha V3 Bypass]
 -  Dickeys [Points Capture]
@@ -14,6 +14,7 @@
 - Uplay [Full Capture]
 - Origin [Full Capture]
 - Steam [Full Capture]
+- Netflix [Full Capture]
 - Paramount [Full Capture]
 - Plextv [Subscription Capture]
 - Crunchyroll [Subscription Capture]
