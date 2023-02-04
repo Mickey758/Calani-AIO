@@ -11,3 +11,4 @@ rsa
 setuptools
 six
 TwoCaptcha
+pysocks
