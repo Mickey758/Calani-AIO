@@ -1,5 +1,5 @@
 # Modules List
-### 24 Total Modules
+### 25 Total Modules
 - Bww [Points Capture | Proxyless]
 - Dominos [Points Capture | Recaptcha V3 Bypass]
 - Dickeys [Points Capture]
