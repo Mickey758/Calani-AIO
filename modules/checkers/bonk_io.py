@@ -9,7 +9,7 @@ import functools
 def check(email:str,password:str):
     username = email.split("@")[0] if "@" in email else email
     
-    while 1:
+    while not Checker.stopping:
         try:
             proxy = set_proxy()
             proxy_set = set_proxy(proxy)

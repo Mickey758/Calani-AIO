@@ -4,8 +4,13 @@ from requests import Session
 import functools
 from requests.adapters import HTTPAdapter, Retry
 
+"""
+USE THIS BASE FILE TO CREATE EXTRA MODULES FOR CALANI
+REMEMBER TO ADD THE MODULE TO THE START.PY FILE
+"""
+
 def check(email:str,password:str):
-    while 1:
+    while not Checker.stopping:
         try:
             with Session() as s:
                 proxy = set_proxy()

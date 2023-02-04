@@ -6,7 +6,7 @@ from uuid import uuid4
 import functools
 
 def check(email:str,password:str):
-    while 1:
+    while not Checker.stopping:
         try:
             with Session() as s:
                 proxy = set_proxy()

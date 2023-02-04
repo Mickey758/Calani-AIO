@@ -10,11 +10,11 @@ def check(email:str,password:str):
         return
     email = email.split('@')[0]+'@yahoo.com'
     username = email.replace('@yahoo.com','')
-    while 1:
+    while not Checker.stopping:
         try:
+            proxy = set_proxy()
+            proxy_set = set_proxy(proxy)
             with Session() as s:
-                proxy = set_proxy()
-                proxy_set = set_proxy(proxy)
 
                 user_agent = get_random_ua()
 

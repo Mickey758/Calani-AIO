@@ -1,5 +1,5 @@
 from threading import Lock
-lock = Lock()
+
 version = "1.0.3"
 discord_name = "MickeyYe#9423"
 class Checker:
@@ -11,6 +11,8 @@ class Checker:
     errors = 0
 
     checking = False
+    stopping = False
+
     proxies = []
     locked_proxies = []
     bad_proxies = []
@@ -29,7 +31,20 @@ class Checker:
     timeout = 10
     threads = 200
     proxy_type = "socks4"
+
+    pool = None
     
     proxy_lock = Lock()
     save_lock = Lock()
     print_lock = Lock()
+
+    def lock_all():
+        Checker.proxy_lock.acquire()
+        Checker.save_lock.acquire()
+        Checker.print_lock.acquire()
+    
+    def unlock_all():
+        Checker.proxy_lock.release()
+        Checker.save_lock.release()
+        Checker.print_lock.release()
+

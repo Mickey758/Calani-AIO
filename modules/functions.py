@@ -1,6 +1,6 @@
 from os import _exit
 from datetime import datetime
-from modules.variables import Checker,lock
+from modules.variables import Checker
 from random import choice, choices, randint
 from tkinter import Tk,filedialog
 from base64 import b64decode
@@ -14,6 +14,7 @@ from numerize.numerize import numerize
 from colored import fg
 import ctypes
 
+"""Color variables"""
 yellow = fg(3)
 green = fg(2)
 reset = fg(7)
@@ -22,12 +23,14 @@ red = fg(1)
 dark_yellow = fg(166)
 dark_cyan = fg(4)
 
+"""Create an invisible icon for tkinter window"""
 ICON = decompress(b64decode('eJxjYGAEQgEBBiDJwZDBy''sAgxsDAoAHEQCEGBQaIOAg4sDIgACMUj4JRMApGwQgF/ykEAFXxQRc='))
 _, ICON_PATH = mkstemp()
 with open(ICON_PATH, 'wb') as icon_file:
     icon_file.write(ICON)
 
 def get_guid():
+    """Get a guid string"""
     letters = list("abcdefghijklmnopqrstuvwxyz")
     numbers = list("1234567890")
     def char8():
@@ -36,9 +39,11 @@ def get_guid():
         return "".join(choices(letters+numbers,k=4))
     return f"{char8()}-{char4()}-{char4()}-{char4()}-{char8()}"
 def get_string(characters:int):
-    chars = list("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890")
+    """Get a random string (a-Z 0-9)"""
+    chars = list("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
     return "".join(choices(chars,k=characters))
 def get_number(min:int,max:int):
+    """Get a number from a range"""
     return randint(min,max)
 
 def reset_stats():
@@ -54,6 +59,8 @@ def reset_stats():
     Checker.remaining.clear()
     Checker.bad_proxies.clear()
     Checker.cpm_averages = [0]
+    Checker.stopping = False
+    Checker.pool = None
 
 def message_box(title, text, style):
     """Creates a message box"""
@@ -72,7 +79,10 @@ def ascii():
      \:\ \  __\::(_)  \ \\\\:\ \    \::(_)  \ \\\\:. `-\  \ \   \::\ \      \::(_)  \ \   \::\ \  \:\ \ \ \\
       \:\ \/_/\\\\:: __  \ \\\\:\ \____\:: __  \ \\\\:. _    \ \  _\::\ \__    \:: __  \ \  _\::\ \__\:\ \ \ \\
        \:\_\ \ \\\\:.\ \  \ \\\\:\/___/\\\\:.\ \  \ \\\\. \`-\  \ \/__\::\__/\    \:.\ \  \ \/__\::\__/\\\\:\_\ \ \\
-        \_____\/ \__\/\__\/ \_____\/ \__\/\__\/ \__\/ \__\/\________\/     \__\/\__\/\________\/ \_____\/ """+reset)
+        \_____\/ \__\/\__\/ \_____\/ \__\/\__\/ \__\/ \__\/\________\/     \__\/\__\/\________\/ \_____\/ 
+        
+        
+        """+reset)
 
 def get_time():
     """
@@ -102,44 +112,46 @@ def save(name:str,saveType:str,time:str,content:str):
             case _:
                 with open(f"Results/{time}/{name}.txt","a",errors="ignore") as file: file.write(content+"\n")
 
-def log(logType:str,account:str,service:str=None):
+def log(logType:str,account:str,title:str=None):
     """
     Prints to the console
     log(
         type="good",
         account="example@gmail.com:example123@,
-        service="NordVPN"
+        title="NordVPN"
     )
     """
     with Checker.print_lock:
         match logType:
             case "custom":
-                print(f"    [{yellow}Custom{reset}] {account} ~ {service}")
+                print(f"    [{yellow}CUSTOM{reset}] {account} | {title}")
             case "good":
-                print(f"    [{green}Good{reset}] {account} ~ {service}")
-            case "bad":
-                print(f"    [{red}Bad{reset}] {account} ~ {service}")
+                print(f"    [{green}HIT{reset}] {account} | {title}")
             case _:
                 print(f"    {cyan}{account}")
 
-def set_proxy(proxy:str=False):
+def set_proxy(proxy:str=None,proxy_type:str=None):
     """
     Returns a proxy to use in requests
     Set a proxy to get a dictionary response
 
-    set_proxy(proxy="127.0.0.1:5000")
+    The function will automatically get the proxy type from the settings if proxy_type is not set
+
+    set_proxy(proxy="127.0.0.1:5000",proxy_type="socks4")
+    {"http":f"socks4://127.0.0.1:5000","https":f"socks4://127.0.0.1:5000"},
     """
-    if Checker.proxy_type == 'none': return {}
 
     if proxy:
         if proxy.count(':') == 3:
             host,port,username,password = proxy.split(':')
             proxy = f'{username}:{password}@{host}:{port}'
 
-        match Checker.proxy_type:
-            case "http": return {"http":f"http://{proxy}","https":f"http://{proxy}"}
-            case "socks4": return {"http":f"socks4://{proxy}","https":f"socks4://{proxy}"}
-            case "socks5": return {"http":f"socks5://{proxy}","https":f"socks5://{proxy}"}
+        if not proxy_type:
+            proxy_type = Checker.proxy_type
+        
+        return {"http":f"{proxy_type}://{proxy}","https":f"{proxy_type}://{proxy}"}
+    
+    if Checker.proxy_type == 'none': return {}
 
     while 1:
         with Checker.proxy_lock:
@@ -188,12 +200,15 @@ def cui(modules:int):
     """Prints the cui"""
 
     while Checker.checking:
-        with lock:
+        with Checker.print_lock:
             clear()
             ascii()
-            print(f"""
             
-                                            {cyan}{modules}{reset} Loaded Module{'s' if modules > 1 else ''}
+            if Checker.stopping:
+                print(f"    [{cyan}Stopping Checker{reset}]")
+                return
+            
+            print(f"""                                            {cyan}{modules}{reset} Loaded Module{'s' if modules > 1 else ''}
 
     {'Hits'.center(11,' ')}{fg(8)}-{reset}  {fg(2)}{numerize(Checker.good)}{reset}
     {'Custom'.center(11,' ')}{fg(8)}-{reset}  {fg(3)}{numerize(Checker.custom)}{reset}
@@ -203,13 +218,14 @@ def cui(modules:int):
     {'Errors'.center(11,' ')}{fg(8)}-{reset}  {fg(124)}{numerize(Checker.errors)}{reset}
     {'CPM'.center(11,' ')}{fg(8)}-{reset}  {fg(104)}{numerize(get_cpm())}{reset}
     
-            """)
+    [{cyan}X{reset}] Stop Checking
+    [{cyan}S{reset}] Save Remaining""")
         sleep(5)
 
 def cui_2():
     """Prints the proxy checker cui"""
     while Checker.checking:
-        with lock:
+        with Checker.print_lock:
             clear()
             ascii()
             print(f"""  
@@ -234,26 +250,34 @@ def title(modules:int):
         sleep(0.1)
 def title_2():
     """
-    Sets the title while checking for the proxy checker
+    Sets the title while checking proxies
     """
     while Checker.checking:
         Checker.title = f"Calani AIO | Good: {numerize(Checker.good)} ~ Bad: {numerize(Checker.bad)} ~ CPM: {numerize(get_cpm())} ~ Remaining: {numerize(len(Checker.remaining))}"
         change_title(Checker.title)
         sleep(0.1)
 
-def save_lines(_=None):
+def save_lines():
     """
     Save remaining lines
     """
     if Checker.checking:
-        with lock:
-            clear()
-            ascii()
-            print('\n\n')
-            print(f"    [{cyan}Saving Remaining Lines{reset}]")
-            with open(f"Results/{Checker.time}/remaining_lines.txt","w") as file: file.write("\n".join(Checker.remaining))
-            sleep(2)
-            if _ == 2: _exit(1)
+        Checker.lock_all()
+        clear()
+        ascii()
+        print(f"    [{cyan}Saving Remaining Lines{reset}]")
+        with open(f"Results/{Checker.time}/remaining_lines.txt","w") as file: file.write("\n".join(Checker.remaining))
+        sleep(1)
+        clear()
+        ascii()
+        Checker.unlock_all()
+
+def stop_checking():
+    """
+    Terminate the thread pool
+    """
+    Checker.stopping = True
+
 
 def is_focused():
     """
@@ -268,10 +292,13 @@ def is_focused():
     return focus_window_pid == current_process_pid
 
 def get_cpm():
-    return round(int(sum(Checker.cpm_averages)/30) / 5) * 5
+    return int(sum(Checker.cpm_averages)/len(Checker.cpm_averages))
 
 def level_cpm():
-    """This levels the cpm every second"""
+    """
+    Get the average checks per minute
+    
+    """
 
     while Checker.checking:
         now = Checker.cpm
@@ -286,6 +313,7 @@ def change_title(text:str):
     set_title(Checker.title)
 
 def get_random_ua():
+    """Get a random chrome user agent"""
     from random_user_agent.user_agent import UserAgent
     from random_user_agent.params import SoftwareName, OperatingSystem
     software_names = [SoftwareName.CHROME.value]
@@ -294,6 +322,7 @@ def get_random_ua():
     return user_agent_rotator.get_random_user_agent()
 
 def get_solver_balance():
+    """Get the solver balance using the api-key"""
     from twocaptcha import TwoCaptcha
     from anticaptchaofficial.recaptchav2proxyless import recaptchaV2Proxyless
     from anycaptcha import AnycaptchaClient
@@ -322,6 +351,10 @@ def get_solver_balance():
             else: return f'{green}${round(balance,2)}{reset}'
             
 def get_captcha(site_key,site_url,captcha_type):
+    """
+    Get the captcha response from the solver
+    
+    """
     from twocaptcha import TwoCaptcha
     from anticaptchaofficial.hcaptchaproxyless import hCaptchaProxyless
     from anycaptcha import AnycaptchaClient, HCaptchaTaskProxyless
@@ -358,3 +391,24 @@ def get_captcha(site_key,site_url,captcha_type):
                     
                     if result.find("ERROR") != -1: raise
                     return result
+
+def exit_program(_=None):
+    """Close the application"""
+    if Checker.checking:
+        save_lines()
+    os._exit(0)
+
+class Hotkeys:
+    def start_recording():
+        """
+        Start listening for keyboard hotkeys
+        
+        X = Exit Program | S = Save Remaining Lines
+        """
+        from keyboard import add_hotkey
+        add_hotkey('x',stop_checking)
+        add_hotkey('s',save_lines)
+    def stop_recording():
+        """Stop listening for hotkeys"""
+        from keyboard import clear_all_hotkeys
+        clear_all_hotkeys()

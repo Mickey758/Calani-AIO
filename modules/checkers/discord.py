@@ -8,7 +8,7 @@ from random import choices
 import functools
 
 def check(email:str,password:str):
-    while 1:
+    while not Checker.stopping:
         try:
             proxy = set_proxy()
             proxy_set = set_proxy(proxy)

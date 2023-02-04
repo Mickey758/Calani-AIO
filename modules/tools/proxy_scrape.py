@@ -94,7 +94,6 @@ def start():
     while 1:
         clear()
         ascii()
-        print("\n\n")
         print(f"""
     [{cyan}1{reset}] Pick Links
     [{cyan}2{reset}] Use Default Links
@@ -105,7 +104,6 @@ def start():
             case "1":
                 clear()
                 ascii()
-                print("\n\n")
                 print(f"    [{cyan}>{reset}] Pick Link File")
                 file_path = get_file("Proxy Site Links File","Proxy Site Links File")
                 if not file_path:
@@ -134,10 +132,10 @@ def scrape(links:list=None):
     if not links: links = default
     def get_proxies(link):
         count = 0
-        try: a = get(link,timeout=Checker.timeout,headers={"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36"}).text.splitlines()
+        try: request = get(link,timeout=Checker.timeout,headers={"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36"}).text.splitlines()
         except: log(None,f"Connection Error ~ {link}")
         else:
-            for line in a:
+            for line in request:
                 try:
                     if ":" in line:
                         if line.count(':') == 1:
@@ -174,18 +172,16 @@ def scrape(links:list=None):
             log(None,f"{count} Proxies ~ {link}")
     clear()
     ascii()
-    print("\n\n")
     mainpool = Pool(Checker.threads)
     mainpool.imap_unordered(func=get_proxies,iterable=list(set(links)))
     mainpool.close()
     mainpool.join()
-    print("\n\n")
+    
     proxies = list(set(proxies))
-    print(f"    [{cyan}>{reset}] Saving {green}{len(proxies)}{reset} Proxies")
+    print(f"\n\n    [{cyan}>{reset}] Saving {green}{len(proxies)}{reset} Proxies")
     makedirs(f"Results/{Checker.time}",exist_ok=True)
     with open(f"Results/{Checker.time}/Scraped_Proxies.txt","w",errors="ignore") as file: file.write("\n".join(proxies))
-    print("\n\n")
     save_path = os.path.join(os.getcwd(),f'Results\\{Checker.time}')
-    print(f"    [{cyan}>{reset}] Finished Scraping")
+    print(f"\n\n    [{cyan}>{reset}] Finished Scraping")
     print(f"    [{cyan}>{reset}] Saved to \"{save_path}\\Scraped_Proxies.txt\"")
     input(f"    [{cyan}>{reset}] Press Enter To Go Back")

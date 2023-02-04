@@ -6,7 +6,7 @@ from requests.adapters import HTTPAdapter, Retry
 from urllib import parse
 
 def check(email:str,password:str):
-    while 1:
+    while not Checker.stopping:
         try:
             with Session() as s:
                 proxy = set_proxy()
