@@ -117,7 +117,7 @@ def log(logType:str,account:str,title:str=None):
     Prints to the console
     log(
         type="good",
-        account="example@gmail.com:example123@,
+        account="example@gmail.com:example123@",
         title="NordVPN"
     )
     """
