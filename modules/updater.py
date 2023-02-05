@@ -9,13 +9,13 @@ def check_update():
     print(f"    [{cyan}>{reset}] Checking for updates")
     
     try:
-        ver = get("https://raw.githubusercontent.com/Mickey758/Calani-AIO/master/version").text.rstrip()
+        latest_version = get("https://raw.githubusercontent.com/Mickey758/Calani-AIO/master/version").text.rstrip()
     except:
         print(f"    [{red}>{reset}] Could not connect to server")
         sleep(2)
         return
     
-    if ver != version:
+    if latest_version != version:
         print(f"    [{red}>{reset}] Your version is outdated!")
         print(f"    [{cyan}>{reset}] Find the latest version of Calani AIO here: https://github.com/Mickey758/Calani-AIO/releases")
         input(f"    [{cyan}>{reset}] Press enter to ignore")
