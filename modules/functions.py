@@ -272,13 +272,6 @@ def save_lines():
         ascii()
         Checker.unlock_all()
 
-def stop_checking():
-    """
-    Terminate the thread pool
-    """
-    Checker.stopping = True
-
-
 def is_focused():
     """
     Check if the application is in focus
@@ -406,8 +399,29 @@ class Hotkeys:
         X = Exit Program | S = Save Remaining Lines
         """
         from keyboard import add_hotkey
-        add_hotkey('x',stop_checking)
-        add_hotkey('s',save_lines)
+
+        def save_lines_func():
+            """
+            Save remaining lines from hotkey
+            """
+            if Checker.checking and is_focused():
+                Checker.lock_all()
+                clear()
+                ascii()
+                print(f"    [{cyan}Saving Remaining Lines{reset}]")
+                with open(f"Results/{Checker.time}/remaining_lines.txt","w") as file: file.write("\n".join(Checker.remaining))
+                sleep(1)
+                clear()
+                ascii()
+                Checker.unlock_all()
+        def stop_checking_func():
+            """
+            Terminate the thread pool
+            """
+            if is_focused():
+                Checker.stopping = True
+        add_hotkey('x',stop_checking_func)
+        add_hotkey('s',save_lines_func)
     def stop_recording():
         """Stop listening for hotkeys"""
         from keyboard import clear_all_hotkeys
