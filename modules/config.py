@@ -43,10 +43,10 @@ def change(option:str):
     match option:
         case "proxy_type":
             match Checker.proxy_type:
+                case "none": Checker.proxy_type = "http"
                 case "http": Checker.proxy_type = "socks4"
                 case "socks4": Checker.proxy_type = "socks5"
-                case "socks5": Checker.proxy_type = "none"
-                case _: Checker.proxy_type = "http"
+                case _: Checker.proxy_type = "none"
             values["proxy_type"] = Checker.proxy_type
         case "proxy_timeout":
             print(f"    [{cyan}>{reset}] Pick proxy timeout")
