@@ -17,6 +17,6 @@ def check_update():
     
     if latest_version != version:
         print(f"    [{red}>{reset}] Your version is outdated!")
-        print(f"    [{cyan}>{reset}] Find the latest version of Calani AIO here: https://github.com/Mickey758/Calani-AIO/releases")
+        print(f"    [{cyan}>{reset}] Update here: https://github.com/Mickey758/Calani-AIO/releases/tag/v{latest_version}")
         input(f"    [{cyan}>{reset}] Press enter to ignore")
         return
