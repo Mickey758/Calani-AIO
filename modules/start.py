@@ -14,7 +14,6 @@ from modules.checkers import bww
 from modules.checkers import pornhub
 from modules.checkers import honeygain
 from modules.checkers import discord
-from modules.checkers import steam
 from modules.checkers import windscribe
 from modules.checkers import instagram
 from modules.checkers import uplay
@@ -44,7 +43,6 @@ modules_list = {
     "bonk.io [full capture]":bonk_io,
     "uplay [full capture]":uplay,
     "origin [full capture]":origin,
-    "steam [full capture]":steam,
     "netflix [full capture]":netflix,
     "paramount [full capture]":paramount,
     "facebook [full capture]":facebook,
