@@ -23,15 +23,12 @@ from modules.checkers import tunnel_bear
 from modules.checkers import plextv
 from modules.checkers import origin
 from modules.checkers import yahoo
-from modules.checkers import dominos
 from modules.checkers import dickeys
 from modules.checkers import hotspot_shield
-from modules.checkers import netflix
 from modules.checkers import facebook
 
 modules_list = {
     "bww [points capture | proxyless]":bww,
-    "dominos [points capture | recaptcha v3 bypass]":dominos,
     "dickeys [points capture]":dickeys,
     "honeygain [credits capture]":honeygain,
     "yahoo [brute]":yahoo,
@@ -43,7 +40,6 @@ modules_list = {
     "bonk.io [full capture]":bonk_io,
     "uplay [full capture]":uplay,
     "origin [full capture]":origin,
-    "netflix [full capture]":netflix,
     "paramount [full capture]":paramount,
     "facebook [full capture]":facebook,
     "plextv [subscription capture]":plextv,
