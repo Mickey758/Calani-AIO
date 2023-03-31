@@ -20,9 +20,9 @@ def check(email:str,password:str):
                 s.mount('https://', HTTPAdapter(max_retries=retries))
 
                 data = {
-                    "api_key": "15cb936e6d19cd7db1d6f94b96017541",
+                    "api_key": "17SUf7F65grAa2uj2Kj8ng6rLWNah4Y5x6",
                     "client": f"Android-3.4.6.7.{get_number(100000000,1000000000)}",
-                    "os": "30",
+                    "os": "29",
                     "password": password,
                     "username": email,
                     "uuid": str(uuid4())
@@ -32,8 +32,6 @@ def check(email:str,password:str):
                     "X-Client": "ipvanish",
                     "X-Client-Version": "1.2.",
                     "X-Platform": "Android",
-                    "X-Platform-Version": "30",
-                    "Host": "account.ipvanish.com",
                     "Connection": "Keep-Alive",
                     "User-Agent": "okhttp/3.12.0",
                     "Accept-Encoding": "gzip, deflate"
