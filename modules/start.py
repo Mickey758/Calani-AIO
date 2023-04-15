@@ -154,8 +154,10 @@ def starter(selected_modules:list):
     Checker.pool.close()
     Checker.pool.join()
     
+    if Checker.cui: sleep(6)
     Checker.checking = False
     sleep(0.2)
+    
     clear()
     ascii()
     print(f"""    {'Hits'.center(11,' ')}{fg(8)}-{reset}  {fg(2)}{numerize(Checker.good)}{reset}
