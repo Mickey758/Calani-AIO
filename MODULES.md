@@ -1,7 +1,6 @@
 # Modules List
-### 25 Total Modules
+### 23 Total Modules
 - Bww [Points Capture | Proxyless]
-- Dominos [Points Capture | Recaptcha V3 Bypass]
 - Dickeys [Points Capture]
 - Honeygain [Credits Capture]
 - Yahoo [Brute]
@@ -13,10 +12,9 @@
 - Bonk.Io [Full Capture]
 - Uplay [Full Capture]
 - Origin [Full Capture]
-- Steam [Full Capture]
-- Netflix [Full Capture]
 - Paramount [Full Capture]
 - Facebook [Full Capture]
+- Hbo [Subscription Capture]
 - Plextv [Subscription Capture]
 - Crunchyroll [Subscription Capture]
 - Pornhub [Subscription Capture]
