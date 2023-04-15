@@ -34,11 +34,9 @@ def get_guid():
     """Get a guid string"""
     letters = list("abcdefghijklmnopqrstuvwxyz")
     numbers = list("1234567890")
-    def char8():
-        return "".join(choices(letters+numbers,k=8))
-    def char4():
-        return "".join(choices(letters+numbers,k=4))
-    return f"{char8()}-{char4()}-{char4()}-{char4()}-{char8()}"
+    def get_part(characters:int):
+        return "".join(choices(letters+numbers,k=characters))
+    return f"{get_part(8)}-{get_part(4)}-{get_part(4)}-{get_part(4)}-{get_part(8)}"
 def get_string(characters:int):
     """Get a random string (a-Z 0-9)"""
     chars = list("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
