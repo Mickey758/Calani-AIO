@@ -26,6 +26,7 @@ from modules.checkers import yahoo
 from modules.checkers import dickeys
 from modules.checkers import hotspot_shield
 from modules.checkers import facebook
+from modules.checkers import hbo
 
 modules_list = {
     "bww [points capture | proxyless]":bww,
@@ -42,6 +43,7 @@ modules_list = {
     "origin [full capture]":origin,
     "paramount [full capture]":paramount,
     "facebook [full capture]":facebook,
+    "hbo [subscription capture]":hbo,
     "plextv [subscription capture]":plextv,
     "crunchyroll [subscription capture]":crunchyroll,
     "pornhub [subscription capture]":pornhub,
