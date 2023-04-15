@@ -12,3 +12,4 @@ setuptools
 six
 TwoCaptcha
 pysocks
+keyboard
