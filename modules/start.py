@@ -27,6 +27,7 @@ from modules.checkers import dickeys
 from modules.checkers import hotspot_shield
 from modules.checkers import facebook
 from modules.checkers import hbo
+from modules.checkers import steam
 
 modules_list = {
     "bww [points capture | proxyless]":bww,
@@ -38,6 +39,7 @@ modules_list = {
     "disney+ [full capture]":disney,
     "duolingo [full capture]":duolingo,
     "gfuel [full capture]":gfuel,
+    "steam [full capture]":steam,
     "bonk.io [full capture]":bonk_io,
     "uplay [full capture]":uplay,
     "origin [full capture]":origin,
