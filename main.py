@@ -37,6 +37,7 @@ def info():
     ascii()
     print(f"    [{cyan}Info{reset}]\n")
     print(f"""    [{cyan}>{reset}] Created By: {discord_name}
+    [{cyan}>{reset}] Discord Server: https://discord.gg/PEhWnFcuhq
     [{cyan}>{reset}] Wanna Make A Donation?
         BTC: bc1qt6gcll4hp7wwqaap7x3lwunf9srw4enuxxddzn
         ETH: 0xd7F5C1AB4765Be15F738367905bF4E7Ea83eC9F7
