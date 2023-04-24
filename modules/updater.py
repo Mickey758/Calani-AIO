@@ -17,6 +17,6 @@ def check_update():
         return
     
     if latest_version != version:
-        if win32ui.MessageBox(f"Current Version: v{version}\nLatest Version :v{latest_version}\n\nWould you like to be taken to the download page?","Outdated Version", win32con.MB_YESNO) == win32con.IDYES:
+        if win32ui.MessageBox(f"Current Version: v{version}\nLatest Version: v{latest_version}\n\nWould you like to be taken to the download page?","Outdated Version", win32con.MB_YESNO) == win32con.IDYES:
             webbrowser.open(f"https://github.com/Mickey758/Calani-AIO/releases/tag/v{latest_version}")
         return
