@@ -1,5 +1,5 @@
 # Modules List
-### 23 Total Modules
+### 24 Total Modules
 - Bww [Points Capture | Proxyless]
 - Dickeys [Points Capture]
 - Honeygain [Credits Capture]
@@ -9,6 +9,7 @@
 - Disney+ [Full Capture]
 - Duolingo [Full Capture]
 - Gfuel [Full Capture]
+- Steam [Full Capture]
 - Bonk.Io [Full Capture]
 - Uplay [Full Capture]
 - Origin [Full Capture]
