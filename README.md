@@ -14,19 +14,16 @@ An all in account checker made in python. Made with multichecking and more. This
 </html>
 
 
-# Progress
-- [x] Log Checking Mode
-- [x] Cui Checking Mode
-- [x] Auto Updater
+# Features
+- [x] Cui & Log Checking Modes
+- [x] Update Checks
 - [x] Config File
 - [x] Save Remaining Lines
 - [x] Multichecking
 - [x] In-app Settings
-- [x] Proxy Management
+- [x] Automatic Proxy Rotation
 - [x] Auth Proxy Support
-- [x] Solver Support (2Captcha) 
-- [x] Solver Support (AntiCaptcha)
-- [x] Solver Support (AnyCaptcha)
+- [x] Captcha Solving Support (2Captcha,AntiCaptcha,AnyCaptcha) 
 
 ## Modules
 Check the modules list [here](https://github.com/Mickey758/Calani-AIO/blob/master/MODULES.md)
