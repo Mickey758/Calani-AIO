@@ -48,7 +48,7 @@ def check(email:str,password:str):
                 token = r.json()['token']
                 user_id = r.json()['user_id']
                 if not Checker.cui: log("good",':'.join([email,password]),"Discord")
-                save("Discord","good",Checker.time,':'.join([email,password,token]+f" | User ID: {user_id}"))
+                save("Discord","good",Checker.time,':'.join([email,password,token])+f" | User ID: {user_id}")
                 Checker.good += 1
                 return_proxy(proxy)
                 return
