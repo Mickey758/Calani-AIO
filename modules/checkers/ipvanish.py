@@ -32,8 +32,6 @@ def check(email:str,password:str):
                     "X-Client": "ipvanish",
                     "X-Client-Version": "1.2.",
                     "X-Platform": "Android",
-                    "X-Platform-Version": "30",
-                    "Host": "account.ipvanish.com",
                     "Connection": "Keep-Alive",
                     "User-Agent": "okhttp/3.12.0",
                     "Accept-Encoding": "gzip, deflate"
