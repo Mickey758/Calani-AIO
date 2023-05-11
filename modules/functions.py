@@ -9,7 +9,8 @@ from tempfile import mkstemp
 from time import sleep
 from console.utils import set_title
 from os import makedirs
-import win32gui,win32process,os
+import os
+from sys import platform
 from numerize.numerize import numerize
 from colored import fg
 from requests import Session
@@ -61,13 +62,12 @@ def reset_stats():
     Checker.stopping = False
     Checker.pool = None
 
-def message_box(title, text, style):
-    """Creates a message box"""
-    return ctypes.windll.user32.MessageBoxW(0, text, title, style)
-
 def clear():
     """Clears the console"""
-    os.system('cls')
+    if is_win():
+        os.system('cls')
+    else:
+        os.system('clear')
 
 def ascii():
     """Prints the ascii logo"""
@@ -296,10 +296,14 @@ def is_focused():
 
     is_focused()
     """
-    focus_window_pid = win32process.GetWindowThreadProcessId(win32gui.GetForegroundWindow())[1]
-    current_process_pid = os.getppid()
+    if is_win():
+        import win32gui,win32process
+        focus_window_pid = win32process.GetWindowThreadProcessId(win32gui.GetForegroundWindow())[1]
+        current_process_pid = os.getppid()
 
-    return focus_window_pid == current_process_pid
+        return focus_window_pid == current_process_pid
+    else:
+        return True
 
 def get_cpm():
     return int(sum(Checker.cpm_averages)/len(Checker.cpm_averages))
@@ -407,6 +411,14 @@ def exit_program(_=None):
     if Checker.checking:
         save_lines()
     os._exit(0)
+
+def is_win():
+    from sys import platform
+    if platform == "win32":
+        return True
+    else:
+        return False
+    
 
 class Hotkeys:
     def start_recording():

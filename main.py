@@ -9,7 +9,11 @@ import modules.tools.proxy_scrape as proxy_scrape
 import modules.tools.capture_remove as captureremover
 import modules.tools.combo_edit as combo_edit
 import modules.tools.domain_sort as domain_sort
-import win32api, os
+import os
+import tkinter.messagebox
+
+if is_win():
+    import win32api
 
 def home():
     while 1:
@@ -80,7 +84,7 @@ def modules():
     [{cyan}X{reset}] Back""")
         if disabled:
             disabled = "\n".join([module for module in disabled])
-            message_box('Modules Disabled',f'The following modules were disabled because the api key was invalid or the solver setting was disabled.\n\n{disabled.title()}',0)
+            tkinter.messagebox.showinfo('Modules Disabled',f'The following modules were disabled because the api key was invalid or the solver setting was disabled.\n\n{disabled.title()}')
         
         option = input(f"    [{cyan}>{reset}] ").lower()
         if option.isdigit():
@@ -179,14 +183,15 @@ def tools():
             case "x": return
 
 if __name__ == "__main__":
-    win32api.SetConsoleCtrlHandler(exit_program, True)
+    if is_win():
+        win32api.SetConsoleCtrlHandler(exit_program, True)
     load_config()
     
     clear()
     ascii()
     
     set_title('Info')
-    message_box('Creator Info',f'Discord: {discord_name}\nCracked.io: MickeyYe\nGithub: Mickey758\nDiscord Server: https://discord.gg/PEhWnFcuhq\n\nFeel Free To Report Bugs & Request Modules',0)
+    tkinter.messagebox.showinfo('Creator Info',f'Discord: {discord_name}\nCracked.io: MickeyYe\nGithub: Mickey758\nDiscord Server: https://discord.gg/PEhWnFcuhq\n\nFeel Free To Report Bugs & Request Modules')
     
     check_update()
     home()

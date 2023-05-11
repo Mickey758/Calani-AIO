@@ -2,7 +2,8 @@ from requests import get
 from time import sleep
 from modules.functions import *
 from modules.variables import *
-import win32ui, win32con, webbrowser
+import tkinter.messagebox
+import webbrowser
 
 def check_update():
     """Checks for updates"""
@@ -17,6 +18,6 @@ def check_update():
         return
     
     if latest_version != version:
-        if win32ui.MessageBox(f"Current Version: v{version}\nLatest Version: v{latest_version}\n\nWould you like to be taken to the download page?","Outdated Version", win32con.MB_YESNO) == win32con.IDYES:
+        if tkinter.messagebox.askyesno(title="Outdated Version", message=f"Current Version: v{version}\nLatest Version: v{latest_version}\n\nWould you like to be taken to the download page?"):
             webbrowser.open(f"https://github.com/Mickey758/Calani-AIO/releases/tag/v{latest_version}")
         return
