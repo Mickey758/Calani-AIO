@@ -11,9 +11,6 @@ https://api.proxyscrape.com/?request=getproxies&proxytype=socks4&timeout=10000&c
 https://api.proxyscrape.com/?request=getproxies&proxytype=socks5&timeout=10000&country=all
 http://olaf4snow.com/public/proxy.txt
 http://atomintersoft.com/products/alive-proxy/proxy-list/3128
-http://atomintersoft.com/products/alive-proxy/proxy-list?ap=9
-https://spys.one/
-http://greenrain.bos.ru/r_stuff/proxy.htm
 http://rammstein.narod.ru/proxy.html
 http://sergei-m.narod.ru/proxy.htm
 http://tomoney.narod.ru/help/proxi.htm
@@ -21,8 +18,6 @@ http://westdollar.narod.ru/proxy.htm
 http://atomintersoft.com/products/alive-proxy/proxy-list/high-anonymity/
 http://atomintersoft.com/products/alive-proxy/socks5-list
 http://atomintersoft.com/anonymous_proxy_list
-http://atomintersoft.com/high_anonymity_elite_proxy_list
-http://atomintersoft.com/products/alive-proxy/proxy-list
 http://atomintersoft.com/products/alive-proxy/proxy-list/com
 http://atomintersoft.com/proxy_list_domain_com
 http://atomintersoft.com/proxy_list_domain_edu
@@ -39,7 +34,6 @@ https://free-proxy-list.net/uk-proxy.html
 https://www.sslproxies.org/
 https://free-proxy-list.net/anonymous-proxy.html
 https://www.socks-proxy.net/
-http://proxy-list.org/english/index.php
 http://proxydb.net/
 https://raw.githubusercontent.com/thespeedx/proxy-list/master/socks5.txt
 https://raw.githubusercontent.com/thespeedx/proxy-list/master/socks4.txt
@@ -50,7 +44,6 @@ https://raw.githubusercontent.com/shiftytr/proxy-list/master/socks4.txt
 https://raw.githubusercontent.com/shiftytr/proxy-list/master/socks5.txt
 http://globalproxies.blogspot.com/
 http://biskutliat.blogspot.com/
-http://www.cybersyndrome.net/plz6.html
 http://freeproxylist-daily.blogspot.com/2013/05/usa-proxy-list-2013-05-15-0111-am-gmt8.html
 http://freeproxylist-daily.blogspot.com/2013/05/usa-proxy-list-2013-05-13-812-gmt7.html
 http://vipprox.blogspot.com/2013_06_01_archive.html
@@ -60,7 +53,6 @@ http://vipprox.blogspot.com/2013/05/us-proxy-servers-199_20.html
 http://vipprox.blogspot.com/2013_02_01_archive.html
 http://alexa.lr2b.com/proxylist.txt
 http://vipprox.blogspot.com/2013_03_01_archive.html
-http://sock5us.blogspot.com/2013/06/01-07-13-free-proxy-server-list.html#comment-form
 http://free-ssh.blogspot.com/feeds/posts/default
 http://sockproxy.blogspot.com/2013/04/11-04-13-socks-45.html
 http://proxyfirenet.blogspot.com/
@@ -77,25 +69,15 @@ https://api.proxyscrape.com/v2/?request=getproxies&protocol=socks4&timeout=10000
 https://api.proxyscrape.com/v2/?request=getproxies&protocol=http&timeout=10000&country=all&ssl=all&anonymity=all
 https://api.proxyscrape.com/v2/?request=getproxies&protocol=socks5&timeout=10000&country=all
 http://spys.me/proxy.txt
-http://www.httptunnel.ge/proxylistforfree.aspx
-https://raw.githubusercontent.com/sunny9577/proxy-scraper/master/proxies.json
 https://raw.githubusercontent.com/fate0/proxylist/master/proxy.list
 https://raw.githubusercontent.com/clarketm/proxy-list/master/proxy-list.txt
 https://www.us-proxy.org
 https://free-proxy-list.net
-https://www.proxy-list.download/api/v2/get?l=en&t=https
-https://www.proxy-list.download/api/v2/get?l=en&t=http
-https://www.proxy-list.download/api/v2/get?l=en&t=socks4
-https://www.proxy-list.download/api/v2/get?l=en&t=socks5
 https://raw.githubusercontent.com/thespeedx/socks-list/master/socks5.txt
 https://raw.githubusercontent.com/thespeedx/socks-list/master/socks4.txt
 https://raw.githubusercontent.com/thespeedx/socks-list/master/http.txt
 https://proxy50-50.blogspot.com/
-http://proxysearcher.sourceforge.net/proxy%20list.php?type=http
-https://proxysearcher.sourceforge.net/proxy%20list.php?type=socks5
-https://proxysearcher.sourceforge.net/proxy%20list.php?type=socks4
 https://www.my-proxy.com/free-anonymous-proxy.html
-https://www.my-proxy.com/free-transparent-proxy.htm
 https://www.my-proxy.com/free-socks-4-proxy.html
 https://www.my-proxy.com/free-socks-5-proxy.html
 https://www.my-proxy.com/free-proxy-list.html
@@ -131,8 +113,6 @@ https://raw.githubusercontent.com/almroot/proxylist/master/list.txt
 https://raw.githubusercontent.com/proxy4parsing/proxy-list/main/http_old.txt
 https://raw.githubusercontent.com/proxy4parsing/proxy-list/main/http.txt
 https://raw.githubusercontent.com/proxy4parsing/proxy-list/main/hproxy.txt
-https://raw.githubusercontent.com/roosterkid/openproxylist/main/socks4_raw.txt
-https://raw.githubusercontent.com/roosterkid/openproxylist/main/socks5_raw.txt
 https://raw.githubusercontent.com/roma8ok/proxy-list/main/proxy-list-socks5.txt
 https://raw.githubusercontent.com/roma8ok/proxy-list/main/proxy-list-http.txt
 https://raw.githubusercontent.com/monosans/proxy-list/main/proxies/http.txt
