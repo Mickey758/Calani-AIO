@@ -19,7 +19,6 @@
 - Plextv [Subscription Capture]
 - Crunchyroll [Subscription Capture]
 - Pornhub [Subscription Capture]
-- Nordvpn [Subscription Capture]
 - Windscribe [Subscription Capture]
 - Ipvanish [Subscription Capture]
 - Tunnelbear [Subscription Capture]

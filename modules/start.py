@@ -4,7 +4,6 @@ from time import sleep
 from multiprocessing.dummy import Pool
 from threading import Thread
 
-from modules.checkers import nord_vpn
 from modules.checkers import bonk_io
 from modules.checkers import disney
 from modules.checkers import duolingo
@@ -49,7 +48,6 @@ modules_list = {
     "plextv [subscription capture]":plextv,
     "crunchyroll [subscription capture]":crunchyroll,
     "pornhub [subscription capture]":pornhub,
-    "nordvpn [subscription capture]":nord_vpn,
     "windscribe [subscription capture]":windscribe,
     "ipvanish [subscription capture]":ipvanish,
     "tunnelbear [subscription capture]":tunnel_bear,
