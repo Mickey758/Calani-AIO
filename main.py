@@ -1,6 +1,6 @@
 from time import sleep
 from modules.updater import check_update
-from modules.variables import Checker, discord_name
+from modules.variables import Checker, discord_name, discord_server
 from modules.config import *
 from modules.functions import *
 from modules.start import starter,modules_list
@@ -21,7 +21,7 @@ def home():
         clear()
         ascii()
         print(f"""    [{cyan}Main Menu{reset}]
-    
+
     [{cyan}1{reset}] Modules
     [{cyan}2{reset}] Tools
     [{cyan}3{reset}] Settings
@@ -141,6 +141,7 @@ def settings():
     [{cyan}5{reset}] Threads: {Checker.threads}
     [{cyan}6{reset}] Solver Service: {Checker.solver_serice.title()}
     [{cyan}7{reset}] Solver API Key: {Checker.api_key if Checker.api_key else None} | Status: {status}
+    [{cyan}8{reset}] Discord Webhook: {Checker.discord_webhook.replace("https://discord.com/api/webhooks","...") if 'https://discord.com/api/webhooks/' in Checker.discord_webhook else None}
    
     [{cyan}ENTER{reset}] Reload Config
 
@@ -155,6 +156,7 @@ def settings():
             case "5": change("threads")
             case "6": change("solver_service")
             case "7": change("api_key")
+            case "8": change("discord_webhook")
             case "o": os.startfile(os.path.join(os.getcwd(),'Data/config.json'))
             case "x": return
 
@@ -191,7 +193,20 @@ if __name__ == "__main__":
     ascii()
     
     set_title('Info')
-    tkinter.messagebox.showinfo('Creator Info',f'Discord: {discord_name}\nCracked.io: MickeyYe\nGithub: Mickey758\nDiscord Server: https://discord.gg/PEhWnFcuhq\n\nFeel Free To Report Bugs & Request Modules')
+    input(f"""    [{cyan}Creator Info{reset}]
+
+    [{cyan}Discord{reset}] {discord_name}
+    [{cyan}Cracked.io{reset}] MickeyYe
+    [{cyan}Github{reset}] Mickey758
     
+    [{cyan}Calani AIO Download Page{reset}] https://calani.mickey-ye.lol
+    [{cyan}Calani AIO Discord Server{reset}] {discord_server}
+    
+    Feel Free To Report Bugs & Request Modules
+
+    [{cyan}Continue{reset}] Enter""")
+    
+    clear()
+    ascii()
     check_update()
     home()

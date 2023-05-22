@@ -2,6 +2,7 @@ from threading import Lock
 
 version = "1.0.6"
 discord_name = "MickeyYe#9423"
+discord_server = "https://discord.gg/PEhWnFcuhq"
 class Checker:
     bad = 0
     good = 0
@@ -24,6 +25,8 @@ class Checker:
 
     solver_serice = '2captcha'
     api_key = ''
+
+    discord_webhook = ''
 
     lockProxies = False
     cui = True

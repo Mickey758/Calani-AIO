@@ -84,7 +84,7 @@ def check(proxy:str):
                     Checker.good += 1
 
                     if not Checker.cui: log("good",proxy,proxyType.upper())
-                    save(proxyType.title(),"good",Checker.time,proxy)
+                    save(proxyType.title(),"good",Checker.time,proxy,False)
                     
                     Checker.cpm += 60
                     Checker.remaining.remove(proxy)
@@ -113,7 +113,7 @@ def check(proxy:str):
             Checker.good += 1
             
             if not Checker.cui: log("good",proxy,Settings.proxy_type.title())
-            save(Settings.proxy_type.title(),"good",Checker.time,proxy)
+            save(Settings.proxy_type.title(),"good",Checker.time,proxy,False)
     except:
         Checker.bad += 1
     finally:

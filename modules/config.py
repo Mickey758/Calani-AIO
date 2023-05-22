@@ -3,7 +3,7 @@ from modules.functions import *
 from os import makedirs
 from json import load, dump
 
-default = {"proxy_type":"http","proxy_timeout":5,"threads":200,"retries":1,"print_mode":"cui",'solver_service':'2captcha','api_key':''}
+default = {"proxy_type":"http","proxy_timeout":5,"threads":200,"retries":1,"print_mode":"cui",'solver_service':'2captcha','api_key':'','discord_webhook':''}
 
 def load_config():
     """Load the config values"""
@@ -16,12 +16,13 @@ def load_config():
             Checker.threads = int(data["threads"])
             Checker.solver_serice = str(data["solver_service"]).lower()
             Checker.api_key = str(data["api_key"])
-            cui = str(data["print_mode"]).lower()
+            print_mode = str(data["print_mode"]).lower()
+            Checker.discord_webhook = str(data["discord_webhook"])
             if Checker.threads <= 0: Checker.threads = 1
             if Checker.proxy_type not in ("http","socks4","socks5","none"): raise
             if Checker.solver_serice not in ('2captcha','anycaptcha','anticaptcha'): raise
-            if cui not in ("log","cui"): raise
-            Checker.cui = cui == "cui"
+            if print_mode not in ("log","cui"): raise
+            Checker.cui = print_mode == "cui"
             break
         except:
             makedirs("Data",exist_ok=True)
@@ -37,7 +38,7 @@ def change(option:str):
     Change a value in the config file
     change("threads")
     """
-    values = {"proxy_type":Checker.proxy_type,"proxy_timeout":Checker.timeout,"threads":Checker.threads,"retries":Checker.retries,"print_mode":"cui" if Checker.cui else "log",'solver_service':Checker.solver_serice,'api_key':Checker.api_key}
+    values = {"proxy_type":Checker.proxy_type,"proxy_timeout":Checker.timeout,"threads":Checker.threads,"retries":Checker.retries,"print_mode":"cui" if Checker.cui else "log",'solver_service':Checker.solver_serice,'api_key':Checker.api_key,'discord_webhook':Checker.discord_webhook}
     clear()
     ascii()
     match option:
@@ -89,4 +90,12 @@ def change(option:str):
             print("\n")
             api_key = input(f"    [{cyan}>{reset}] ")
             values["api_key"] = api_key
+        case 'discord_webhook':
+            print(f"    [{cyan}>{reset}] Input discord webhook")
+            print(f"    [{cyan}>{reset}] Enter nothing to disable")
+            print("\n")
+            discord_webhook = input(f"    [{cyan}>{reset}] ")
+            if not discord_webhook or "https://discord.com/api/webhooks/" in discord_webhook:
+                values["discord_webhook"] = discord_webhook
+
     update_config(values)

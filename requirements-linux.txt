@@ -12,3 +12,4 @@ six
 TwoCaptcha
 pysocks
 keyboard
+discord-webhook
